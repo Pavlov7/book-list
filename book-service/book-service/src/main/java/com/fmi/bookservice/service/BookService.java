@@ -1,33 +1,38 @@
 package com.fmi.bookservice.service;
 
-import com.fmi.bookservice.model.Book;
+import com.google.api.services.books.Books;
+import com.google.api.services.books.model.Volumes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
 
 /**
  * Created by Daniel on 11-Nov-18.
  */
 @Service
 public class BookService {
-    private static Map<Long, Book> books = new HashMap<>();
 
-    static {
-        books.put(1L, new Book("book1"));
-    }
+    @Autowired
+    private Books books;
 
-    public Book getById(long id) {
-        return books.get(id);
-    }
+    /**
+     * Searches the google books api for books
+     *
+     * @param query      the search query
+     *                   The api supports pagination by means of result start index. Default page size is 10
+     * @param startIndex index of the first book of the results
+     *
+     * E.g. the query "example" matches 20 books:
+     *  - startIndex is null: query will return books 1-10
+     *  - startIndex is 10: query will return books 10-20
+     */
+    public Volumes search(String query, Long startIndex) throws IOException {
+        Books.Volumes.List vols = books.volumes().list(query);
+        if (startIndex != null) {
+            vols.setStartIndex(startIndex);
+        }
 
-    public void add(Book book) {
-        books.put(books.size() + 1L, book);
-    }
-
-    public List<Book> getAll() {
-        return new ArrayList<>(books.values());
+        return vols.execute();
     }
 }

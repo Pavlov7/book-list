@@ -1,11 +1,11 @@
 package com.fmi.bookservice.controller;
 
-import com.fmi.bookservice.model.Book;
 import com.fmi.bookservice.service.BookService;
+import com.google.api.services.books.model.Volumes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.io.IOException;
 
 /**
  * Created by Daniel on 11-Nov-18.
@@ -17,18 +17,8 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @RequestMapping(path = "/all", method = RequestMethod.GET)
-    public List<Book> getBooks() {
-        return bookService.getAll();
-    }
-
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public Book getBookById(@PathVariable int id) {
-        return this.bookService.getById(id);
-    }
-
-    @RequestMapping(path = "/add", method = RequestMethod.POST)
-    public void add(@RequestBody Book book) {
-        this.bookService.add(book);
+    @RequestMapping(path = "/search", method = RequestMethod.GET)
+    public Volumes search(@RequestParam String q, @RequestParam(required = false) Long startIndex) throws IOException {
+        return bookService.search(q, startIndex);
     }
 }

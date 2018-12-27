@@ -1,0 +1,4 @@
+- authorization
+- saving resources to db
+- initialization scripts
+- ui
