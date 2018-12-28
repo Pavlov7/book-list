@@ -1,7 +1,10 @@
 package com.fmi.bookservice.service;
 
+import com.fmi.bookservice.model.BookInList;
+import com.fmi.bookservice.repository.BookRepository;
 import com.google.api.services.books.Books;
 import com.google.api.services.books.model.Volumes;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,9 @@ public class BookService {
 
     @Autowired
     private Books books;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     /**
      * Searches the google books api for books
@@ -34,5 +40,13 @@ public class BookService {
         }
 
         return vols.execute();
+    }
+
+    public void save(BookInList b) {
+        this.bookRepository.save(b);
+    }
+
+    public List<BookInList> getAll() {
+        return this.bookRepository.findAll();
     }
 }
