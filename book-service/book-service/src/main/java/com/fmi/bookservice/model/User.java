@@ -23,7 +23,6 @@ public class User {
     @NotBlank
     private String username;
 
-    @JsonIgnore
     @NotBlank
     private String password;
 
@@ -33,6 +32,11 @@ public class User {
     private Set<Role> roles;
 
     public User() {}
+
+    public User(@NotBlank String username, @NotBlank String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public User(@NotBlank String username, @NotBlank String password, Set<Role> roles) {
         this.username = username;

@@ -21,11 +21,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * Created by Daniel on 28-Dec-18.
  */
 @Configuration
-// TODO uncomment to enable auth
-//@EnableWebSecurity
+@EnableWebSecurity
 @EnableGlobalMethodSecurity(
         jsr250Enabled = true,
-        prePostEnabled = true
+        securedEnabled = true
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -82,16 +81,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     "/**/*.css",
                     "/**/*.js")
             .permitAll()
-            .antMatchers("/api/auth/**")
-            .permitAll()
-            .antMatchers("/api/user/checkUsernameAvailability")
+            .antMatchers("/auth/**")
             .permitAll()
             .antMatchers(HttpMethod.GET, "/books/**")
             .permitAll()
             .anyRequest()
             .authenticated();
 
-        // Add our custom JWT security filter
+        // Add custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
