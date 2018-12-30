@@ -18,7 +18,7 @@ public class BookServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(BookServiceApplication.class, args);
     }
-
+    
     @Bean
     public Books getBooks() throws GeneralSecurityException, IOException {
         JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
