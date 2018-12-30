@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -18,10 +19,22 @@ public class BookInList {
     private Long id;
     // reference google books volume
     private String volumeId;
-    //private User user; // TODO: uncomment after authorization implementation
+
+    @ManyToOne
+    private User user;
     private Byte rating;
     private Date dateStartedReading;
     private Date dateFinishedReading;
+
+    public BookInList() {
+        this.rating = 0;
+    }
+
+    public BookInList(String volumeId, User user) {
+        this.user = user;
+        this.volumeId = volumeId;
+        this.rating = 0;
+    }
 
     public Long getId() {
         return id;
@@ -29,6 +42,14 @@ public class BookInList {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getVolumeId() {

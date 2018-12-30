@@ -1,66 +1,71 @@
 package com.fmi.bookservice.controller;
 
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fmi.bookservice.exception.ServerErrorException;
+import com.fmi.bookservice.model.ApiResponse;
 import com.fmi.bookservice.model.BookInList;
-import com.fmi.bookservice.model.RoleName;
+import com.fmi.bookservice.model.BookReview;
+import com.fmi.bookservice.model.BookReviewRequest;
 import com.fmi.bookservice.model.User;
 import com.fmi.bookservice.model.UserPrincipal;
+import com.fmi.bookservice.repository.BookRepository;
 import com.fmi.bookservice.repository.UserRepository;
-import com.fmi.bookservice.service.BookService;
-import com.google.api.services.books.model.Volumes;
+import com.fmi.bookservice.service.BookReviewService;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.Principal;
 
-/**
- * Created by Daniel on 11-Nov-18.
- */
+
 @RestController
-@RequestMapping(path = "/books")
-public class BookController {
+@RequestMapping(path = "/reviews")
+public class BookReviewController {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private BookService bookService;
+    private BookRepository bookRepository;
 
-    @RequestMapping(path = "/search", method = RequestMethod.GET)
-    public Volumes search(@RequestParam String q, @RequestParam(required = false) Long startIndex) throws IOException {
-        return bookService.search(q, startIndex);
-    }
+    @Autowired
+    private BookReviewService bookReviewService;
 
     // temp to test db integration and auth
     @Secured("ROLE_USER")
     @RequestMapping(path = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> addBook(Principal principal, @Valid @RequestBody BookInList bookRequest) throws IOException {
+    public ResponseEntity<?> addReview(@Valid @RequestBody BookReviewRequest request) throws IOException {
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
                        .getPrincipal();
-
         User user = userRepository.findById(userPrincipal.getId())
             .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
-            
-        bookRequest.setUser(user);
-        Byte x = 0;
-        bookRequest.setRating(x);
-        bookService.save(bookRequest);
-        return ResponseEntity.ok(bookRequest);
+
+        BookInList book = bookRepository.findById(request.book_id)
+            .orElseThrow(() -> new ServerErrorException(String.format("Book with id %d not found.", request.book_id)));
+
+        BookReview review = new BookReview(book, user);
+        review.setText(request.text);
+        review.setRating(request.rating);
+
+        bookReviewService.save(review);
+        return ResponseEntity.ok(review);
     }
 
-    // temp to test db integration
     @RequestMapping(path = "/get", method = RequestMethod.GET)
-    public List<BookInList> getBooks() throws IOException {
-        return bookService.getAll();
+    public List<BookReview> getReviewByBookId(@RequestParam(required = false) Long book_id) throws IOException {
+        if (book_id == null) {
+            return bookReviewService.getAll();
+        }
+
+        return bookReviewService.findByBookId(book_id);
     }
 }
