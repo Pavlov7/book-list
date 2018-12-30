@@ -6,12 +6,13 @@ import { HttpModule } from '@angular/http';
 import { ClarityModule } from '@clr/angular';
 import { AppComponent } from './app.component';
 import { ROUTING } from "./app.routing";
+import { HttpClientModule } from '@angular/common/http';
+
 import { BooksComponent } from "./components/books/books.component";
 import { ListComponent } from "./components/list/list.component";
 import { ReviewsComponent } from "./components/reviews/reviews.component";
 import { BookComponent } from "./components/book/book.component";
-
-import { HttpClientModule } from '@angular/common/http';
+import { ReviewComponent } from "./components/review/review.component";
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from '@angular/common/http';
         BooksComponent,
         BookComponent,
         ListComponent,
-        ReviewsComponent
+        ReviewsComponent,
+        ReviewComponent
     ],
     imports: [
         BrowserAnimationsModule,
@@ -34,5 +36,5 @@ import { HttpClientModule } from '@angular/common/http';
     bootstrap: [AppComponent]
 })
 export class AppModule {
-    
+
 }
