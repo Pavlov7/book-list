@@ -7,6 +7,12 @@ import { Router } from '@angular/router';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+    searchQuery: String = null;
     constructor(private router: Router) {
+    }
+
+    onSearchInputChange(event) {
+        this.searchQuery = event.target.value;
+        this.router.navigate(['/books/search/' + this.searchQuery]);
     }
 }

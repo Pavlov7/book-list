@@ -12,6 +12,7 @@ import { ReviewsComponent } from './components/reviews/reviews.component';
 export const ROUTES: Routes = [
     {path: '', redirectTo: 'books', pathMatch: 'full'},
     {path: 'books', component: BooksComponent},
+    {path: 'books/search/:query', component: BooksComponent},
     {path: 'list', component: ListComponent},
     {path: 'reviews', component: ReviewsComponent}
 ];

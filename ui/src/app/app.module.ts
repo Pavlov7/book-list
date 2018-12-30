@@ -9,11 +9,15 @@ import { ROUTING } from "./app.routing";
 import { BooksComponent } from "./components/books/books.component";
 import { ListComponent } from "./components/list/list.component";
 import { ReviewsComponent } from "./components/reviews/reviews.component";
+import { BookComponent } from "./components/book/book.component";
+
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [
         AppComponent,
         BooksComponent,
+        BookComponent,
         ListComponent,
         ReviewsComponent
     ],
@@ -22,6 +26,7 @@ import { ReviewsComponent } from "./components/reviews/reviews.component";
         BrowserModule,
         FormsModule,
         HttpModule,
+        HttpClientModule,
         ClarityModule,
         ROUTING
     ],
@@ -29,4 +34,5 @@ import { ReviewsComponent } from "./components/reviews/reviews.component";
     bootstrap: [AppComponent]
 })
 export class AppModule {
+    
 }
