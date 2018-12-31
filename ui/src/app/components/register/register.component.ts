@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpHandler } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import { RegisterService } from "./register.service";
 import { Router } from "@angular/router";
-import { UserService } from "../../services/UserService";
+import { UserService } from "../../services/user.service";
 
 const httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })
