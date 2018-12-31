@@ -2,7 +2,8 @@ import { Component } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpHandler } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import { LoginService } from "./login.service";
-import { ActivatedRoute } from '@angular/router';
+import { Router } from "@angular/router";
+import { UserService } from "../../services/UserService";
 
 const httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -14,18 +15,31 @@ const httpOptions = {
     templateUrl: "./login.component.html"
 })
 export class LoginComponent {
-    private user: object;
-    private sub: any;
+    private isLoggedIn: Boolean = false;
+    private form = {
+        password: "",
+        username: ""
+    };
 
-    constructor(private _loginService: LoginService, private route: ActivatedRoute) {}
+    constructor(
+        private _loginService: LoginService,
+        private _user: UserService,
+        private router: Router
+    ) {
+        if (_user.token) {
+            this.isLoggedIn = true;
+        }
+    }
+
+    ngOnInit() {
+        console.log(this.isLoggedIn);
+    }
 
     login() {
-        return this._loginService.login("test", "test").subscribe(
-            data => {
-                this.user = data;
-            },
-            err => console.log(err),
-            () => console.log("done login loading")
-        );
+        // console.log("login using", this.form.username, this.form.password);
+        return this._loginService.login(this.form.username, this.form.password).add(() => {
+            this._user.reloadToken();
+            this.router.navigate(["/books/"]);
+        });
     }
 }

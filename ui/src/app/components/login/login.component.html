@@ -1,13 +1,25 @@
 <div class="login-wrapper">
-    <form class="login">
+    <form class="login" (submit)="login()">
         <section class="title">
             <h3 class="welcome">Welcome to</h3>
-            Book List
-            <h5 class="hint">
-                Use your username to sign in
-            </h5>
+            Book List, {{_user.username || "No username"}}
         </section>
-        <div class="login-group">
+
+        <div *ngIf="isLoggedIn" class="alert alert-success" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon
+                            class="alert-icon"
+                            shape="check-circle"
+                        ></clr-icon>
+                    </div>
+                    <span class="alert-text">Already logged in</span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!isLoggedIn" class="login-group">
+            <h5 class="hint">Use your username to sign in</h5>
             <div class="clr-input-container">
                 <input
                     type="text"
@@ -46,7 +58,7 @@
                 />
             </div>
             <div class="error active">Invalid user name or password</div>
-            <button type="submit" class="btn btn-primary">NEXT</button>
+            <button type="submit" class="btn btn-primary">Login</button>
             <a href="" class="signup">Register</a>
         </div>
     </form>
