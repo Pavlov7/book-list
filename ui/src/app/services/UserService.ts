@@ -1,11 +1,16 @@
-import { LOCAL_STORAGE_TOKEN_LABEL, LOCAL_STORAGE_TOKEN_EXPIRES_LABEL } from '../constants';
+import {
+    LOCAL_STORAGE_TOKEN_LABEL,
+    LOCAL_STORAGE_TOKEN_EXPIRES_LABEL
+} from "../constants";
 import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "environments/environment";
 
 @Injectable()
 export class UserService {
     token: String = null;
     username: String = null;
-    constructor() {
+    constructor(private http: HttpClient) {
         this.reloadToken();
     }
 
@@ -13,7 +18,14 @@ export class UserService {
         this.token = localStorage.getItem(LOCAL_STORAGE_TOKEN_LABEL);
         // TODO: api call get user data
         if (this.token) {
-            this.username = "admin"
+            this.username = "tmp";
+            this.http
+                .get(environment.serverUrl + "/users/me/")
+                .subscribe(
+                    resp => this.username = resp["username"],
+                    err => console.log(err),
+                    () => null
+                );
         }
     }
 
@@ -23,5 +35,4 @@ export class UserService {
         this.token = null;
         this.username = null;
     }
-
 }
