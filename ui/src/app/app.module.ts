@@ -20,6 +20,7 @@ import { ReviewComponent } from "./components/review/review.component";
 import { LoginComponent } from "./components/login/login.component";
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { UserService } from './services/UserService';
+import { RegisterComponent } from './components/register/register.component';
 import { ClrFormsModule } from "@clr/angular";
 import { ClrFormsNextModule } from "@clr/angular";
 
@@ -31,7 +32,8 @@ import { ClrFormsNextModule } from "@clr/angular";
         ListComponent,
         ReviewsComponent,
         ReviewComponent,
-        LoginComponent
+        LoginComponent,
+        RegisterComponent
     ],
     imports: [
         BrowserAnimationsModule,

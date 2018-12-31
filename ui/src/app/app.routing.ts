@@ -9,6 +9,7 @@ import { BooksComponent } from './components/books/books.component';
 import { ListComponent } from './components/list/list.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
 import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const ROUTES: Routes = [
     {path: '', redirectTo: 'books', pathMatch: 'full'},
@@ -16,7 +17,8 @@ export const ROUTES: Routes = [
     {path: 'books/search/:query', component: BooksComponent},
     {path: 'list', component: ListComponent},
     {path: 'reviews', component: ReviewsComponent},
-    {path: 'login', component: LoginComponent}
+    {path: 'register', component: RegisterComponent},
+    {path: 'login', component: LoginComponent},
 ];
 
 export const ROUTING: ModuleWithProviders = RouterModule.forRoot(ROUTES);

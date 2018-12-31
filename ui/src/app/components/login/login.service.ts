@@ -3,7 +3,10 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import { environment } from "../../../environments/environment";
 import * as moment from "moment";
-import {LOCAL_STORAGE_TOKEN_LABEL, LOCAL_STORAGE_TOKEN_EXPIRES_LABEL } from '../../constants';
+import {
+    LOCAL_STORAGE_TOKEN_LABEL,
+    LOCAL_STORAGE_TOKEN_EXPIRES_LABEL
+} from "../../constants";
 
 const httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -13,12 +16,18 @@ const httpOptions = {
 export class LoginService {
     constructor(private http: HttpClient) {}
 
-    login(username: string, password: string) {
+    login(username: string, password: string, callback: Function) {
         return this.http
-            .post(environment.serverUrl + "/auth/sign-in/", { username, password })
+            .post(environment.serverUrl + "/auth/sign-in/", {
+                username,
+                password
+            })
             .subscribe(
-                res => this.setSession(res),
-                err => console.log(err),
+                res => {
+                    this.setSession(res);
+                    callback(true, res)
+                },
+                err => callback(false, err),
                 () => console.log("done login loading")
             );
     }
@@ -27,7 +36,10 @@ export class LoginService {
         // TODO: implement on server side
         const expiresAt = moment().add(authResult.expiresIn, "second");
         localStorage.setItem(LOCAL_STORAGE_TOKEN_LABEL, authResult.accessToken);
-        localStorage.setItem(LOCAL_STORAGE_TOKEN_EXPIRES_LABEL, JSON.stringify(expiresAt.valueOf()));
+        localStorage.setItem(
+            LOCAL_STORAGE_TOKEN_EXPIRES_LABEL,
+            JSON.stringify(expiresAt.valueOf())
+        );
     }
 
     logout() {
@@ -44,7 +56,9 @@ export class LoginService {
     }
 
     getExpiration() {
-        const expiration = localStorage.getItem(LOCAL_STORAGE_TOKEN_EXPIRES_LABEL);
+        const expiration = localStorage.getItem(
+            LOCAL_STORAGE_TOKEN_EXPIRES_LABEL
+        );
         const expiresAt = JSON.parse(expiration);
         return moment(expiresAt);
     }

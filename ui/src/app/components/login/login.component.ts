@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { LoginService } from "./login.service";
 import { Router } from "@angular/router";
 import { UserService } from "../../services/UserService";
+import { IF_ACTIVE_ID } from "@clr/angular/utils/conditional/if-active.service";
 
 const httpOptions = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })
@@ -16,6 +17,7 @@ const httpOptions = {
 })
 export class LoginComponent {
     private isLoggedIn: Boolean = false;
+    private error: String = null;
     private form = {
         password: "",
         username: ""
@@ -35,11 +37,21 @@ export class LoginComponent {
         console.log(this.isLoggedIn);
     }
 
-    login() {
-        // console.log("login using", this.form.username, this.form.password);
-        return this._loginService.login(this.form.username, this.form.password).add(() => {
+    onResult(success, response) {
+        if (success) {
             this._user.reloadToken();
             this.router.navigate(["/books/"]);
-        });
+        } else {
+            this.error = response.error.message;
+        }
+    }
+
+    login() {
+        // console.log("login using", this.form.username, this.form.password);
+        return this._loginService.login(
+            this.form.username,
+            this.form.password,
+            (s, r) => this.onResult(s, r)
+        );
     }
 }
