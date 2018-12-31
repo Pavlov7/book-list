@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
+import { environment } from '../../../environments/environment';
  
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,10 +14,10 @@ export class ReviewsService {
  
     // Uses http.get() to load data from a single API endpoint
     getReviews() {
-        return this.http.get('http://localhost:8700/reviews/get');
+        return this.http.get(environment.serverUrl + '/reviews/get');
     }
 
     searchReviews(query) {
-        return this.http.get(`http://localhost:8700/reviews/get`);
+        return this.http.get(environment.serverUrl + `/reviews/get`);
     }
 }

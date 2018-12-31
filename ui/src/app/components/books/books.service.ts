@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
+import { environment } from '../../../environments/environment';
  
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,10 +14,10 @@ export class BooksService {
  
     // Uses http.get() to load data from a single API endpoint
     getBooks() {
-        return this.http.get('http://localhost:8700/books/search?q="java"');
+        return this.http.get(environment.serverUrl + '/books/search?q="java"');
     }
 
     searchBooks(query) {
-        return this.http.get(`http://localhost:8700/books/search?q=${query}`);
+        return this.http.get(environment.serverUrl + `/books/search?q=${query}`);
     }
 }
