@@ -3,25 +3,20 @@ package com.fmi.bookservice.controller;
 
 import com.fmi.bookservice.exception.ServerErrorException;
 import com.fmi.bookservice.model.BookInList;
-import com.fmi.bookservice.model.RoleName;
 import com.fmi.bookservice.model.User;
 import com.fmi.bookservice.model.UserPrincipal;
 import com.fmi.bookservice.repository.UserRepository;
 import com.fmi.bookservice.service.BookService;
 import com.google.api.services.books.model.Volumes;
-import java.util.List;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
-import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by Daniel on 11-Nov-18.
@@ -44,10 +39,8 @@ public class BookController {
     // temp to test db integration and auth
     @Secured("ROLE_USER")
     @RequestMapping(path = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> addBook(Principal principal, @Valid @RequestBody BookInList bookRequest) throws IOException {
-        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                       .getPrincipal();
-
+    public ResponseEntity<?> addBook(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                     @Valid @RequestBody BookInList bookRequest) throws IOException {
         User user = userRepository.findById(userPrincipal.getId())
             .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
             
