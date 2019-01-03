@@ -1,47 +1,10 @@
-import { Component } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpHandler } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import { ReviewsService } from "./reviews.service";
-import { ActivatedRoute } from '@angular/router';
-
-const httpOptions = {
-    headers: new HttpHeaders({ "Content-Type": "application/json" })
-};
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-    providers: [ReviewsService],
-    styleUrls: ["./reviews.component.scss"],
-    templateUrl: "./reviews.component.html"
+    selector: 'reviews',
+    templateUrl: './reviews.component.html',
+    styleUrls: ['./reviews.component.scss']
 })
-export class ReviewsComponent {
-    public reviews;
+export class ReviewsComponent{
 
-    query: String;
-    private sub: any;
-
-    constructor(private _reviewsService: ReviewsService, private route: ActivatedRoute) {}
-
-    ngOnInit() {
-        //this.loadReviews();
-        this.sub = this.route.params.subscribe(params => {
-            this.query = params["query"];
-            this.loadReviews(this.query);
-            // In a real app: dispatch action to load the details here.
-        });
-    }
-
-    loadReviews(query: String = "java") {
-        return this._reviewsService.getReviews().subscribe(
-            data => {
-                this.reviews = data;
-                console.log(this.reviews[0]);
-            },
-            err => console.log(err),
-            () => console.log("done reviews loading")
-        );
-    }
-
-    ngOnDestroy() {
-        this.sub.unsubscribe();
-    }
 }
