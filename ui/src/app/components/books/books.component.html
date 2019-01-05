@@ -1,1 +1,34 @@
-<p>Books search, results, cards, table goes here</p>
+<ng-container *ngIf="!loading; else load">
+  <div class="row grid">
+    <ng-container *ngFor="let book of items">
+      <div class="card">
+        <div class="card-header">
+          {{ book.volumeInfo?.title }}
+        </div>
+        <div class="card-block">
+          <div class="card-media-block">
+            <img [src]="book.volumeInfo?.imageLinks?.thumbnail" class="card-media-image card-image">
+            <div class="card-media-description">
+              <span class="card-media-title">
+
+              </span>
+              <span class="card-media-text">
+                Author/s: {{ book.volumeInfo?.authors?.join(', ') }}
+              </span>
+            </div>
+          </div>
+          <div class="card-text">
+            <!-- TODO figure out how to truncate the description and keep the card size constant -->
+            <!-- {{ book.volumeInfo?.description }} -->
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-sm btn-link">Details</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+<ng-template #load>
+  <span class="spinner"></span>
+</ng-template>

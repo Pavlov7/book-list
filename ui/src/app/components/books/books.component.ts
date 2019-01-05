@@ -3,6 +3,7 @@ import { BaseResourceList } from '../shared/base.resource.list';
 import { OnInit } from '@angular/core';
 import { Params, ParamMap, ActivatedRoute } from '@angular/router';
 import { BookService } from '../../services/book.service';
+import { BookApiResponse } from '../../models/book-api-response.model';
 
 @Component({
     styleUrls: ['./books.component.scss'],
@@ -19,9 +20,17 @@ export class BooksComponent extends BaseResourceList implements OnInit {
             .subscribe((p: ParamMap) => {
                 let query = p.get("q");
                 if (query) {
-                    this.search(query).subscribe((res: any) => {
-                        console.log();
-                    });
+                    this.search(query)
+                        .subscribe(
+                            (res: BookApiResponse) => {
+                                this.items = res.items;
+                                this.totalCount = res.totalItems;
+                                this.loading = false;
+                            },
+                            (error: any) => {
+                                // TODO handle error alerts
+                                console.error(error);
+                            });
                 }
             });
     }

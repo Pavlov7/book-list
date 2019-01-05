@@ -11,6 +11,7 @@ import { ReviewsComponent } from './components/reviews/reviews.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BookService } from './services/book.service';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule,
     ClarityModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [
     BookService
