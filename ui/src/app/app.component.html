@@ -1,62 +1,71 @@
 <clr-main-container>
-  <header class="header-6">
-      <div class="branding">
-          <a href="..." class="nav-link">
-              <clr-icon shape="book" class="is-solid"></clr-icon>
-              <span class="title">Book List</span>
-          </a>
-      </div>
-      <form class="search" novalidate>
-          <label for="search_input">
-              <input id="search_input" type="text" placeholder="Search for books..." [(ngModel)]="query" [ngModelOptions]="{standalone: true}" (keyup.enter)="search()">
-          </label>
-      </form>
-      <div class="header-actions">
-          <clr-dropdown>
-              <button class="nav-text" clrDropdownTrigger>
-                  user@gmail.com
-                  <clr-icon shape="caret down"></clr-icon>
-              </button>
-              <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
-                  <a href="..." clrDropdownItem>Preferences</a>
-                  <a href="..." clrDropdownItem>Log out</a>
-              </clr-dropdown-menu>
-          </clr-dropdown>
-      </div>
-  </header>
-  <div class="content-container">
-      <div class="content-area">
-          <router-outlet></router-outlet>
-      </div>
-      <clr-vertical-nav [clrVerticalNavCollapsible]="demoCollapsible">
-              <a clrVerticalNavLink routerLinkActive="active" routerLink="./books">
-                  <clr-icon shape="book" clrVerticalNavIcon></clr-icon>
-                  Books
-              </a>
-          <clr-vertical-nav-group routerLinkActive="active">
-              <clr-icon shape="list" clrVerticalNavIcon></clr-icon>
-              Lists
-              <clr-vertical-nav-group-children>
-                  <a clrVerticalNavLink routerLink="./list" routerLinkActive="active">
-                      Read
-                  </a>
-                  <a clrVerticalNavLink routerLink="./list/favourites" routerLinkActive="active">
-                      Favorites
-                  </a>
-                  <a clrVerticalNavLink routerLink="./list/wishToRead" routerLinkActive="active">
-                      Wish to read
-                  </a>
-              </clr-vertical-nav-group-children>
-          </clr-vertical-nav-group>
-          <a clrVerticalNavLink routerLinkActive="active" routerLink="./reviews">
-              <clr-icon shape="note" clrVerticalNavIcon></clr-icon>
-              Reviews
-          </a>
-          <a clrVerticalNavLink routerLinkActive="active" routerLink="./readers">
-              <clr-icon shape="users" clrVerticalNavIcon></clr-icon>
-              Readers
-          </a>
-      </clr-vertical-nav>
-
-  </div>
+    <div *ngIf="showMenu" class="full-page">
+        <header class="header-6">
+            <div class="branding">
+                <a href="..." class="nav-link">
+                    <clr-icon shape="book" class="is-solid"></clr-icon>
+                    <span class="title">Book List</span>
+                </a>
+            </div>
+            <form class="search" novalidate>
+                <label for="search_input">
+                    <input id="search_input" type="text" placeholder="Search for books..." [(ngModel)]="query" [ngModelOptions]="{standalone: true}"
+                        (keyup.enter)="search()">
+                </label>
+            </form>
+            <div class="header-actions" *ngIf="currentUser">
+                <clr-dropdown>
+                    <button class="nav-text" clrDropdownTrigger>
+                        {{ currentUser.username }}
+                        <clr-icon shape="caret down"></clr-icon>
+                    </button>
+                    <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                        <a href="..." clrDropdownItem>Preferences</a>
+                        <a (click)="logout()" clrDropdownItem>Log out</a>
+                    </clr-dropdown-menu>
+                </clr-dropdown>
+            </div>
+            <div class="header-actions" *ngIf="!currentUser">
+                <a [routerLink]="['/login']" class="nav-link nav-text">Login</a>
+                <a href="javascript:void(0)" (click)="register()" class="nav-link nav-text">Register</a>
+            </div>
+        </header>
+        <div class="content-container">
+            <div class="content-area">
+                <router-outlet></router-outlet>
+            </div>
+            <clr-vertical-nav [clrVerticalNavCollapsible]="demoCollapsible">
+                <a clrVerticalNavLink routerLinkActive="active" routerLink="./books">
+                    <clr-icon shape="book" clrVerticalNavIcon></clr-icon>
+                    Books
+                </a>
+                <clr-vertical-nav-group routerLinkActive="active">
+                    <clr-icon shape="list" clrVerticalNavIcon></clr-icon>
+                    Lists
+                    <clr-vertical-nav-group-children>
+                        <a clrVerticalNavLink routerLink="./list" routerLinkActive="active">
+                            Read
+                        </a>
+                        <a clrVerticalNavLink routerLink="./list/favourites" routerLinkActive="active">
+                            Favorites
+                        </a>
+                        <a clrVerticalNavLink routerLink="./list/wishToRead" routerLinkActive="active">
+                            Wish to read
+                        </a>
+                    </clr-vertical-nav-group-children>
+                </clr-vertical-nav-group>
+                <a clrVerticalNavLink routerLinkActive="active" routerLink="./reviews">
+                    <clr-icon shape="note" clrVerticalNavIcon></clr-icon>
+                    Reviews
+                </a>
+                <a clrVerticalNavLink routerLinkActive="active" routerLink="./readers">
+                    <clr-icon shape="users" clrVerticalNavIcon></clr-icon>
+                    Readers
+                </a>
+            </clr-vertical-nav>
+        </div>
+    </div>
+    <div *ngIf="!showMenu">
+        <router-outlet></router-outlet>
+    </div>
 </clr-main-container>

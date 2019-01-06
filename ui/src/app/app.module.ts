@@ -12,6 +12,11 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BookService } from './services/book.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthenticationService } from './services/authentication.service';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -19,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     BooksComponent,
     ListComponent,
     ReviewsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -26,10 +32,14 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
     ClarityModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
-    BookService
+    BookService,
+    AuthenticationService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

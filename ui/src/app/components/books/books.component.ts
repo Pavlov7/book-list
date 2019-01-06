@@ -31,6 +31,8 @@ export class BooksComponent extends BaseResourceList implements OnInit {
                                 // TODO handle error alerts
                                 console.error(error);
                             });
+                } else {
+                    this.loading = false;
                 }
             });
     }
