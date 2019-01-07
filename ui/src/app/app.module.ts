@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from './services/authentication.service';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     BooksComponent,
     ListComponent,
     ReviewsComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

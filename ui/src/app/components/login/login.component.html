@@ -15,7 +15,7 @@
                 Invalid user name or password
             </div> -->
             <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
-            <a href="javascript://" class="signup">Register</a>
+            <a href="javascript:void(0)" [routerLink]="['/register']" class="signup">Register</a>
         </div>
     </form>
 </div>

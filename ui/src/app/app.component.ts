@@ -19,7 +19,7 @@ export class AppComponent {
 
       if (event instanceof NavigationStart) {
         // don't show menus on login page
-        this.showMenu = !event.url.includes('/login');
+        this.showMenu = !event.url.includes('/login') && !event.url.includes('/register');
       }
     });
 
@@ -32,6 +32,8 @@ export class AppComponent {
 
   public logout() {
     this.authService.logout();
+    // might be better, will have to check if menu is reloaded
     location.reload(true);
+    //this.router.navigate(['/']);
   }
 }

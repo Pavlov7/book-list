@@ -36,4 +36,8 @@ export class AuthenticationService {
     localStorage.removeItem(constants.LOCAL_STORAGE_TOKEN_LABEL);
     this.currentUserSubject.next(null);
   }
+
+  public register(user: User) {
+    return this.http.post(constants.BACKEND_URL + '/auth/register', user);
+  }
 }

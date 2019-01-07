@@ -1,0 +1,27 @@
+<div class="login-wrapper">
+    <form class="login" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <section class="title">
+            <h3 class="welcome">Welcome to</h3>
+            Book List
+        </section>
+        <div class="login-group">
+            <clr-input-container>
+                <input type="text" name="username" clrInput placeholder="Username" formControlName="username" required/>
+            </clr-input-container>
+            <div formGroupName="passwords">
+                <clr-password-container>
+                    <input type="password" name="password" clrPassword placeholder="Password" formControlName="password" required />
+                </clr-password-container>
+                <clr-password-container>
+                    <input type="password" name="confirmPassword" clrPassword placeholder="Confirm Password" formControlName="confirmPassword"
+                        required />
+                </clr-password-container>
+            </div>
+            <!-- <div class="error active">
+                Invalid user name or password
+            </div> -->
+            <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Register</button>
+            <a href="javascript:void(0)" [routerLink]="['/login']" class="signup">Login</a>
+        </div>
+    </form>
+</div>

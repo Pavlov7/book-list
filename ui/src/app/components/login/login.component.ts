@@ -9,10 +9,6 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../../models/user.model';
 import { LoginToken } from '../../models/login-token.response.model';
 
-const httpOptions = {
-    headers: new HttpHeaders({ "Content-Type": "application/json" })
-};
-
 @Component({
     styleUrls: ["./login.component.scss"],
     templateUrl: "./login.component.html"
@@ -20,7 +16,7 @@ const httpOptions = {
 export class LoginComponent implements OnInit {
     public loginForm: FormGroup;
 
-    constructor(private authService: AuthenticationService) {}
+    constructor(private authService: AuthenticationService, private router: Router) {}
 
     public ngOnInit(): void {
         this.initForm();
@@ -33,13 +29,18 @@ export class LoginComponent implements OnInit {
         })
     }
 
-    // TODO add validation
+    // TODO add error messages
     public onSubmit() {
         let user: User = new User();
         Object.assign(user, this.loginForm.value);
         this.authService.login(user)
         .subscribe((res: LoginToken) => {
             console.log(res);
+            location.reload(true);
+            //this.router.navigate(['/']);
+        },
+        (error: any) => {
+            console.error(error);
         });
     }
 }
