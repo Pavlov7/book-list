@@ -52,9 +52,19 @@ public class BookController {
         return ResponseEntity.ok(bookRequest);
     }
 
-    // temp to test db integration
+
+    @Secured("ROLE_USER")
+    @RequestMapping(path = "/my", method = RequestMethod.GET)
+    public List<BookInList> getMyBooks(@AuthenticationPrincipal UserPrincipal userPrincipal) throws IOException {
+        User user = userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
+
+        return bookService.findByUser(user);
+    }
+
     @RequestMapping(path = "/get", method = RequestMethod.GET)
     public List<BookInList> getBooks() throws IOException {
         return bookService.getAll();
     }
+
 }

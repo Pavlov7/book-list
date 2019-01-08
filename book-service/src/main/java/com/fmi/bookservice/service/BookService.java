@@ -1,6 +1,7 @@
 package com.fmi.bookservice.service;
 
 import com.fmi.bookservice.model.BookInList;
+import com.fmi.bookservice.model.User;
 import com.fmi.bookservice.repository.BookRepository;
 import com.google.api.services.books.Books;
 import com.google.api.services.books.model.Volumes;
@@ -48,5 +49,9 @@ public class BookService {
 
     public List<BookInList> getAll() {
         return this.bookRepository.findAll();
+    }
+
+    public List<BookInList> findByUser(User user) {
+        return this.bookRepository.findByUser(user);
     }
 }
