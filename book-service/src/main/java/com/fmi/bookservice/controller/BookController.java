@@ -46,6 +46,7 @@ public class BookController {
             
         bookRequest.setUser(user);
         Byte x = 0;
+        System.out.print(bookRequest);
         bookRequest.setRating(x);
         bookService.save(bookRequest);
         return ResponseEntity.ok(bookRequest);

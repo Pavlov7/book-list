@@ -38,21 +38,21 @@ public class BookReviewController {
         User user = userRepository.findById(userPrincipal.getId())
             .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
 
-        BookInList book = bookRepository.findById(request.bookId)
-            .orElseThrow(() -> new ServerErrorException(String.format("Book with id %d not found.", request.bookId)));
+//        BookInList book = bookRepository.findById(request.bookId)
+//            .orElseThrow(() -> new ServerErrorException(String.format("Book with id %d not found.", request.bookId)));
 
-        BookReview review = new BookReview(book, user, request.text, request.rating);
+        BookReview review = new BookReview(request.volumeId, user, request.text, request.rating);
 
         bookReviewService.save(review);
         return ResponseEntity.ok(review);
     }
 
     @RequestMapping(path = "/get", method = RequestMethod.GET)
-    public List<BookReview> getReviewByBookId(@RequestParam(required = false) Long book_id) throws IOException {
-        if (book_id == null) {
+    public List<BookReview> getReviewByBookId(@RequestParam(required = false) String volumeId) throws IOException {
+        if (volumeId == null) {
             return bookReviewService.getAll();
         }
 
-        return bookReviewService.findByBookId(book_id);
+        return bookReviewService.findByVolumeId(volumeId);
     }
 }

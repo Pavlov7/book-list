@@ -22,10 +22,9 @@ public class BookReview {
     @NotNull
     private User user;
 
-    @ManyToOne
-    @NotNull(message = "Book is required")
-    // TODO figure out if this should point to BookInList or just hold bookId from the Volume
-    private BookInList book;
+    // reference google books volume
+    @NotNull(message = "Provide google volume id")
+    private String volumeId;
 
     @NotNull(message = "Provide review text")
     private String text;
@@ -36,9 +35,9 @@ public class BookReview {
     public BookReview() {
     }
 
-    public BookReview(BookInList book, User user, String text, Byte rating) {
+    public BookReview(String volumeId, User user, String text, Byte rating) {
         this.user = user;
-        this.book = book;
+        this.volumeId = volumeId;
         this.text = text;
         this.rating = rating;
     }
@@ -59,12 +58,12 @@ public class BookReview {
         this.user = user;
     }
 
-    public BookInList getBook() {
-        return this.book;
+    public String getVolumeId() {
+        return this.volumeId;
     }
 
-    public void setBook(BookInList book) {
-        this.book = book;
+    public void setVolumeId(String volumeId) {
+        this.volumeId = volumeId;
     }
 
     public String getText() {

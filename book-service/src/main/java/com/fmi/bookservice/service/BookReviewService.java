@@ -18,8 +18,8 @@ public class BookReviewService {
     public List<BookReview> getAll() {
         return this.bookReviewRepository.findAll();
     }
-    public List<BookReview> findByBookId(Long bookId) {
-        return this.bookReviewRepository.findByBookId(bookId);
+    public List<BookReview> findByVolumeId(String volumeId) {
+        return this.bookReviewRepository.findByVolumeId(volumeId);
     }
 
 }

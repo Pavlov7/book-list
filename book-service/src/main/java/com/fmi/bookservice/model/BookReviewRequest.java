@@ -6,8 +6,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Range;
 
 public class BookReviewRequest {
-    @NotNull(message = "Book id is required")
-    public Long bookId;
+    @NotBlank(message = "Google Volume id is required")
+    public String volumeId;
 
     @NotBlank(message = "Review text is required")
     public String text;
