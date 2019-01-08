@@ -22,7 +22,7 @@ public class BookReview {
     @NotNull
     private User user;
 
-    // reference google books volume
+    // reference google books volumeBookReview
     @NotNull(message = "Provide google volume id")
     private String volumeId;
 
