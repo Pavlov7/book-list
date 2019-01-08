@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface BookRepository extends JpaRepository<BookInList, Long> {
     List<BookInList> findByUser(User user);
+
+    List<BookInList> findByUserAndIsFavourite(User user, Boolean isFavourite);
+    List<BookInList> findByUserAndAlreadyRead(User user, Boolean alreadyRead);
+    List<BookInList> findByUserAndWishToRead(User user, Boolean wishToRead);
 }

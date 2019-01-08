@@ -1,10 +1,13 @@
 package com.fmi.bookservice.service;
 
+import com.fmi.bookservice.constants.Constants;
 import com.fmi.bookservice.model.BookInList;
 import com.fmi.bookservice.model.User;
 import com.fmi.bookservice.repository.BookRepository;
 import com.google.api.services.books.Books;
 import com.google.api.services.books.model.Volumes;
+
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,5 +56,18 @@ public class BookService {
 
     public List<BookInList> findByUser(User user) {
         return this.bookRepository.findByUser(user);
+    }
+
+    public List<BookInList> getUserList(User user, String listName) {
+        switch (listName) {
+            case Constants.FAVOURITES_PATH:
+                return this.bookRepository.findByUserAndIsFavourite(user, true);
+            case Constants.WISHLIST_PATH:
+                return this.bookRepository.findByUserAndWishToRead(user, true);
+            case Constants.ALREADYREAD_PATH:
+                return  this.bookRepository.findByUserAndAlreadyRead(user, true);
+            default:
+                return Collections.<BookInList>emptyList();
+        }
     }
 }
