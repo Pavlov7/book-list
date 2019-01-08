@@ -2,12 +2,15 @@ package com.fmi.bookservice.controller;
 
 
 import com.fmi.bookservice.constants.Constants;
+import com.fmi.bookservice.exception.ResourceNotFoundException;
 import com.fmi.bookservice.exception.ServerErrorException;
 import com.fmi.bookservice.model.BookInList;
 import com.fmi.bookservice.model.User;
 import com.fmi.bookservice.model.UserPrincipal;
 import com.fmi.bookservice.repository.UserRepository;
 import com.fmi.bookservice.service.BookService;
+import com.google.api.services.books.Books;
+import com.google.api.services.books.model.Volume;
 import com.google.api.services.books.model.Volumes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +40,7 @@ public class BookController {
         return bookService.search(q, startIndex);
     }
 
-    // temp to test db integration and auth
+
     @Secured("ROLE_USER")
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> addBookInList(@AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -88,9 +91,22 @@ public class BookController {
         return bookService.getUserList(user, listName);
     }
 
+    // TODO: rm?
     @RequestMapping(path = "/get", method = RequestMethod.GET)
     public List<BookInList> getBooks() throws IOException {
         return bookService.getAll();
     }
+
+
+    @RequestMapping(path = "/volumes/{volumeId}", method = RequestMethod.GET)
+    public Volume volumeDetails(@PathVariable("volumeId") String volumeId) throws IOException {
+        try {
+            return bookService.getVolumeDetails(volumeId);
+        } catch (IOException e) {
+            throw new ResourceNotFoundException("Volumes", "error", e.getMessage());
+        }
+    }
+
+
 
 }

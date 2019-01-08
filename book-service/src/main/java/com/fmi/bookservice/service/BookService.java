@@ -5,6 +5,7 @@ import com.fmi.bookservice.model.BookInList;
 import com.fmi.bookservice.model.User;
 import com.fmi.bookservice.repository.BookRepository;
 import com.google.api.services.books.Books;
+import com.google.api.services.books.model.Volume;
 import com.google.api.services.books.model.Volumes;
 
 import java.util.Collections;
@@ -46,6 +47,13 @@ public class BookService {
         return vols.execute();
     }
 
+
+    public Volume getVolumeDetails(String volumeId) throws IOException {
+        Books.Volumes.Get get = books.volumes().get(volumeId);
+
+        return get.execute();
+    }
+
     public void save(BookInList b) {
         this.bookRepository.save(b);
     }
@@ -61,6 +69,7 @@ public class BookService {
     public BookInList getByUserAndVolumeId(User user, String volumeId) {
         return this.bookRepository.getByUserAndVolumeId(user, volumeId);
     }
+
 
     public List<BookInList> getUserList(User user, String listName) {
         switch (listName) {
