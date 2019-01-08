@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="review_comments")
+@Table(name = "review_comments")
 public class ReviewComment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

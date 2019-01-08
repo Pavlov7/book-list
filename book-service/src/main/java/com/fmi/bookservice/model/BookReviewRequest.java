@@ -11,7 +11,7 @@ public class BookReviewRequest {
 
     @NotBlank(message = "Review text is required")
     public String text;
-    
+
     @NotNull(message = "Book rating is required")
     @Range(
         min = 0,

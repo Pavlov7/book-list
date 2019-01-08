@@ -4,11 +4,7 @@ package com.fmi.bookservice.constants;
  */
 public class Constants {
     public static final String APP_NAME = "Book list";
-
-
-
     public static final String WISHLIST_PATH = "wishlist";
     public static final String ALREADYREAD_PATH = "alreadyread";
     public static final String FAVOURITES_PATH = "favourites";
-
 }

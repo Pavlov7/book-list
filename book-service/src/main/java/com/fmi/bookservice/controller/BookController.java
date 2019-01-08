@@ -9,7 +9,6 @@ import com.fmi.bookservice.model.User;
 import com.fmi.bookservice.model.UserPrincipal;
 import com.fmi.bookservice.repository.UserRepository;
 import com.fmi.bookservice.service.BookService;
-import com.google.api.services.books.Books;
 import com.google.api.services.books.model.Volume;
 import com.google.api.services.books.model.Volumes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +39,17 @@ public class BookController {
         return bookService.search(q, startIndex);
     }
 
-
     @Secured("ROLE_USER")
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> addBookInList(@AuthenticationPrincipal UserPrincipal userPrincipal,
-                                     @Valid @RequestBody BookInList bookRequest) throws IOException {
+                                           @Valid @RequestBody BookInList bookRequest) throws IOException {
         User user = userRepository.findById(userPrincipal.getId())
-            .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
+                .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
 
         bookRequest.setUser(user);
-        bookRequest.setRating((byte) 0);
+        if (bookRequest.getRating() == null) {
+            bookRequest.setRating((byte) 0);
+        }
         if (!bookRequest.isValid()) {
             throw new ServerErrorException("Book in list is not valid (choose at least one list)");
         }
@@ -77,26 +77,18 @@ public class BookController {
         return bookService.findByUser(user);
     }
 
-
     @Secured("ROLE_USER")
     @RequestMapping(path = "/my/lists/{list}", method = RequestMethod.GET)
-    public List<BookInList> getListContent(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("list")  String listName) throws IOException {
+    public List<BookInList> getListContent(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("list") String listName) throws IOException {
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
 
-        if (!listName.matches(String.format("%s|%s|%s", Constants.WISHLIST_PATH, Constants.ALREADYREAD_PATH, Constants.FAVOURITES_PATH ))) {
+        if (!listName.matches(String.format("%s|%s|%s", Constants.WISHLIST_PATH, Constants.ALREADYREAD_PATH, Constants.FAVOURITES_PATH))) {
             throw new ServerErrorException(String.format("%s is not valid list name", listName));
         }
 
         return bookService.getUserList(user, listName);
     }
-
-    // TODO: rm?
-    @RequestMapping(path = "/get", method = RequestMethod.GET)
-    public List<BookInList> getBooks() throws IOException {
-        return bookService.getAll();
-    }
-
 
     @RequestMapping(path = "/volumes/{volumeId}", method = RequestMethod.GET)
     public Volume volumeDetails(@PathVariable("volumeId") String volumeId) throws IOException {
@@ -106,7 +98,4 @@ public class BookController {
             throw new ResourceNotFoundException("Volumes", "error", e.getMessage());
         }
     }
-
-
-
 }

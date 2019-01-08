@@ -12,12 +12,12 @@ import javax.validation.constraints.NotNull;
  * Created by Daniel on 28-Dec-18.
  */
 @Entity
-@Table(name="book_reviews")
+@Table(name = "book_reviews")
 public class BookReview {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @ManyToOne
     @NotNull
     private User user;

@@ -1,2 +1,18 @@
-<p>User's list goes here. Its a table containing the books he has read, with info like score (0-10), date started, date finished etc.</p>
+<clr-datagrid>
+  <clr-dg-column>ID</clr-dg-column>
+  <clr-dg-column>Rating</clr-dg-column>
+  <clr-dg-column>Started Reading</clr-dg-column>
+  <clr-dg-column>Finished Reading</clr-dg-column>
+  <clr-dg-row *clrDgItems="let book of data" [clrDgItem]="book">
+    <clr-dg-action-overflow>
+      <button class="action-item" (click)="onEdit(book)">Edit</button>
+      <button class="action-item" (click)="onDelete(book)">Delete</button>
+    </clr-dg-action-overflow>
+    <clr-dg-cell>{{book.id}}</clr-dg-cell>
+    <clr-dg-cell>{{book.rating}}</clr-dg-cell>
+    <clr-dg-cell>{{book.dateStartedReading | date}}</clr-dg-cell>
+    <clr-dg-cell>{{book.dateFinishedReading | date}}</clr-dg-cell>
+  </clr-dg-row>
 
+  <clr-dg-footer>{{data.length}} books</clr-dg-footer>
+</clr-datagrid>

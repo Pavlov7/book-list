@@ -3,7 +3,6 @@ package com.fmi.bookservice.controller;
 
 import com.fmi.bookservice.exception.ServerErrorException;
 import com.fmi.bookservice.model.*;
-import com.fmi.bookservice.repository.BookRepository;
 import com.fmi.bookservice.repository.UserRepository;
 import com.fmi.bookservice.service.BookReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,21 +24,14 @@ public class BookReviewController {
     private UserRepository userRepository;
 
     @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
     private BookReviewService bookReviewService;
 
     @Secured("ROLE_USER")
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     public ResponseEntity<?> addReview(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                        @Valid @RequestBody BookReviewRequest request) throws IOException {
-
         User user = userRepository.findById(userPrincipal.getId())
-            .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
-
-//        BookInList book = bookRepository.findById(request.bookId)
-//            .orElseThrow(() -> new ServerErrorException(String.format("Book with id %d not found.", request.bookId)));
+                .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
 
         BookReview review = new BookReview(request.volumeId, user, request.text, request.rating);
 

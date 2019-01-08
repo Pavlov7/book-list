@@ -1,16 +1,14 @@
 package com.fmi.bookservice.model;
 
-import java.util.Date;
 import javax.persistence.*;
-import javax.validation.constraints.AssertFalse;
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * Created by Daniel on 28-Dec-18.
  */
 @Entity
-@Table(name="books_in_list")
+@Table(name = "books_in_list")
 public class BookInList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,17 +25,14 @@ public class BookInList {
     private Date dateStartedReading;
     private Date dateFinishedReading;
 
-
-    @NotNull(message =  "alreadyRead?")
+    @NotNull(message = "alreadyRead?")
     private Boolean alreadyRead;
 
-    @NotNull(message =  "isFavourite?")
+    @NotNull(message = "isFavourite?")
     private Boolean isFavourite;
 
-    @NotNull(message =  "wishToRead?")
+    @NotNull(message = "wishToRead?")
     private Boolean wishToRead;
-
-
 
     public BookInList() {
         this.rating = 0;
@@ -61,12 +56,11 @@ public class BookInList {
         this.isFavourite = other.isFavourite;
         this.wishToRead = other.wishToRead;
     }
+
     public Boolean isValid() {
         // at least in one list!
         return alreadyRead || isFavourite || wishToRead;
     }
-
-
 
     public Boolean getAlreadyRead() {
         return alreadyRead;
@@ -91,7 +85,6 @@ public class BookInList {
     public void setWishToRead(Boolean wishToRead) {
         this.wishToRead = wishToRead;
     }
-
 
     public Long getId() {
         return id;

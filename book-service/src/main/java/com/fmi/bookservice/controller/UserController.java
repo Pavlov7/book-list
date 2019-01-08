@@ -20,6 +20,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    // TODO probably won't be used since the ui saves the username on login
     @Secured("ROLE_USER")
     @RequestMapping(path = "/me", method = RequestMethod.GET)
     public User me() throws IOException {
