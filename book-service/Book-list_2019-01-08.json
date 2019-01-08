@@ -1,0 +1,527 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2019-01-08T17:49:54.633Z",
+	"__export_source": "insomnia.desktop.app:v6.3.2",
+	"resources": [
+		{
+			"_id": "wrk_3c6132e0fc864528874f73b0fc5a963d",
+			"created": 1542806900178,
+			"description": "",
+			"modified": 1546969701588,
+			"name": "Book-list",
+			"parentId": null,
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_3530f637027041419bb33802ca7ea84b",
+			"color": null,
+			"created": 1542806916856,
+			"data": {},
+			"isPrivate": false,
+			"metaSortKey": 1542806916856,
+			"modified": 1542806943023,
+			"name": "New Environment",
+			"parentId": "wrk_3c6132e0fc864528874f73b0fc5a963d",
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_44bfcac5117d4b97b81bbedc328530ee",
+			"cookies": [],
+			"created": 1542895884541,
+			"modified": 1542895884541,
+			"name": "Default Jar",
+			"parentId": "wrk_3c6132e0fc864528874f73b0fc5a963d",
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "fld_1a5e6c22f93a49338b82358086243bb2",
+			"created": 1546170667129,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1546170667129,
+			"modified": 1546170667129,
+			"name": "Book-list",
+			"parentId": "wrk_3c6132e0fc864528874f73b0fc5a963d",
+			"_type": "request_group"
+		},
+		{
+			"_id": "env_f6438236295e4b1f826d1fba936239dd",
+			"color": null,
+			"created": 1542806939641,
+			"data": {
+				"current_token": "thvpax5bug8xLXlFyZ7kp69AZInXgK",
+				"default_client_id": "HdnYwXgaNAoLR0rpMAFELq7Xr5B0XLH0Rtu9UJLT",
+				"default_client_secret": "vy3MOUMszt07OrrFwVIgNXKR27GrN5sBjyQZklmNFC9aooEEt7is8s1Eg1I85kqi5HBVrhsGPJEbzWD2qZqi7iiYFJJThpUjeguVAGKOEOAosfilbYM2kJuS7HWrgeks",
+				"default_grant_type": "password",
+				"default_password": "vlad23453vlad",
+				"default_username": "vlad@vlad.com"
+			},
+			"isPrivate": false,
+			"metaSortKey": 1542806939641,
+			"modified": 1543405819269,
+			"name": "DIANA",
+			"parentId": "env_3530f637027041419bb33802ca7ea84b",
+			"_type": "environment"
+		},
+		{
+			"_id": "env_501ef910390f4f668f2ceca427f99558",
+			"color": null,
+			"created": 1546170573888,
+			"data": {
+				"accessToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTQ2OTYxMTIyLCJleHAiOjE1NDc1NjU5MjJ9.eSE08Yu-s56WFxKb_MzVL39XKcqtjF3oshVNzLQ4PaMMuYaukqpsn4zk4UqciaxZVdxWfhwgKEnk4XLwaaK8DA",
+				"tokenType": "Bearer"
+			},
+			"isPrivate": false,
+			"metaSortKey": 1546170573888,
+			"modified": 1546961128209,
+			"name": "Book-list",
+			"parentId": "env_3530f637027041419bb33802ca7ea84b",
+			"_type": "environment"
+		},
+		{
+			"_id": "fld_e51e45383dc54ea4b29edc9a0ca67673",
+			"created": 1546170845450,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1546170845450,
+			"modified": 1546170845450,
+			"name": "Authentication",
+			"parentId": "fld_1a5e6c22f93a49338b82358086243bb2",
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_5c8d130da5014681ba74cb11c3897344",
+			"created": 1546958339891,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1546958339891,
+			"modified": 1546958339891,
+			"name": "Books",
+			"parentId": "fld_1a5e6c22f93a49338b82358086243bb2",
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_8db10ebec7204d5c9b686a7881a20506",
+			"created": 1546958360772,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1546958360772,
+			"modified": 1546958360772,
+			"name": "Reviews",
+			"parentId": "fld_1a5e6c22f93a49338b82358086243bb2",
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_7e4119a9b2bb4a2184aac5ed6d5568d1",
+			"created": 1546958562833,
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1546958562833,
+			"modified": 1546958562833,
+			"name": "Comments",
+			"parentId": "fld_1a5e6c22f93a49338b82358086243bb2",
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_2a6fe4bc4b80425082461e0a6f640b32",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"username\": \"vlado\",\n\t\"password\": \"1vlad1\"\n}"
+			},
+			"created": 1546170867970,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_65e96e32d90c413fabbc3f475720668a",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1546170867970,
+			"method": "POST",
+			"modified": 1546952761902,
+			"name": "Register",
+			"parameters": [],
+			"parentId": "fld_e51e45383dc54ea4b29edc9a0ca67673",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/auth/register/",
+			"_type": "request"
+		},
+		{
+			"_id": "req_421a0f4a1b6b493e892218c8aaf37c56",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"username\": \"vlad\",\n\t\"password\": \"1vlad1\"\n}"
+			},
+			"created": 1546172599119,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_65e96e32d90c413fabbc3f475720668a",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1546170773161.5,
+			"method": "POST",
+			"modified": 1546961104000,
+			"name": "Login",
+			"parameters": [],
+			"parentId": "fld_e51e45383dc54ea4b29edc9a0ca67673",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/auth/login/",
+			"_type": "request"
+		},
+		{
+			"_id": "req_8495f65fae8b44c1bd1ce5e0dcc56396",
+			"authentication": {
+				"token": "{{ accessToken  }}",
+				"type": "bearer"
+			},
+			"body": {
+				"mimeType": "application/json",
+				"text": ""
+			},
+			"created": 1546296565896,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_e3b5951a70b64d679238e5c1703e6084",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1546170773111.5,
+			"method": "GET",
+			"modified": 1546969283949,
+			"name": "Users/me",
+			"parameters": [],
+			"parentId": "fld_e51e45383dc54ea4b29edc9a0ca67673",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/users/me",
+			"_type": "request"
+		},
+		{
+			"_id": "req_f1468077aa6f4991811acbbd17be321e",
+			"authentication": {},
+			"body": {},
+			"created": 1546170678353,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1546170678353,
+			"method": "GET",
+			"modified": 1546958483957,
+			"name": "Books/get (in lists)",
+			"parameters": [],
+			"parentId": "fld_5c8d130da5014681ba74cb11c3897344",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/books/get",
+			"_type": "request"
+		},
+		{
+			"_id": "req_49d95d923974403aa220bdbfb91ae319",
+			"authentication": {},
+			"body": {},
+			"created": 1546170707675,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1546170678403,
+			"method": "GET",
+			"modified": 1546958468848,
+			"name": "Books/search",
+			"parameters": [],
+			"parentId": "fld_5c8d130da5014681ba74cb11c3897344",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/books/search?q=\"java\"",
+			"_type": "request"
+		},
+		{
+			"_id": "req_24ff7c7feb074e7f9161dc1169c6b7cd",
+			"authentication": {
+				"token": "{{ accessToken  }}",
+				"type": "bearer"
+			},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"volumeId\": \"124\",\n\t\"isFavourite\": false,\n\t\"alreadyRead\": true,\n\t\"wishToRead\": false\n}"
+			},
+			"created": 1546170772777,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_ef52d32222024874a9773f31a8d2b98b",
+					"name": "",
+					"value": ""
+				},
+				{
+					"id": "pair_7a7e01029d034ee7bea82a61d8db6029",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1546170678365.5,
+			"method": "POST",
+			"modified": 1546968794774,
+			"name": "Books/add",
+			"parameters": [],
+			"parentId": "fld_5c8d130da5014681ba74cb11c3897344",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/books/add",
+			"_type": "request"
+		},
+		{
+			"_id": "req_417b873cd2ac44f4a4e33b6df48473b8",
+			"authentication": {
+				"token": "{{ accessToken  }}",
+				"type": "bearer"
+			},
+			"body": {},
+			"created": 1546961024869,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1544699081188.1875,
+			"method": "GET",
+			"modified": 1546961088401,
+			"name": "Books/my (in lists)",
+			"parameters": [],
+			"parentId": "fld_5c8d130da5014681ba74cb11c3897344",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/books/my",
+			"_type": "request"
+		},
+		{
+			"_id": "req_c2fdad98ac464a8187a83fa1e3ef61ca",
+			"authentication": {
+				"token": "{{ accessToken  }}",
+				"type": "bearer"
+			},
+			"body": {},
+			"created": 1546961932169,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1543963282605.7812,
+			"method": "GET",
+			"modified": 1546963096383,
+			"name": "Books/my/lists/:list",
+			"parameters": [],
+			"parentId": "fld_5c8d130da5014681ba74cb11c3897344",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/books/my/lists/alreadyread",
+			"_type": "request"
+		},
+		{
+			"_id": "req_153ed85b356c4b8aa5e257a94fac8477",
+			"authentication": {},
+			"body": {},
+			"created": 1546966067367,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1545434879770.5938,
+			"method": "GET",
+			"modified": 1546969266866,
+			"name": "Books/volumes/:volumeId",
+			"parameters": [],
+			"parentId": "fld_5c8d130da5014681ba74cb11c3897344",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/books/volumes/hb1lDwAAQBAJ",
+			"_type": "request"
+		},
+		{
+			"_id": "req_866936d0543b456c97867d4ae6d76dfb",
+			"authentication": {
+				"token": "{{ accessToken  }}",
+				"type": "bearer"
+			},
+			"body": {
+				"mimeType": "application/json",
+				"text": ""
+			},
+			"created": 1546181946942,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_e3b5951a70b64d679238e5c1703e6084",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1543227484023.375,
+			"method": "GET",
+			"modified": 1546958425002,
+			"name": "Reviews/get by volume id",
+			"parameters": [],
+			"parentId": "fld_8db10ebec7204d5c9b686a7881a20506",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/reviews/get?volumeId=60",
+			"_type": "request"
+		},
+		{
+			"_id": "req_4d31cfe2095f4242869ab863b21a6779",
+			"authentication": {
+				"token": "{{ accessToken  }}",
+				"type": "bearer"
+			},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"volumeId\": 60,\n\t\"rating\": 10,\n\t\"text\": \"WHAAAAT\"\n}"
+			},
+			"created": 1546186460890,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_e3b5951a70b64d679238e5c1703e6084",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1543227483973.375,
+			"method": "POST",
+			"modified": 1546958364563,
+			"name": "Reviews/add",
+			"parameters": [],
+			"parentId": "fld_8db10ebec7204d5c9b686a7881a20506",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/reviews/add",
+			"_type": "request"
+		},
+		{
+			"_id": "req_23fcbef9de024c85a0d56209ecd5322a",
+			"authentication": {
+				"token": "{{ accessToken  }}",
+				"type": "bearer"
+			},
+			"body": {
+				"mimeType": "application/json",
+				"text": ""
+			},
+			"created": 1546959861511,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_e3b5951a70b64d679238e5c1703e6084",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1543227483998.375,
+			"method": "GET",
+			"modified": 1546959882842,
+			"name": "Comments/get",
+			"parameters": [],
+			"parentId": "fld_7e4119a9b2bb4a2184aac5ed6d5568d1",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/comments/get/",
+			"_type": "request"
+		},
+		{
+			"_id": "req_fca0d3ef78d847e6a05877f9966959ee",
+			"authentication": {
+				"token": "{{ accessToken  }}",
+				"type": "bearer"
+			},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"reviewId\": 114,\n\t\"text\": \"WHAAAAT\"\n}"
+			},
+			"created": 1546959901965,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_e3b5951a70b64d679238e5c1703e6084",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1543227483948.375,
+			"method": "POST",
+			"modified": 1546960067934,
+			"name": "Comments/add",
+			"parameters": [],
+			"parentId": "fld_7e4119a9b2bb4a2184aac5ed6d5568d1",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "http://localhost:8700/comments/add",
+			"_type": "request"
+		}
+	]
+}
