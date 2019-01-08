@@ -40,17 +40,29 @@ public class BookController {
     // temp to test db integration and auth
     @Secured("ROLE_USER")
     @RequestMapping(path = "/add", method = RequestMethod.POST)
-    public ResponseEntity<?> addBook(@AuthenticationPrincipal UserPrincipal userPrincipal,
+    public ResponseEntity<?> addBookInList(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                      @Valid @RequestBody BookInList bookRequest) throws IOException {
         User user = userRepository.findById(userPrincipal.getId())
             .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
-            
+
         bookRequest.setUser(user);
-        Byte x = 0;
-        System.out.print(bookRequest);
-        bookRequest.setRating(x);
-        bookService.save(bookRequest);
-        return ResponseEntity.ok(bookRequest);
+        bookRequest.setRating((byte) 0);
+        if (!bookRequest.isValid()) {
+            throw new ServerErrorException("Book in list is not valid (choose at least one list)");
+        }
+
+        BookInList oldBook = bookService.getByUserAndVolumeId(user, bookRequest.getVolumeId());
+
+        if (oldBook != null) {
+            // merge new book with old one
+            oldBook.merge(bookRequest);
+            bookService.save(oldBook);
+            return ResponseEntity.ok(oldBook);
+        } else {
+            // create new one
+            bookService.save(bookRequest);
+            return ResponseEntity.ok(bookRequest);
+        }
     }
 
     @Secured("ROLE_USER")

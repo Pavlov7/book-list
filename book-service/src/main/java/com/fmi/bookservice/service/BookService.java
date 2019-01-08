@@ -58,6 +58,10 @@ public class BookService {
         return this.bookRepository.findByUser(user);
     }
 
+    public BookInList getByUserAndVolumeId(User user, String volumeId) {
+        return this.bookRepository.getByUserAndVolumeId(user, volumeId);
+    }
+
     public List<BookInList> getUserList(User user, String listName) {
         switch (listName) {
             case Constants.FAVOURITES_PATH:

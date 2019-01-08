@@ -12,4 +12,6 @@ public interface BookRepository extends JpaRepository<BookInList, Long> {
     List<BookInList> findByUserAndIsFavourite(User user, Boolean isFavourite);
     List<BookInList> findByUserAndAlreadyRead(User user, Boolean alreadyRead);
     List<BookInList> findByUserAndWishToRead(User user, Boolean wishToRead);
+
+    BookInList getByUserAndVolumeId(User user, String volumeId);
 }

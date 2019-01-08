@@ -2,6 +2,8 @@ package com.fmi.bookservice.model;
 
 import java.util.Date;
 import javax.persistence.*;
+import javax.validation.constraints.AssertFalse;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -53,6 +55,18 @@ public class BookInList {
         this.wishToRead = wishToRead;
     }
 
+    public void merge(BookInList other) {
+        // TODO: write some strategy for merging
+        this.alreadyRead = other.alreadyRead;
+        this.isFavourite = other.isFavourite;
+        this.wishToRead = other.wishToRead;
+    }
+    public Boolean isValid() {
+        // at least in one list!
+        return alreadyRead || isFavourite || wishToRead;
+    }
+
+
 
     public Boolean getAlreadyRead() {
         return alreadyRead;
@@ -67,7 +81,7 @@ public class BookInList {
     }
 
     public void setIsFavourite(Boolean isFavourite) {
-        isFavourite = isFavourite;
+        this.isFavourite = isFavourite;
     }
 
     public Boolean getWishToRead() {
