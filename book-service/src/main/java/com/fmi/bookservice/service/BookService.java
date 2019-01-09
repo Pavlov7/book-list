@@ -62,8 +62,8 @@ public class BookService {
         return this.bookRepository.findAll();
     }
 
-    public List<BookInList> findByUser(User user) {
-        return this.bookRepository.findByUser(user);
+    public List<BookInList> findByUser(Long userId) {
+        return this.bookRepository.findByUserId(userId);
     }
 
     public BookInList getByUserAndVolumeId(User user, String volumeId) {
@@ -71,16 +71,16 @@ public class BookService {
     }
 
 
-    public List<BookInList> getUserList(User user, String listName) {
+    public List<BookInList> getUserList(Long userId, String listName) {
         switch (listName) {
             case Constants.FAVOURITES_PATH:
-                return this.bookRepository.findByUserAndIsFavourite(user, true);
+                return this.bookRepository.findByUserIdAndIsFavouriteTrue(userId);
             case Constants.WISHLIST_PATH:
-                return this.bookRepository.findByUserAndWishToRead(user, true);
+                return this.bookRepository.findByUserIdAndWishToReadTrue(userId);
             case Constants.ALREADYREAD_PATH:
-                return  this.bookRepository.findByUserAndAlreadyRead(user, true);
+                return  this.bookRepository.findByUserIdAndAlreadyReadTrue(userId);
             default:
-                return Collections.<BookInList>emptyList();
+                return Collections.emptyList();
         }
     }
 }

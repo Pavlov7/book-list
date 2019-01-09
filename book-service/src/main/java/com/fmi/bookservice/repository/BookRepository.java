@@ -7,11 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<BookInList, Long> {
-    List<BookInList> findByUser(User user);
+    List<BookInList> findByUserId(Long userId);
 
-    List<BookInList> findByUserAndIsFavourite(User user, Boolean isFavourite);
-    List<BookInList> findByUserAndAlreadyRead(User user, Boolean alreadyRead);
-    List<BookInList> findByUserAndWishToRead(User user, Boolean wishToRead);
+    List<BookInList> findByUserIdAndIsFavouriteTrue(Long userId);
+    List<BookInList> findByUserIdAndAlreadyReadTrue(Long userId);
+    List<BookInList> findByUserIdAndWishToReadTrue(Long userId);
 
     BookInList getByUserAndVolumeId(User user, String volumeId);
 }

@@ -42,6 +42,13 @@ public class User {
         this.roles = roles;
     }
 
+    public User(UserPrincipal userPrincipal) {
+        this.id = userPrincipal.getId();
+        this.username = userPrincipal.getUsername();
+        this.password = userPrincipal.getPassword();
+        // roles??
+    }
+
     public Long getId() {
         return id;
     }

@@ -4,7 +4,6 @@ package com.fmi.bookservice.controller;
 import com.fmi.bookservice.exception.ServerErrorException;
 import com.fmi.bookservice.model.*;
 import com.fmi.bookservice.repository.BookReviewRepository;
-import com.fmi.bookservice.repository.UserRepository;
 import com.fmi.bookservice.service.ReviewCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,6 @@ import java.util.List;
 public class ReviewCommentController {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private BookReviewRepository bookReviewRepository;
 
     @Autowired
@@ -35,8 +31,7 @@ public class ReviewCommentController {
     public ResponseEntity<?> addComment(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                         @Valid @RequestBody ReviewCommentRequest request) throws IOException {
 
-        User user = userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new ServerErrorException(String.format("User %d not found.", userPrincipal.getId())));
+        User user = new User(userPrincipal);
 
         BookReview review = bookReviewRepository.findById(request.reviewId)
                 .orElseThrow(() -> new ServerErrorException(String.format("Review %d not found", request.reviewId)));

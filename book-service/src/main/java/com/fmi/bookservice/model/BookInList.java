@@ -1,5 +1,7 @@
 package com.fmi.bookservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -18,6 +20,7 @@ public class BookInList {
     // reference google books volume
     private String volumeId;
 
+    @JsonIgnore
     @ManyToOne
     private User user;
 
@@ -57,6 +60,7 @@ public class BookInList {
         this.wishToRead = other.wishToRead;
     }
 
+    @JsonIgnore
     public Boolean isValid() {
         // at least in one list!
         return alreadyRead || isFavourite || wishToRead;
