@@ -61,6 +61,7 @@ public class BookController {
         }
     }
 
+    // probably not needed
     @Secured("ROLE_USER")
     @RequestMapping(path = "/my", method = RequestMethod.GET)
     public List<BookInList> getMyBooks(@AuthenticationPrincipal UserPrincipal userPrincipal) throws IOException {

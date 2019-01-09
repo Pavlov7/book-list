@@ -1,37 +1,47 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { BookInList } from '../../models/book-in-list.model';
+import { ListType } from '../../constants';
+import { Router } from '@angular/router';
+import { BookService } from '../../services/book.service';
 
 @Component({
     styleUrls: ['./list.component.scss'],
     templateUrl: './list.component.html',
 })
-export class ListComponent {
-    public data: BookInList[] = [
-        {
-            id: 1,
-            volumeId: "aaa",
-            rating: 5,
-            dateStartedReading: new Date("2019-05-11"),
-            dateFinishedReading: new Date("2019-05-12"),
-            alreadyRead: true,
-            isFavourite: true,
-            wishToRead: false
-        },
-        { id: 2,
-            volumeId: "bbb",
-            rating: 10,
-            dateStartedReading: new Date("2019-01-11"),
-            dateFinishedReading: new Date("2019-02-12"),
-            alreadyRead: false,
-            isFavourite: false,
-            wishToRead: true},
-        { id: 3,
-            volumeId: "ccc",
-            rating: 0,
-            dateStartedReading: new Date("2019-5-11"),
-            dateFinishedReading: new Date("2019-10-12"),
-            alreadyRead: false,
-            isFavourite: true,
-            wishToRead: false}
-    ]
+export class ListComponent implements OnInit {
+
+    public items: BookInList[] = [];
+
+    public listType: ListType;
+
+    constructor(private router: Router, private bookService: BookService) {
+        let lastSegment = router.url.substring(router.url.lastIndexOf('/') + 1, router.url.length);
+        switch (lastSegment) {
+            case 'read':
+                this.listType = ListType.ALREADY_READ;
+                break;
+            case 'favourites':
+                this.listType = ListType.FAVOURTIES;
+                break;
+            case 'wishToRead':
+                this.listType = ListType.WISH_TO_READ;
+                break;
+            default:
+                this.router.navigate['/'];
+        }
+    }
+
+    public ngOnInit(): void {
+        this.bookService.getBooksFromList(this.listType, 1)
+            .subscribe(
+                (res: BookInList[]) => {
+                    this.items = res;
+                    //this.totalCount = res.totalItems;
+                    //this.loading = false;
+                },
+                (error: any) => {
+                    // TODO handle error alerts
+                    console.error(error);
+                });
+    }
 }
