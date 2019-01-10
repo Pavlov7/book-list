@@ -55,8 +55,8 @@ public class ReviewCommentController {
         return reviewCommentService.findByBookReview(review);
     }
 
-    @RequestMapping("/addmessage")
-    @SendTo("/topic/some")
+    @RequestMapping("/add/comment")
+    @SendTo("/comments")
     public ReviewComment getComment(ReviewCommentRequest request) {
         BookReview review = bookReviewRepository.findById(request.reviewId)
                 .orElseThrow(() -> new ServerErrorException(String.format("Review %d not found", request.reviewId)));
