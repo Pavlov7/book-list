@@ -1,0 +1,27 @@
+<ng-container *ngIf="!loading; else load">
+  <ng-container *ngIf="!notFound; else notFoundTemplate">
+    <div class="col">
+      <ng-container *ngFor="let review of items">
+        <div class="review-container">
+          <div class="row review-header">
+            <span class="review-author">{{ review.user?.username }}</span>
+            <span class="label label-light-blue"
+              >Book rating: {{ review.rating }}</span
+            >
+          </div>
+          {{ review.text }}
+          <clr-stack-block [clrSbExpanded]="false">
+            <clr-stack-label>Comments</clr-stack-label>
+            <clr-stack-block>
+              <review-comments [reviewId]="review.id"></review-comments>
+            </clr-stack-block>
+          </clr-stack-block>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+  <ng-template #load> <span class="spinner"></span> </ng-template>
+  <ng-template #notFoundTemplate>
+    <span>Not found reviews for this volume</span>
+  </ng-template></ng-container
+>

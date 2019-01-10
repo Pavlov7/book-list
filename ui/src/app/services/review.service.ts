@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 import { constants, ListType } from '../constants';
 
 @Injectable()
-export class BookService implements BaseResourceService {
-
+export class ReviewService {
   constructor(private http: HttpClient) {}
 
+  // TODO implement for reviews
   public search(query: string): Observable<any> {
     return this.http.get(constants.BACKEND_URL + `/books/search?q=${query}`);
   }
@@ -18,13 +18,8 @@ export class BookService implements BaseResourceService {
     return this.http.get(constants.BACKEND_URL + '/books/search?q="java"');
   }
 
-  // TODO implement top and skip for pagination
-  public getBooksFromList(listType: ListType, page: number) {
-    return this.http.get(constants.BACKEND_URL + '/lists/' + listType);
-  }
-  
-  public getVolumeById(volumeId: string): Observable<any> {
-    return this.http.get(constants.BACKEND_URL + '/books/volumes/' + volumeId);
+    public getReviewsByVolumeId(volumeId: string): Observable<any> {
+    return this.http.get(constants.BACKEND_URL + '/reviews/get?volumeId=' + volumeId);
   }
   
 }

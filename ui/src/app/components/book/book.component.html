@@ -1,0 +1,45 @@
+<ng-container *ngIf="!loading; else load">
+  <ng-container *ngIf="!notFound; else notFoundTemplate">
+  <div class="row center">
+      <div class="card">
+        <div class="card-header">
+          {{ volume.volumeInfo?.title }}
+        </div>
+        <div class="card-block">
+          <div class="card-media-block">
+            <img [src]="volume.volumeInfo?.imageLinks?.thumbnail" class="card-media-image card-image">
+            <div class="card-media-description">
+              <span class="card-media-title">
+
+              </span>
+              <span class="card-media-text">
+                Author/s: {{ volume.volumeInfo?.authors?.join(', ') }}
+                <hr/>
+                {{ volume.volumeInfo?.description }}
+                <hr/>
+                {{ volume.volumeInfo?.subTitle }}
+                
+              </span>
+            </div>
+          </div>
+          <div class="card-text">
+            <!-- TODO figure out how to truncate the description and keep the card size constant -->
+            <!-- {{ volume.volumeInfo?.description }} -->
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">Reviews for {{ volume.volumeInfo?.title }} </div>
+        <div class="card-block">
+          <book-reviews [volumeId]="volume.id"></book-reviews>
+        </div>
+      </div>
+  </div>
+  </ng-container>
+</ng-container>
+<ng-template #load>
+  <span class="spinner"></span>
+</ng-template>
+<ng-template #notFoundTemplate>
+  <span>Not found</span>
+</ng-template>

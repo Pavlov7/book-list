@@ -31,6 +31,15 @@ public class ReviewComment {
         this.text = text;
     }
 
+
+    public BookReview getBookReview() {
+        return bookReview;
+    }
+
+    public void setBookReview(BookReview bookReview) {
+        this.bookReview = bookReview;
+    }
+    
     public Long getId() {
         return id;
     }

@@ -19,11 +19,19 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { RegisterComponent } from './components/register/register.component';
 import { ReadersComponent } from './components/readers/readers.component';
+import { BookComponent } from './components/book/book.component';
+import { BookReviewsComponent } from './components/book-reviews/book-reviews.component';
+import { ReviewService } from './services/review.service';
+import { CommentService } from './services/comment.service';
+import { ReviewCommentsComponent } from './components/review-comments/review-comments.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BooksComponent,
+    BookComponent,
+    BookReviewsComponent,
+    ReviewCommentsComponent,
     ListComponent,
     ReviewsComponent,
     LoginComponent,
@@ -41,6 +49,8 @@ import { ReadersComponent } from './components/readers/readers.component';
   ],
   providers: [
     BookService,
+    ReviewService,
+    CommentService,
     AuthenticationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

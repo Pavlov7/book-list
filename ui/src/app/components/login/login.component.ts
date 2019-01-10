@@ -36,8 +36,8 @@ export class LoginComponent implements OnInit {
         this.authService.login(user)
         .subscribe((res: LoginToken) => {
             console.log(res);
-            location.reload(true);
-            //this.router.navigate(['/']);
+            // location.reload(true);
+            this.router.navigate(['/']);
         },
         (error: any) => {
             console.error(error);

@@ -1,0 +1,12 @@
+.card-image {
+  width: 128px !important;;
+  height: 182px !important;;
+  max-height: none !important;
+  max-width: none !important;
+}
+
+.card-header {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

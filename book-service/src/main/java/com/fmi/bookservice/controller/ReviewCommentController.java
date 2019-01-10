@@ -7,6 +7,7 @@ import com.fmi.bookservice.repository.BookReviewRepository;
 import com.fmi.bookservice.service.ReviewCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -52,5 +53,16 @@ public class ReviewCommentController {
                 .orElseThrow(() -> new ServerErrorException(String.format("Review %d not found", reviewId)));
 
         return reviewCommentService.findByBookReview(review);
+    }
+
+    @RequestMapping("/addmessage")
+    @SendTo("/topic/some")
+    public ReviewComment getComment(ReviewCommentRequest request) {
+        BookReview review = bookReviewRepository.findById(request.reviewId)
+                .orElseThrow(() -> new ServerErrorException(String.format("Review %d not found", request.reviewId)));
+
+        ReviewComment comment = new ReviewComment(null, review, request.text);
+
+        return comment;
     }
 }
