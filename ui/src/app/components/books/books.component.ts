@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BaseResourceList } from '../shared/base.resource.list';
 import { OnInit } from '@angular/core';
-import { Params, ParamMap, ActivatedRoute } from '@angular/router';
+import { Params, ParamMap, ActivatedRoute, Router } from '@angular/router';
 import { BookService } from '../../services/book.service';
 import { BooksApiResponse } from '../../models/books-api-response.model';
 
@@ -11,8 +11,13 @@ import { BooksApiResponse } from '../../models/books-api-response.model';
 })
 export class BooksComponent extends BaseResourceList implements OnInit {
 
-    constructor(private activatedRoute: ActivatedRoute, private bookService: BookService) {
+    constructor(private router: Router, private activatedRoute: ActivatedRoute, private bookService: BookService) {
         super(bookService);
+    }
+
+    private details(bookId:number): void {
+        // console.log(bookId);
+        this.router.navigate(['/book/', bookId]);
     }
 
     public ngOnInit(): void {
