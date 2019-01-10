@@ -10,3 +10,10 @@
   overflow: hidden;
   white-space: nowrap;
 }
+
+.book-description {
+  div p {
+    // TODO: fix this one (ngcontent p)
+    margin-top: 0 !important;
+  }
+}

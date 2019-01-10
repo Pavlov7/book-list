@@ -15,7 +15,9 @@
               <span class="card-media-text">
                 Author/s: {{ volume.volumeInfo?.authors?.join(', ') }}
                 <hr/>
-                {{ volume.volumeInfo?.description }}
+                <div class="book-description">
+                  <div [innerHTML]="volume.volumeInfo?.description"></div>
+                </div>
                 <hr/>
                 {{ volume.volumeInfo?.subTitle }}
                 
