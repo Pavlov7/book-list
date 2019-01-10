@@ -1,11 +1,13 @@
 <ng-container *ngIf="!loading; else load">
   <ng-container *ngIf="!notFound; else notFoundTemplate">
     <div class="col">
-      <ng-container *ngFor="let comment of items">
-        <div class="comment-container">
-          <span class="comment-author">{{ comment.user?.username }}</span> :
-          {{ comment.text }}
-        </div>
+      <ng-container *ngIf="items.length > 0; else notFoundTemplate">
+        <ng-container *ngFor="let comment of items">
+          <div class="comment-container">
+            <span class="comment-author">{{ comment.user?.username }}</span> :
+            {{ comment.text }}
+          </div>
+        </ng-container>
       </ng-container>
     </div>
   </ng-container>
