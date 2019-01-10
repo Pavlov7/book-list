@@ -18,9 +18,8 @@ export class CommentService {
     return this.http.get(constants.BACKEND_URL + '/books/search?q="java"');
   }
 
-  // TODO get by id!
   public getCommentsByReviewId(reviewId: number): Observable<any> {
-    return this.http.get(constants.BACKEND_URL + '/comments/get');
+    return this.http.get(constants.BACKEND_URL + '/comments/get?reviewId=' + reviewId);
   }
   
 }

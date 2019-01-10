@@ -39,7 +39,7 @@ public class ReviewComment {
     public void setBookReview(BookReview bookReview) {
         this.bookReview = bookReview;
     }
-    
+
     public Long getId() {
         return id;
     }
