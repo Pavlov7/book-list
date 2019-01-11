@@ -80,7 +80,7 @@ public class ReviewCommentController {
     // Sockets
     //
     @MessageMapping("/add/{reviewId}")
-    public void getComment(@DestinationVariable Long reviewId, ReviewCommentRequest request, Principal principal) throws Exception {
+    public void addComment(@DestinationVariable Long reviewId, ReviewCommentRequest request, Principal principal) throws Exception {
         // TODO: change the way of getting current user?
         User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new ServerErrorException("FIX THIS"));
         BookReview review = bookReviewRepository.findById(request.reviewId)
@@ -91,6 +91,21 @@ public class ReviewCommentController {
 
         String destination = "/comments/arrived/" + reviewId.toString();
         // System.out.println(destination);
+        this.template.convertAndSend(destination, comment);
+    }
+
+    @MessageMapping("/remove/{reviewId}")
+    public void removeComment(@DestinationVariable Long reviewId, Long commentId, Principal principal) throws Exception {
+        // TODO: change the way of getting current user?
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new ServerErrorException("FIX THIS"));
+
+        // Handle errors
+        ReviewComment comment = reviewCommentService.getById(commentId);
+        reviewCommentService.delete(comment);
+
+
+        // Fix this one.
+        String destination = "/comments/deleted/" + reviewId.toString();
         this.template.convertAndSend(destination, comment);
     }
 }

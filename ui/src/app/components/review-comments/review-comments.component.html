@@ -6,6 +6,8 @@
           <div class="comment-container">
             <span class="comment-author">{{ comment.user?.username }}</span> :
             {{ comment.text }}
+            <!-- TODO: if user is author -->
+            <clr-icon (click)="removeComment(comment.id)" class="rm-btn" shape="times"></clr-icon>
           </div>
         </ng-container>
       </ng-container>

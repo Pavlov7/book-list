@@ -14,4 +14,12 @@
             border: none;
         }
     }
+
+    .rm-btn {
+        opacity: .5;
+        cursor: pointer;
+        &:hover {
+            opacity: 1;
+        }
+    }
 }

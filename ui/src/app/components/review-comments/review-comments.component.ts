@@ -90,11 +90,18 @@ export class ReviewCommentsComponent extends BaseResourceList
           let arrived:Comment = JSON.parse(message.body) as Comment;
           that.items.push(arrived);
         });
+
+        // TODO: fix sub
+        that.stompClient.subscribe("/comments/deleted/" + reviewId, (message) => {
+          let arrived:Comment = JSON.parse(message.body) as Comment;
+          console.log("remove ", arrived.id);
+          // that.items.push(arrived);
+        });
       }
     );
   }
 
-  sendMessage() {
+  sendMessage():void {
     if (!this.commentText || this.commentText.trim().length < 2) {
       // TODO: angular error alert
       console.error("Comment text err", this.commentText);
@@ -107,5 +114,10 @@ export class ReviewCommentsComponent extends BaseResourceList
 
     // clear input
     this.commentText = null;
+  }
+
+  // TODO:
+  removeComment(id: number):void {
+    this.stompClient.send("/app/comments/remove/" + this.reviewId, {}, id);
   }
 }

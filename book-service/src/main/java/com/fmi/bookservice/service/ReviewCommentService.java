@@ -18,11 +18,20 @@ public class ReviewCommentService {
         this.reviewCommentRepository.save(rc);
     }
 
+    public void delete(ReviewComment rc) {
+        this.reviewCommentRepository.delete(rc);
+    }
+
     public List<ReviewComment> getAll() {
         return this.reviewCommentRepository.findAll();
     }
     public List<ReviewComment> findByBookReview(BookReview bookReview) {
         return this.reviewCommentRepository.findByBookReview(bookReview);
     }
+
+    public ReviewComment getById(Long id) {
+        return this.reviewCommentRepository.getOne(id);
+    }
+
 
 }
