@@ -65,9 +65,6 @@ export class ReviewCommentsComponent extends BaseResourceList
   }
 
   initializeWebSocketConnection():void {
-    let ws = new SockJS(constants.BACKEND_SOCKET_URL);
-    this.stompClient = Stomp.over(ws);
-    let that = this;
 
     let currentUser = this.authenticationService.currentUserValue;
     //console.log(currentUser);
@@ -75,6 +72,11 @@ export class ReviewCommentsComponent extends BaseResourceList
         return;
     }
 
+    let ws = new SockJS(constants.BACKEND_SOCKET_URL + '?token=' + currentUser.token);
+    this.stompClient = Stomp.over(ws);
+    let that = this;
+
+    console.log(currentUser.token);
     // TODO: fix wss authentication
     this.stompClient.connect(
       {'Authorization': `Bearer ${currentUser.token}`},
