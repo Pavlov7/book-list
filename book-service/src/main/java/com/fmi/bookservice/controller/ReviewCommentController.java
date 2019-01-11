@@ -9,8 +9,10 @@ import com.fmi.bookservice.service.CustomUserDetailsService;
 import com.fmi.bookservice.service.ReviewCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,6 +38,14 @@ public class ReviewCommentController {
 
     @Autowired
     private UserRepository userRepository;
+
+
+    private SimpMessagingTemplate template;
+
+    @Autowired
+    public ReviewCommentController(SimpMessagingTemplate template) {
+        this.template = template;
+    }
 
     @Secured("ROLE_USER")
     @RequestMapping(path = "/add", method = RequestMethod.POST)
@@ -69,17 +79,18 @@ public class ReviewCommentController {
     //
     // Sockets
     //
-    @MessageMapping("/add")
-    @SendTo("/comments/arrived")
-    public ReviewComment getComment(ReviewCommentRequest request, Principal principal) throws Exception {
+    @MessageMapping("/add/{reviewId}")
+    public void getComment(@DestinationVariable Long reviewId, ReviewCommentRequest request, Principal principal) throws Exception {
         // TODO: change the way of getting current user?
         User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new ServerErrorException("FIX THIS"));
         BookReview review = bookReviewRepository.findById(request.reviewId)
                 .orElseThrow(() -> new ServerErrorException(String.format("Review %d not found", request.reviewId)));
 
         ReviewComment comment = new ReviewComment(user, review, request.text);
-
         reviewCommentService.save(comment);
-        return comment;
+
+        String destination = "/comments/arrived/" + reviewId.toString();
+        // System.out.println(destination);
+        this.template.convertAndSend(destination, comment);
     }
 }

@@ -42,6 +42,7 @@ export class ReviewCommentsComponent extends BaseResourceList
   }
 
   public ngOnInit(): void {
+    console.log(this.reviewId); // not null
     this.activatedRoute.paramMap.subscribe((p: ParamMap) => {
       let reviewId = this.reviewId;
       if (reviewId) {
@@ -50,6 +51,9 @@ export class ReviewCommentsComponent extends BaseResourceList
             // todo - move to reviews-api-response
             this.items = res;
             this.loading = false;
+            // and init socket connection
+            // TODO: check if authenticated
+            this.initializeWebSocketConnection(reviewId);
           },
           (error: any) => {
             // TODO handle error alerts
@@ -62,12 +66,9 @@ export class ReviewCommentsComponent extends BaseResourceList
         this.loading = false;
       }
     });
-
-    // TODO: check if authenticated
-    this.initializeWebSocketConnection();
   }
 
-  initializeWebSocketConnection():void {
+  initializeWebSocketConnection(reviewId):void {
 
     let currentUser = this.authenticationService.currentUserValue;
     if (!(currentUser && currentUser.token)) {
@@ -83,7 +84,9 @@ export class ReviewCommentsComponent extends BaseResourceList
     this.stompClient.connect(
       {},
       function(frame) {
-        that.stompClient.subscribe("/comments/arrived", (message) => {
+        // TODO: this.reviewId is null
+        // so I changed it to reviewId in parameters
+        that.stompClient.subscribe("/comments/arrived/" + reviewId, (message) => {
           let arrived:Comment = JSON.parse(message.body) as Comment;
           that.items.push(arrived);
         });
@@ -93,13 +96,14 @@ export class ReviewCommentsComponent extends BaseResourceList
 
   sendMessage() {
     if (!this.commentText || this.commentText.trim().length < 2) {
-      // TODO: find
+      // TODO: angular error alert
       console.error("Comment text err", this.commentText);
       return;
     }
-    let newComment = new CommentApiRequest(this.reviewId, this.commentText.trim());
-    let res = {text: newComment.text, reviewId: newComment.reviewId};
-    this.stompClient.send("/app/comments/add" , {}, JSON.stringify(res));
+    
+    const newComment = new CommentApiRequest(this.reviewId, this.commentText.trim());
+    const res = {text: newComment.text, reviewId: newComment.reviewId};
+    this.stompClient.send("/app/comments/add/" + this.reviewId, {}, JSON.stringify(res));
 
     // clear input
     this.commentText = null;
