@@ -4,21 +4,28 @@ package com.fmi.bookservice.controller;
 import com.fmi.bookservice.exception.ServerErrorException;
 import com.fmi.bookservice.model.*;
 import com.fmi.bookservice.repository.BookReviewRepository;
+import com.fmi.bookservice.repository.UserRepository;
+import com.fmi.bookservice.service.CustomUserDetailsService;
 import com.fmi.bookservice.service.ReviewCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 
 @RestController
 @RequestMapping(path = "/comments")
+@MessageMapping("/comments")
 public class ReviewCommentController {
 
     @Autowired
@@ -26,6 +33,9 @@ public class ReviewCommentController {
 
     @Autowired
     private ReviewCommentService reviewCommentService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Secured("ROLE_USER")
     @RequestMapping(path = "/add", method = RequestMethod.POST)
@@ -55,14 +65,21 @@ public class ReviewCommentController {
         return reviewCommentService.findByBookReview(review);
     }
 
-    @RequestMapping("/add/comment")
-    @SendTo("/comments")
-    public ReviewComment getComment(ReviewCommentRequest request) {
+
+    //
+    // Sockets
+    //
+    @MessageMapping("/add")
+    @SendTo("/comments/arrived")
+    public ReviewComment getComment(ReviewCommentRequest request, Principal principal) throws Exception {
+        // TODO: change the way of getting current user?
+        User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new ServerErrorException("FIX THIS"));
         BookReview review = bookReviewRepository.findById(request.reviewId)
                 .orElseThrow(() -> new ServerErrorException(String.format("Review %d not found", request.reviewId)));
 
-        ReviewComment comment = new ReviewComment(null, review, request.text);
+        ReviewComment comment = new ReviewComment(user, review, request.text);
 
+        reviewCommentService.save(comment);
         return comment;
     }
 }

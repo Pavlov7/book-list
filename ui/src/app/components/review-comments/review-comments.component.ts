@@ -11,6 +11,7 @@ import { Stomp} from "@stomp/stompjs";
 import { constants } from '../../constants';
 import { CommentApiRequest } from '../../models/comment-api-request.model';
 import { AuthenticationService } from '../../services/authentication.service';
+import { Comment } from '../../models/comment.model';
 
 @Component({
   selector: "review-comments",
@@ -20,6 +21,8 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class ReviewCommentsComponent extends BaseResourceList
   implements OnInit {
   @Input() reviewId: number;
+
+  private commentText: string;
 
   loading: boolean = true;
   notFound: boolean = false;
@@ -43,7 +46,7 @@ export class ReviewCommentsComponent extends BaseResourceList
       let reviewId = this.reviewId;
       if (reviewId) {
         this.getByReviewId(reviewId).subscribe(
-          (res: Review[]) => {
+          (res: Comment[]) => {
             // todo - move to reviews-api-response
             this.items = res;
             this.loading = false;
@@ -67,7 +70,6 @@ export class ReviewCommentsComponent extends BaseResourceList
   initializeWebSocketConnection():void {
 
     let currentUser = this.authenticationService.currentUserValue;
-    //console.log(currentUser);
     if (!(currentUser && currentUser.token)) {
         return;
     }
@@ -76,20 +78,30 @@ export class ReviewCommentsComponent extends BaseResourceList
     this.stompClient = Stomp.over(ws);
     let that = this;
 
-    console.log(currentUser.token);
+    //console.log(currentUser.token);
     // TODO: fix wss authentication
     this.stompClient.connect(
-      {'Authorization': `Bearer ${currentUser.token}`},
+      {},
       function(frame) {
-        that.stompClient.subscribe("/comments", (message:Comment) => {
-          console.log(message);
+        that.stompClient.subscribe("/comments/arrived", (message) => {
+          let arrived:Comment = JSON.parse(message.body) as Comment;
+          that.items.push(arrived);
         });
       }
     );
   }
 
-  sendMessage(text:string):void {
-    let newComment = new CommentApiRequest(this.reviewId, text);
-    this.stompClient.send("/comments/add/comment" , {}, newComment);
+  sendMessage() {
+    if (!this.commentText || this.commentText.trim().length < 2) {
+      // TODO: find
+      console.error("Comment text err", this.commentText);
+      return;
+    }
+    let newComment = new CommentApiRequest(this.reviewId, this.commentText.trim());
+    let res = {text: newComment.text, reviewId: newComment.reviewId};
+    this.stompClient.send("/app/comments/add" , {}, JSON.stringify(res));
+
+    // clear input
+    this.commentText = null;
   }
 }

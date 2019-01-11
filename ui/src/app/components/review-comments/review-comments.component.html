@@ -9,8 +9,8 @@
           </div>
         </ng-container>
         <div class="comment-container">
-            <form class="clr-form comment-form">
-              <input type="text" id="basic" placeholder="Enter comment" class="clr-input">
+            <form class="clr-form comment-form" (ngSubmit)="sendMessage()">
+              <input [(ngModel)]="commentText" [ngModelOptions]="{standalone: true}" type="text" id="basic" placeholder="Enter comment" class="clr-input">
               <button type="submit" class="btn btn-outline btn-sm">Comment</button>
             </form>
         </div>
