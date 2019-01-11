@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BaseResourceService } from '../components/shared/base.resource.service';
 import { Observable } from 'rxjs';
 import { constants, ListType } from '../constants';
 
 @Injectable()
-export class BookService implements BaseResourceService {
+export class BookService {
 
   constructor(private http: HttpClient) {}
 
@@ -22,9 +21,8 @@ export class BookService implements BaseResourceService {
   public getBooksFromList(listType: ListType, page: number) {
     return this.http.get(constants.BACKEND_URL + '/lists/' + listType);
   }
-  
+
   public getVolumeById(volumeId: string): Observable<any> {
     return this.http.get(constants.BACKEND_URL + '/books/volumes/' + volumeId);
   }
-  
 }

@@ -1,13 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpHandler } from "@angular/common/http";
 import { Router } from "@angular/router";
-import { IF_ACTIVE_ID } from "@clr/angular/utils/conditional/if-active.service";
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../../models/user.model';
 import { LoginToken } from '../../models/login-token.response.model';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
     styleUrls: ["./login.component.scss"],
@@ -16,7 +15,9 @@ import { LoginToken } from '../../models/login-token.response.model';
 export class LoginComponent implements OnInit {
     public loginForm: FormGroup;
 
-    constructor(private authService: AuthenticationService, private router: Router) {}
+    constructor(private authService: AuthenticationService,
+        private router: Router,
+        public alertService: AlertService) { }
 
     public ngOnInit(): void {
         this.initForm();
@@ -34,13 +35,13 @@ export class LoginComponent implements OnInit {
         let user: User = new User();
         Object.assign(user, this.loginForm.value);
         this.authService.login(user)
-        .subscribe((res: LoginToken) => {
-            console.log(res);
-            // location.reload(true);
-            this.router.navigate(['/']);
-        },
-        (error: any) => {
-            console.error(error);
-        });
+            .subscribe((res: LoginToken) => {
+                console.log(res);
+                // location.reload(true);
+                this.router.navigate(['/']);
+            },
+                (error: any) => {
+                    this.alertService.showAlert(error);
+                });
     }
 }

@@ -3,18 +3,21 @@ import { BookInList } from '../../models/book-in-list.model';
 import { ListType } from '../../constants';
 import { Router } from '@angular/router';
 import { BookService } from '../../services/book.service';
+import { BaseResourceList } from '../shared/base.resource.list';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
     styleUrls: ['./list.component.scss'],
     templateUrl: './list.component.html',
 })
-export class ListComponent implements OnInit {
-
-    public items: BookInList[] = [];
+export class ListComponent extends BaseResourceList implements OnInit {
 
     public listType: ListType;
 
-    constructor(private router: Router, private bookService: BookService) {
+    constructor(private router: Router,
+        private bookService: BookService,
+        private alertService: AlertService) {
+        super();
         let lastSegment = router.url.substring(router.url.lastIndexOf('/') + 1, router.url.length);
         switch (lastSegment) {
             case 'read':
@@ -38,10 +41,10 @@ export class ListComponent implements OnInit {
                     this.items = res;
                     //this.totalCount = res.totalItems;
                     //this.loading = false;
-                },
-                (error: any) => {
-                    // TODO handle error alerts
-                    console.error(error);
+                }, (error: any) => {
+                    this.loading = false;
+                    this.notFound = true;
+                    this.alertService.showAlert(error);
                 });
     }
 }

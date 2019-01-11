@@ -1,14 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpHandler } from "@angular/common/http";
 import { Router } from "@angular/router";
-import { IF_ACTIVE_ID } from "@clr/angular/utils/conditional/if-active.service";
-import { FormGroup, FormBuilder, ValidatorFn } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { User } from '../../models/user.model';
-import { LoginToken } from '../../models/login-token.response.model';
 import { AbstractControl } from '@angular/forms';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
     styleUrls: ["./register.component.scss"],
@@ -17,7 +15,9 @@ import { AbstractControl } from '@angular/forms';
 export class RegisterComponent implements OnInit {
     public registerForm: FormGroup;
 
-    constructor(private authService: AuthenticationService, private router: Router) { }
+    constructor(private authService: AuthenticationService,
+        private router: Router,
+        public alertService: AlertService) { }
 
     public ngOnInit(): void {
         this.initForm();
@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
 
     public passwordConfirming(c: AbstractControl): { [key: string]: any } {
         if (c.get('password').value !== c.get('confirmPassword').value) {
-            return { invalid : true };
+            return { invalid: true };
         }
     }
 
@@ -49,8 +49,8 @@ export class RegisterComponent implements OnInit {
                 console.log(res);
                 this.router.navigate(['/login']);
             },
-            (error: any) => {
-                console.error(error);
-            });
+                (error: any) => {
+                    this.alertService.showAlert(error);
+                });
     }
 }

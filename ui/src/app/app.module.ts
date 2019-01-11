@@ -24,6 +24,7 @@ import { BookReviewsComponent } from './components/book-reviews/book-reviews.com
 import { ReviewService } from './services/review.service';
 import { CommentService } from './services/comment.service';
 import { ReviewCommentsComponent } from './components/review-comments/review-comments.component';
+import { AlertService } from './services/alert.service';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ReviewCommentsComponent } from './components/review-comments/review-com
     ReviewService,
     CommentService,
     AuthenticationService,
+    AlertService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],

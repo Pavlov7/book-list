@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { BaseResourceList } from '../shared/base.resource.list';
 import { OnInit } from '@angular/core';
-import { Params, ParamMap, ActivatedRoute } from '@angular/router';
+import { ParamMap, ActivatedRoute } from '@angular/router';
 import { BookService } from '../../services/book.service';
 import { VolumeApiResponse } from '../../models/volume-api-response.model';
 import { Observable } from 'rxjs';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
     styleUrls: ['./book.component.scss'],
@@ -12,18 +12,17 @@ import { Observable } from 'rxjs';
 })
 export class BookComponent implements OnInit {
 
-    volume:VolumeApiResponse = null;
-    loading:boolean = true;
-    notFound:boolean = false;
+    public volume: VolumeApiResponse = null;
+    public loading: boolean = true;
+    public notFound: boolean = false;
 
-    constructor(private activatedRoute: ActivatedRoute, private bookService: BookService) {
-        //super(bookService);
-    }
+    constructor(private activatedRoute: ActivatedRoute,
+        private bookService: BookService,
+        private alertService: AlertService) { }
 
     private getByVolumeId(volumeId: string): Observable<any> {
         return this.bookService.getVolumeById(volumeId);
     }
-    
 
     public ngOnInit(): void {
         this.activatedRoute.paramMap
@@ -37,10 +36,9 @@ export class BookComponent implements OnInit {
                                 this.loading = false;
                             },
                             (error: any) => {
-                                // TODO handle error alerts
-                                console.error(error);
                                 this.loading = false;
                                 this.notFound = true;
+                                this.alertService.showAlert(error);
                             });
                 } else {
                     this.loading = false;

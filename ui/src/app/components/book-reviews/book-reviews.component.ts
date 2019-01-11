@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { Params, ParamMap, ActivatedRoute } from '@angular/router';
-import { VolumeApiResponse } from '../../models/volume-api-response.model';
+import { ParamMap, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ReviewService } from '../../services/review.service';
-import { BaseResourceList } from '../shared/base.resource.list';
-import { ReviewsApiResponse } from '../../models/reviews-api-response.model';
 import { Review } from '../../models/review.model';
+import { BaseResourceList } from '../shared/base.resource.list';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
     selector: 'book-reviews',
@@ -15,19 +14,17 @@ import { Review } from '../../models/review.model';
 })
 export class BookReviewsComponent extends BaseResourceList implements OnInit {
 
-    @Input() volumeId:string;
+    @Input() volumeId: string;
 
-    loading:boolean = true;
-    notFound:boolean = false;
-
-    constructor(private activatedRoute: ActivatedRoute, private reviewService: ReviewService) {
-        super(reviewService);
+    constructor(private activatedRoute: ActivatedRoute,
+        private reviewService: ReviewService,
+        private alertService: AlertService) {
+        super();
     }
 
     private getByVolumeId(volumeId: string): Observable<any> {
         return this.reviewService.getReviewsByVolumeId(volumeId);
     }
-    
 
     public ngOnInit(): void {
         this.activatedRoute.paramMap
@@ -42,12 +39,10 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
                                 console.log(res);
                                 // this.totalCount = res.totalItems;
                                 this.loading = false;
-                            },
-                            (error: any) => {
-                                // TODO handle error alerts
-                                console.error(error);
+                            }, (error: any) => {
                                 this.loading = false;
                                 this.notFound = true;
+                                this.alertService.showAlert(error);
                             });
                 } else {
                     this.loading = false;
