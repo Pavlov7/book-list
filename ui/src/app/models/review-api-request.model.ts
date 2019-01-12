@@ -3,9 +3,7 @@ export class ReviewApiRequest {
   public text: string;
   public rating: number;
 
-  constructor( volumeId: string, text: string, rating:number) {
-    this.rating = rating;
-    this.text = text;
+  constructor(volumeId: string) {
     this.volumeId = volumeId;
   }
 }

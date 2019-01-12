@@ -17,36 +17,11 @@
           </clr-stack-block>
         </div>
       </ng-container>
-      
-      <!-- TODO: write another, good form instead of this garbage-->
-      <form class="clr-form clr-form-horizontal" (ngSubmit)="addReview()">
-        <label for="basic" class="clr-control-label">Review text</label>
-        <textarea
-          [(ngModel)]="reviewText"
-          [ngModelOptions]="{ standalone: true }"
-          type="text"
-          id="basic"
-          placeholder="Enter review text"
-          class="clr-input"
-          minlength="10"
-          maxlength="200"
-        ></textarea>
-        <label for="review-rating" class="clr-control-label">Your rating for this book</label>
-        <input
-          type="number"
-          name="rating"
-          id="review-rating"
-          min="1"
-          max="10"
-          value="1"
-          [(ngModel)]="reviewRating"
-          [ngModelOptions]="{ standalone: true }"
-        />
-        <br/>
-        <button type="submit" class="btn btn-outline btn-sm">Add review</button>
-      </form>
     </div>
   </ng-container>
+  <br/>
+  <br/>
+  <button type="submit" class="btn btn-outline btn-sm" (click)="modalOpened = true">Add review</button>
   <ng-template #load>
     <span class="spinner"></span>
   </ng-template>
@@ -54,3 +29,31 @@
     <span>No reviews found for this book</span>
   </ng-template>
 </ng-container>
+
+<clr-modal [(clrModalOpen)]="modalOpened" [clrModalSize]="'lg'" [clrModalClosable]="false">
+  <h3 class="modal-title">Add new review</h3>
+  <div class="modal-body">
+    <form class="clr-form" #newReview="ngForm">
+      <label for="reviewText" class="clr-control-label">Review text</label>
+      <div class="col-xs-12">
+        <textarea [(ngModel)]="reviewReq.text" name="text" type="text" id="reviewText" placeholder="Enter review text" minlength="10"
+          maxlength="200" rows="5"></textarea>
+      </div>
+      <label for="review-rating" class="clr-control-label">Your rating for this book</label>
+      <div class="col-xs-12">
+        <select [(ngModel)]="reviewReq.rating" name="rating">
+          <option *ngFor="let r of _rating" [ngValue]="r">{{r}}</option>
+        </select>
+      </div>
+      <br/>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="addReview()">
+      Add
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="modalOpened = false">
+      Close
+    </button>
+  </div>
+</clr-modal>

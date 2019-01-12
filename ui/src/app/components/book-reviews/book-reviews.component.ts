@@ -17,9 +17,10 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
 
     @Input() volumeId: string;
 
-    private reviewText:string;
-    private reviewRating:number;
-    
+    public reviewReq: ReviewApiRequest;
+    public _rating: number[] = Array(10).fill(0).map((x,i)=>i+1);
+    public modalOpened: boolean = false;
+
     constructor(private activatedRoute: ActivatedRoute,
         private reviewService: ReviewService,
         private alertService: AlertService) {
@@ -31,6 +32,8 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.reviewReq = new ReviewApiRequest(this.volumeId);
+        this.reviewReq.rating = 0;
         this.activatedRoute.paramMap
             .subscribe((p: ParamMap) => {
                 let volumeId = this.volumeId;
@@ -54,15 +57,14 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
     }
 
     private addReview():void {
-        // console.log("add review: ", this.reviewRating, this.reviewText);
-        const newReviewRequest = new ReviewApiRequest(this.volumeId, this.reviewText, this.reviewRating);
-
-        this.reviewService.addReview(newReviewRequest).subscribe(
+        this.reviewService.addReview(this.reviewReq).subscribe(
             (res: Review) => {
                 this.items.push(res);
                 console.log(res);
+                this.modalOpened = false;
             }, (error: any) => {
                 this.alertService.showAlert(error);
+                this.modalOpened = false;
             }
         )
     }
