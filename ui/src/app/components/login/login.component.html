@@ -11,9 +11,9 @@
             <clr-password-container>
                 <input type="password" name="password" clrPassword placeholder="Password" formControlName="password" required />
             </clr-password-container>
-            <!-- <div class="error active">
-                Invalid user name or password
-            </div> -->
+            <div class="error active" *ngIf="error">
+                {{ error }}
+            </div>
             <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
             <a href="javascript:void(0)" [routerLink]="['/register']" class="signup">Register</a>
         </div>

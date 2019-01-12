@@ -14,10 +14,15 @@ import { AlertService } from '../../services/alert.service';
 })
 export class LoginComponent implements OnInit {
     public loginForm: FormGroup;
+    public error: any;
 
     constructor(private authService: AuthenticationService,
         private router: Router,
-        public alertService: AlertService) { }
+        public alertService: AlertService) {
+            if (this.authService.currentUserValue) {
+                this.router.navigate(['/']);
+            }
+    }
 
     public ngOnInit(): void {
         this.initForm();
@@ -30,19 +35,16 @@ export class LoginComponent implements OnInit {
         })
     }
 
-    // TODO add error messages
     public onSubmit() {
         let user: User = new User();
         Object.assign(user, this.loginForm.value);
         this.authService.login(user)
             .subscribe((res: LoginToken) => {
                 console.log(res);
-                // location.reload(true);
-                this.router.navigate(['/']);
                 location.reload(true);
             },
-                (error: any) => {
-                    this.alertService.showAlert(error);
-                });
+            (error: any) => {
+                this.error = error;
+            });
     }
 }
