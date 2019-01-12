@@ -6,6 +6,7 @@ import { ReviewService } from '../../services/review.service';
 import { Review } from '../../models/review.model';
 import { BaseResourceList } from '../shared/base.resource.list';
 import { AlertService } from '../../services/alert.service';
+import { ReviewApiRequest } from '../../models/review-api-request.model';
 
 @Component({
     selector: 'book-reviews',
@@ -16,6 +17,9 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
 
     @Input() volumeId: string;
 
+    private reviewText:string;
+    private reviewRating:number;
+    
     constructor(private activatedRoute: ActivatedRoute,
         private reviewService: ReviewService,
         private alertService: AlertService) {
@@ -48,5 +52,19 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
                     this.loading = false;
                 }
             });
+    }
+
+    private addReview():void {
+        // console.log("add review: ", this.reviewRating, this.reviewText);
+        const newReviewRequest = new ReviewApiRequest(this.volumeId, this.reviewText, this.reviewRating);
+
+        this.reviewService.addReview(newReviewRequest).subscribe(
+            (res: Review) => {
+                this.items.push(res);
+                console.log(res);
+            }, (error: any) => {
+                this.alertService.showAlert(error);
+            }
+        )
     }
 }

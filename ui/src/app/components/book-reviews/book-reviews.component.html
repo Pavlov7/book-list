@@ -18,6 +18,34 @@
           </clr-stack-block>
         </div>
       </ng-container>
+      
+      <!-- TODO: write another, good form instead of this garbage-->
+      <form class="clr-form clr-form-horizontal" (ngSubmit)="addReview()">
+        <label for="basic" class="clr-control-label">Review text</label>
+        <textarea
+          [(ngModel)]="reviewText"
+          [ngModelOptions]="{ standalone: true }"
+          type="text"
+          id="basic"
+          placeholder="Enter review text"
+          class="clr-input"
+          minlength="10"
+          maxlength="200"
+        ></textarea>
+        <label for="review-rating" class="clr-control-label">Your rating for this book</label>
+        <input
+          type="number"
+          name="rating"
+          id="review-rating"
+          min="1"
+          max="10"
+          value="1"
+          [(ngModel)]="reviewRating"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        <br/>
+        <button type="submit" class="btn btn-outline btn-sm">Add review</button>
+      </form>
     </div>
   </ng-container>
   <ng-template #load> <span class="spinner"></span> </ng-template>
