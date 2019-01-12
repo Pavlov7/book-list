@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
                 console.log(res);
                 // location.reload(true);
                 this.router.navigate(['/']);
+                location.reload(true);
             },
                 (error: any) => {
                     this.alertService.showAlert(error);

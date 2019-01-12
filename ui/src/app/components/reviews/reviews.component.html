@@ -1,1 +1,41 @@
-<p>A page listing the reviews of the current user</p>
+<ng-container *ngIf="!loading; else load">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <clr-dropdown>
+      <button type="button" class="dropdown-toggle btn btn-link btn-sm" [clrLoading]='loading' [disabled]='loading' clrDropdownTrigger>
+        <span class="title">{{ myReviews ? 'My reviews' : 'All reviews' }}</span>
+        <clr-icon shape="caret down"></clr-icon>
+      </button>
+      <clr-dropdown-menu *clrIfOpen>
+        <button type="button" (click)="setShowMyReviews(false)" [class.active]="!myReviews" clrDropdownItem>All reviews</button>
+        <button type="button" (click)="setShowMyReviews(true)" [class.active]="myReviews" clrDropdownItem>My reviews</button>
+      </clr-dropdown-menu>
+    </clr-dropdown>
+  </div>
+  <div class="row grid">
+    <ng-container *ngFor="let review of items">
+      <div class="clr-row">
+        <div class="clr-col-lg-5 clr-col-md-8 clr-col-12">
+          <div class="card">
+            <div class="card-header">
+              {{ review.bookTitle }}
+            </div>
+            <div class="card-block">
+              <div class="card-title">
+                {{ review.rating }}
+              </div>
+              <div class="card-text">
+                {{ review.text }}
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-sm btn-link">Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+<ng-template #load>
+  <span class="spinner"></span>
+</ng-template>

@@ -1,5 +1,7 @@
 package com.fmi.bookservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,11 +22,15 @@ public class BookReview {
 
     @ManyToOne
     @NotNull
+    @JsonIgnore
     private User user;
 
     // reference google books volumeBookReview
     @NotNull(message = "Provide google volume id")
     private String volumeId;
+
+    //used by the UI to show info
+    private String bookTitle;
 
     @NotNull(message = "Provide review text")
     private String text;
@@ -35,9 +41,10 @@ public class BookReview {
     public BookReview() {
     }
 
-    public BookReview(String volumeId, User user, String text, Byte rating) {
+    public BookReview(String volumeId, String bookTitle, User user, String text, Byte rating) {
         this.user = user;
         this.volumeId = volumeId;
+        this.bookTitle = bookTitle;
         this.text = text;
         this.rating = rating;
     }
@@ -82,5 +89,11 @@ public class BookReview {
         this.rating = rating;
     }
 
+    public String getBookTitle() {
+        return bookTitle;
+    }
 
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
+    }
 }

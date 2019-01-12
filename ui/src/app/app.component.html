@@ -54,7 +54,7 @@
                     <clr-icon shape="book" clrVerticalNavIcon></clr-icon>
                     Books
                 </a>
-                <clr-vertical-nav-group routerLinkActive="active">
+                <clr-vertical-nav-group routerLinkActive="active" *ngIf="currentUser">
                     <clr-icon shape="list" clrVerticalNavIcon></clr-icon>
                     Lists
                     <clr-vertical-nav-group-children>

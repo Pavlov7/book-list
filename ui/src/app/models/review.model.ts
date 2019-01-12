@@ -4,6 +4,7 @@ export class Review {
   public id: string;
   public user: User;
   public volumeId: string;
+  public bookTitle: string;
   public text: string;
   public rating: number;
 }

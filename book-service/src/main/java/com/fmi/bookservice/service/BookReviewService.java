@@ -22,4 +22,7 @@ public class BookReviewService {
         return this.bookReviewRepository.findByVolumeId(volumeId);
     }
 
+    public List<BookReview> getAllByUserId(Long userId) {
+        return this.bookReviewRepository.findByUserId(userId);
+    }
 }
