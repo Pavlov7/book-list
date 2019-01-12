@@ -30,7 +30,6 @@ export class ReviewsComponent extends BaseResourceList implements OnInit {
             this.loading = false;
         }, (error: any) => {
             this.loading = false;
-            this.notFound = true;
             this.alertService.showAlert(error);
         });
     }

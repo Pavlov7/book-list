@@ -17,9 +17,9 @@
                         required />
                 </clr-password-container>
             </div>
-            <!-- <div class="error active">
-                Invalid user name or password
-            </div> -->
+            <div class="error active" *ngIf="error">
+                {{ error.message || error }}
+            </div>
             <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Register</button>
             <a href="javascript:void(0)" [routerLink]="['/login']" class="signup">Login</a>
         </div>

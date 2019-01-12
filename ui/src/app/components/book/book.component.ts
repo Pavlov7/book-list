@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ParamMap, ActivatedRoute } from '@angular/router';
 import { BookService } from '../../services/book.service';
-import { VolumeApiResponse } from '../../models/volume-api-response.model';
 import { Observable } from 'rxjs';
 import { AlertService } from '../../services/alert.service';
+import { Volume } from '../../models/volume.model';
 
 @Component({
     styleUrls: ['./book.component.scss'],
@@ -12,9 +12,8 @@ import { AlertService } from '../../services/alert.service';
 })
 export class BookComponent implements OnInit {
 
-    public volume: VolumeApiResponse = null;
+    public volume: Volume;
     public loading: boolean = true;
-    public notFound: boolean = false;
 
     constructor(private activatedRoute: ActivatedRoute,
         private bookService: BookService,
@@ -31,13 +30,12 @@ export class BookComponent implements OnInit {
                 if (volumeId) {
                     this.getByVolumeId(volumeId)
                         .subscribe(
-                            (res: VolumeApiResponse) => {
+                            (res: Volume) => {
                                 this.volume = res;
                                 this.loading = false;
                             },
                             (error: any) => {
                                 this.loading = false;
-                                this.notFound = true;
                                 this.alertService.showAlert(error);
                             });
                 } else {

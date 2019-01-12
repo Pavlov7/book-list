@@ -22,7 +22,6 @@ public class BookReview {
 
     @ManyToOne
     @NotNull
-    @JsonIgnore
     private User user;
 
     // reference google books volumeBookReview

@@ -14,6 +14,7 @@ import { AlertService } from '../../services/alert.service';
 })
 export class RegisterComponent implements OnInit {
     public registerForm: FormGroup;
+    public error: any;
 
     constructor(private authService: AuthenticationService,
         private router: Router,
@@ -49,8 +50,8 @@ export class RegisterComponent implements OnInit {
                 console.log(res);
                 this.router.navigate(['/login']);
             },
-                (error: any) => {
-                    this.alertService.showAlert(error);
-                });
+            (error: any) => {
+                this.error = error;
+            });
     }
 }

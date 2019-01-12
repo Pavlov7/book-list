@@ -56,7 +56,6 @@ export class ReviewCommentsComponent extends BaseResourceList implements OnInit 
 
           }, (error: any) => {
             this.loading = false;
-            this.notFound = true;
             this.alertService.showAlert(error);
           });
       } else {
