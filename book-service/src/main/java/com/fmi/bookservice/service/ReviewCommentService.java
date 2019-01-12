@@ -29,7 +29,21 @@ public class ReviewCommentService {
         return this.reviewCommentRepository.findByBookReview(bookReview);
     }
 
+
+    public boolean existsById(Long id) {
+        return reviewCommentRepository.existsById(id);
+    }
+
+    public boolean deleleById(Long id) {
+        if (!reviewCommentRepository.existsById(id)) {
+            return false;
+        }
+        reviewCommentRepository.deleteById(id);
+        return true;
+    }
+
     public ReviewComment getById(Long id) {
+
         return this.reviewCommentRepository.getOne(id);
     }
 

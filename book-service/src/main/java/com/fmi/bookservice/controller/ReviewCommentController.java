@@ -10,13 +10,16 @@ import com.fmi.bookservice.service.ReviewCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,7 +27,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
-
+@Transactional
 @RestController
 @RequestMapping(path = "/comments")
 @MessageMapping("/comments")
@@ -75,10 +78,16 @@ public class ReviewCommentController {
         return reviewCommentService.findByBookReview(review);
     }
 
-
     //
     // Sockets
     //
+
+    @MessageExceptionHandler
+    @SendToUser("/errors")
+    public String handleException(Throwable exception) {
+        return exception.getMessage();
+    }
+
     @MessageMapping("/add/{reviewId}")
     public void addComment(@DestinationVariable Long reviewId, ReviewCommentRequest request, Principal principal) throws Exception {
         // TODO: change the way of getting current user?
@@ -94,18 +103,22 @@ public class ReviewCommentController {
         this.template.convertAndSend(destination, comment);
     }
 
-    @MessageMapping("/remove/{reviewId}")
-    public void removeComment(@DestinationVariable Long reviewId, Long commentId, Principal principal) throws Exception {
+    @MessageMapping("/delete/{reviewId}")
+    public void removeComment(@DestinationVariable Long reviewId, ReviewComment rcomment, Principal principal) throws Exception {
         // TODO: change the way of getting current user?
         User user = userRepository.findByUsername(principal.getName()).orElseThrow(() -> new ServerErrorException("FIX THIS"));
 
         // Handle errors
-        ReviewComment comment = reviewCommentService.getById(commentId);
-        reviewCommentService.delete(comment);
+        boolean deleted = reviewCommentService.deleleById(rcomment.getId());
+        if(!deleted) {
+            System.out.println(rcomment.getId());
 
+            throw new ServerErrorException("Cannot delete this comment");
+        }
 
         // Fix this one.
         String destination = "/comments/deleted/" + reviewId.toString();
-        this.template.convertAndSend(destination, comment);
+        // System.out.println(destination);
+        this.template.convertAndSend(destination, rcomment);
     }
 }
