@@ -2,65 +2,112 @@
   <ng-container *ngIf="volume; else notFoundTemplate">
     <div class="imgWrapper">
       <ng-container *ngIf="volume.volumeInfo?.imageLinks?.small; else smallImg">
-        <img [src]="volume.volumeInfo?.imageLinks?.small">
+        <img [src]="volume.volumeInfo?.imageLinks?.small" />
       </ng-container>
       <ng-template #smallImg>
-        <img [src]="volume.volumeInfo?.imageLinks?.thumbnail">
+        <img [src]="volume.volumeInfo?.imageLinks?.thumbnail" />
       </ng-template>
     </div>
     <div class="row center">
+      <div class="clr-form-control clr-row">
+        <label for="Buttons" class="clr-control-label clr-col-12 clr-col-md-2"
+          >Controls</label
+        >
+        <div class="clr-control-container clr-col-12 clr-col-md-10">
+          <clr-dropdown>
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              clrDropdownTrigger
+            >
+              Add to list
+              <clr-icon shape="caret down"></clr-icon>
+            </button>
+            <clr-dropdown-menu clrPosition="bottom" *clrIfOpen>
+              <label class="dropdown-header">Select a list</label>
+              <button type="button" clrDropdownItem>Already read</button>
+              <button type="button" clrDropdownItem>Wish to read</button>
+              <button type="button" clrDropdownItem>Favourite</button>
+            </clr-dropdown-menu>
+          </clr-dropdown>
+        </div>
+      </div>
       <form class="clr-form clr-form-compact" #bookDetails="ngForm">
         <div class="clr-form-control clr-row">
-          <label for="title" class="clr-control-label clr-col-12 clr-col-md-2">Title</label>
+          <label for="title" class="clr-control-label clr-col-12 clr-col-md-2"
+            >Title</label
+          >
           <div class="clr-control-container clr-col-12 clr-col-md-10">
-            <span>{{ volume.volumeInfo?.title || "No info"}}</span>
+            <span>{{ volume.volumeInfo?.title || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="authors" class="clr-control-label clr-col-12 clr-col-md-2">Author/s</label>
+          <label for="authors" class="clr-control-label clr-col-12 clr-col-md-2"
+            >Author/s</label
+          >
           <div class="clr-control-container clr-col-12 clr-col-md-10">
-            <span>{{ volume.volumeInfo?.authors || "No info"}}</span>
+            <span>{{ volume.volumeInfo?.authors || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="category" class="clr-control-label clr-col-12 clr-col-md-2">Category</label>
+          <label
+            for="category"
+            class="clr-control-label clr-col-12 clr-col-md-2"
+            >Category</label
+          >
           <div class="clr-control-container clr-col-12 clr-col-md-10">
             <span>{{ volume.volumeInfo?.categories || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="lang" class="clr-control-label clr-col-12 clr-col-md-2">Language</label>
+          <label for="lang" class="clr-control-label clr-col-12 clr-col-md-2"
+            >Language</label
+          >
           <div class="clr-control-container clr-col-12 clr-col-md-10">
-            <span>{{ volume.volumeInfo?.language || "No info"}}</span>
+            <span>{{ volume.volumeInfo?.language || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="maturity" class="clr-control-label clr-col-12 clr-col-md-2">Maturity Rating</label>
+          <label
+            for="maturity"
+            class="clr-control-label clr-col-12 clr-col-md-2"
+            >Maturity Rating</label
+          >
           <div class="clr-control-container clr-col-12 clr-col-md-10">
-            <span>{{ volume.volumeInfo?.maturityRating || "No info"}}</span>
+            <span>{{ volume.volumeInfo?.maturityRating || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="pages" class="clr-control-label clr-col-12 clr-col-md-2">Page Count</label>
+          <label for="pages" class="clr-control-label clr-col-12 clr-col-md-2"
+            >Page Count</label
+          >
           <div class="clr-control-container clr-col-12 clr-col-md-10">
-            <span>{{ volume.volumeInfo?.pageCount || "No info"}}</span>
+            <span>{{ volume.volumeInfo?.pageCount || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="publisher" class="clr-control-label clr-col-12 clr-col-md-2">Publisher</label>
+          <label
+            for="publisher"
+            class="clr-control-label clr-col-12 clr-col-md-2"
+            >Publisher</label
+          >
           <div class="clr-control-container clr-col-12 clr-col-md-10">
-            <span>{{ volume.volumeInfo?.publisher || "No info"}}</span>
+            <span>{{ volume.volumeInfo?.publisher || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="pdate" class="clr-control-label clr-col-12 clr-col-md-2">Date published</label>
+          <label for="pdate" class="clr-control-label clr-col-12 clr-col-md-2"
+            >Date published</label
+          >
           <div class="clr-control-container clr-col-12 clr-col-md-10">
-            <span>{{ volume.volumeInfo?.publishedDate || "No info"}}</span>
+            <span>{{ volume.volumeInfo?.publishedDate || "No info" }}</span>
           </div>
         </div>
       </form>
       <div class="card">
-        <div class="card-header">Reviews for "{{ volume.volumeInfo?.title }}" </div>
+        <div class="card-header">
+          Reviews for "{{ volume.volumeInfo?.title }}"
+        </div>
         <div class="card-block">
           <book-reviews [volumeId]="volume.id"></book-reviews>
         </div>
@@ -68,9 +115,5 @@
     </div>
   </ng-container>
 </ng-container>
-<ng-template #load>
-  <span class="spinner"></span>
-</ng-template>
-<ng-template #notFoundTemplate>
-  <span>Not found</span>
-</ng-template>
+<ng-template #load> <span class="spinner"></span> </ng-template>
+<ng-template #notFoundTemplate> <span>Not found</span> </ng-template>

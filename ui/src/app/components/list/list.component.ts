@@ -48,7 +48,7 @@ export class ListComponent extends BaseResourceList implements OnInit {
     }
 
     public onEdit(book: BookInList) {
-
+        // TODO: edit mode
     }
 
 
