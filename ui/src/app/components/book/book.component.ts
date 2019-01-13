@@ -16,6 +16,7 @@ import { BookInList } from '../../models/book-in-list.model';
 export class BookComponent implements OnInit {
 
     public volume: Volume;
+    public bookInList: BookInList;
     public loading: boolean = true;
 
     constructor(private activatedRoute: ActivatedRoute,
@@ -41,11 +42,33 @@ export class BookComponent implements OnInit {
                                 this.loading = false;
                                 this.alertService.showAlert(error);
                             });
+
+                    this.bookService.getBookByVolumeId(volumeId)
+                        .subscribe(
+                            (res: BookInList) => {
+                                this.bookInList = res;
+                            },
+                            (error: any) => {
+                                this.alertService.showAlert(error);
+                            });
                 } else {
                     this.loading = false;
                 }
             });
     }
+
+
+    public deleteFromList(listname: ListType) {
+        this.bookService.deleteBookFromList(book, this.listType)
+            .subscribe(
+                (res: BookInList) => {
+                    this.items = this.items.filter((item:BookInList) => item.id != res.id);
+                }, (error: any) => {
+                    this.loading = false;
+                    this.alertService.showAlert(error);
+                });
+    }
+
     public addToList(listname: ListType) {
         const bookRequest: BookInListApiRequest = new BookInListApiRequest();
         bookRequest.volumeId = this.volume.id;
@@ -54,9 +77,6 @@ export class BookComponent implements OnInit {
                 bookRequest.alreadyRead = true;
                 break;
             case ListType.WISH_TO_READ:
-
-        console.log(listname);
-        console.log("hi");
                 bookRequest.wishToRead = true;
                 break;
             case ListType.FAVOURTIES:
@@ -68,9 +88,8 @@ export class BookComponent implements OnInit {
         this.bookService.addBookToList(bookRequest)
             .subscribe(
                 (res: BookInList) => {
-                    console.log(res);
-                    //this.totalCount = res.totalItems;
-                    //this.loading = false;
+                    // show success
+                    this.bookInList = res;
                 }, (error: any) => {
                     this.loading = false;
                     this.alertService.showAlert(error);

@@ -110,4 +110,16 @@ public class BookController {
             throw new ResourceNotFoundException("Volumes", "error", e.getMessage());
         }
     }
+
+    @Secured("ROLE_USER")
+    @RequestMapping(path = "/getByVolumeId/{volumeId}", method = RequestMethod.GET)
+    public BookInList getBookByVolumeId(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                                        @PathVariable("volumeId") String volumeId) throws IOException {
+        try {
+            User user = new User(userPrincipal);
+            return bookService.getByUserAndVolumeId(user, volumeId);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Books", "error", e.getMessage());
+        }
+    }
 }

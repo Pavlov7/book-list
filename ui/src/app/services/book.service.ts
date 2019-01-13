@@ -35,4 +35,8 @@ export class BookService {
   public addBookToList(bookRequest: BookInListApiRequest): Observable<any> {
     return this.http.post(constants.BACKEND_URL + '/books/add', bookRequest);
   }
+
+  public getBookByVolumeId(volumeId: string) {
+    return this.http.get(constants.BACKEND_URL + '/books/getByVolumeId/' + volumeId);
+  }
 }

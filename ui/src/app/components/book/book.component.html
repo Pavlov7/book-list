@@ -25,11 +25,39 @@
             </button>
             <clr-dropdown-menu clrPosition="bottom" *clrIfOpen>
               <label class="dropdown-header">Select a list</label>
-              <button type="button" (click)="addToList('alreadyread')" clrDropdownItem>Already read</button>
-              <button type="button" (click)="addToList('wishlist')"clrDropdownItem>Wish to read</button>
-              <button type="button" (click)="addToList('favourites')" clrDropdownItem>Favourite</button>
+              <button
+                type="button"
+                (click)="addToList('alreadyread')"
+                clrDropdownItem
+              >
+                Already read
+              </button>
+              <button
+                type="button"
+                (click)="addToList('wishlist')"
+                clrDropdownItem
+              >
+                Wish to read
+              </button>
+              <button
+                type="button"
+                (click)="addToList('favourites')"
+                clrDropdownItem
+              >
+                Favourite
+              </button>
             </clr-dropdown-menu>
           </clr-dropdown>
+          <div class="book-lists">
+            <span>Book lists:</span>
+            <span class="label" *ngIf="bookInList.isFavourite">Favourite</span>
+            <span class="label label-purple" *ngIf="bookInList.alreadyRead"
+              >Already Read</span
+            >
+            <span class="label label-blue" *ngIf="bookInList.wishToRead"
+              >Wish to read</span
+            >
+          </div>
         </div>
       </div>
       <form class="clr-form clr-form-compact" #bookDetails="ngForm">
