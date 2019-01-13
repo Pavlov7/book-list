@@ -14,45 +14,9 @@
           >Controls</label
         >
         <div class="clr-control-container clr-col-12 clr-col-md-10">
-          <clr-dropdown>
-            <button
-              type="button"
-              class="btn btn-outline-primary"
-              clrDropdownTrigger
-            >
-              Add to list
-              <clr-icon shape="caret down"></clr-icon>
-            </button>
-            <clr-dropdown-menu clrPosition="bottom" *clrIfOpen>
-              <label class="dropdown-header">Select a list</label>
-              <button
-                type="button"
-                (click)="addToList('alreadyread')"
-                clrDropdownItem
-                *ngIf="!bookInList || !bookInList.alreadyRead"
-              >
-                Already read
-              </button>
-              <button
-                type="button"
-                (click)="addToList('wishlist')"
-                clrDropdownItem
-                *ngIf="!bookInList || !bookInList.wishToRead"
-              >
-                Wish to read
-              </button>
-              <button
-                type="button"
-                (click)="addToList('favourites')"
-                clrDropdownItem
-                *ngIf="!bookInList || !bookInList.isFavourite"
-              >
-                Favourite
-              </button>
-            </clr-dropdown-menu>
-          </clr-dropdown>
           <div class="label-list">
             <span>Book lists:</span>
+
             <span
               (click)="deleteFromList('favourites')"
               class="label"
@@ -76,7 +40,52 @@
             </span>
 
             <span class="label label-blue" *ngIf="!bookInList"> No lists </span>
-            <span class="label label-blue">
+            <clr-dropdown
+              *ngIf="
+                bookInList &&
+                (!bookInList.isFavourite ||
+                  !bookInList.wishToRead ||
+                  !bookInList.alreadyRead)
+              "
+            >
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+                clrDropdownTrigger
+              >
+                Add to list
+                <clr-icon shape="caret down"></clr-icon>
+              </button>
+              <clr-dropdown-menu clrPosition="bottom" *clrIfOpen>
+                <label class="dropdown-header">Select a list</label>
+                <button
+                  type="button"
+                  (click)="addToList('alreadyread')"
+                  clrDropdownItem
+                  *ngIf="!bookInList || !bookInList.alreadyRead"
+                >
+                  Already read
+                </button>
+                <button
+                  type="button"
+                  (click)="addToList('wishlist')"
+                  clrDropdownItem
+                  *ngIf="!bookInList || !bookInList.wishToRead"
+                >
+                  Wish to read
+                </button>
+                <button
+                  type="button"
+                  (click)="addToList('favourites')"
+                  clrDropdownItem
+                  *ngIf="!bookInList || !bookInList.isFavourite"
+                >
+                  Favourite
+                </button>
+              </clr-dropdown-menu>
+            </clr-dropdown>
+            <span>|</span>
+            <span class="label label-light-blue">
               Average rating <span class="badge">{{ ratingMean }}</span>
             </span>
           </div>
