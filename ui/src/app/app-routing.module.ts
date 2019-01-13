@@ -5,7 +5,6 @@ import { ListComponent } from './components/list/list.component';
 import { BooksComponent } from './components/books/books.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { ReadersComponent } from './components/readers/readers.component';
 import { BookComponent } from './components/book/book.component';
 
 const routes: Routes = [
@@ -18,8 +17,7 @@ const routes: Routes = [
   { path: 'list/wishToRead', component: ListComponent },
   { path: 'reviews', component: ReviewsComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'readers', component: ReadersComponent },
+  { path: 'register', component: RegisterComponent }
 ];
 
 @NgModule({

@@ -18,7 +18,6 @@ import { AuthenticationService } from './services/authentication.service';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { RegisterComponent } from './components/register/register.component';
-import { ReadersComponent } from './components/readers/readers.component';
 import { BookComponent } from './components/book/book.component';
 import { BookReviewsComponent } from './components/book-reviews/book-reviews.component';
 import { ReviewService } from './services/review.service';
@@ -36,8 +35,7 @@ import { AlertService } from './services/alert.service';
     ListComponent,
     ReviewsComponent,
     LoginComponent,
-    RegisterComponent,
-    ReadersComponent
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
