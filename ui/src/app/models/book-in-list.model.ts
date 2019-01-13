@@ -8,4 +8,5 @@ export class BookInList {
     public alreadyRead: boolean;
     public isFavourite: boolean;
     public wishToRead: boolean;
+    public bookTitle: string;
 }

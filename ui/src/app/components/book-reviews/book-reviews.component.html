@@ -21,7 +21,7 @@
   </ng-container>
   <br/>
   <br/>
-  <button type="submit" class="btn btn-outline btn-sm" (click)="modalOpened = true">Add review</button>
+  <button type="submit" class="btn btn-outline btn-sm" (click)="modalOpened = true" *ngIf="authService.currentUserValue">Add review</button>
   <ng-template #load>
     <span class="spinner"></span>
   </ng-template>

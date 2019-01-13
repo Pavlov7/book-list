@@ -8,6 +8,7 @@ import { Volume } from '../../models/volume.model';
 import { ListType } from '../../constants';
 import { BookInListApiRequest } from '../../models/book-in-list-api-request.model';
 import { BookInList } from '../../models/book-in-list.model';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
     styleUrls: ['./book.component.scss'],
@@ -22,18 +23,18 @@ export class BookComponent implements OnInit {
 
     constructor(private activatedRoute: ActivatedRoute,
         private bookService: BookService,
-        private alertService: AlertService) { }
-
-    private getByVolumeId(volumeId: string): Observable<any> {
-        return this.bookService.getVolumeById(volumeId);
-    }
-
+        private alertService: AlertService,
+        public authService: AuthenticationService) { }
 
     public setRatingMean(mean: number):void {
         this.ratingMean = mean;
     }
 
     public loadBook(): void {
+        if (!this.authService.currentUserValue) {
+            return;
+        }
+
         this.bookService.getBookByVolumeId(this.volume.id)
         .subscribe(
             (res: BookInList) => {
@@ -45,12 +46,11 @@ export class BookComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.setRatingMean = this.setRatingMean.bind(this);
         this.activatedRoute.paramMap
             .subscribe((p: ParamMap) => {
                 let volumeId = p.get("volumeId");
                 if (volumeId) {
-                    this.getByVolumeId(volumeId)
+                    this.bookService.getVolumeById(volumeId)
                         .subscribe(
                             (res: Volume) => {
                                 this.volume = res;

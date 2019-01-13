@@ -14,7 +14,7 @@ import { Volume } from '../../models/volume.model';
 export class ListComponent extends BaseResourceList implements OnInit {
 
     public listType: ListType;
-    public volumes: Volume[] = [];
+    //public volumes: Volume[] = [];
 
     constructor(private router: Router,
         private bookService: BookService,
@@ -41,8 +41,8 @@ export class ListComponent extends BaseResourceList implements OnInit {
             .subscribe(
                 (res: BookInList[]) => {
                     this.items = res;
-                    this.loadVolumes();
-                    this.loading = false;              
+                    //this.loadVolumes();
+                    this.loading = false;
                 }, (error: any) => {
                     this.loading = false;
                     this.alertService.showAlert(error);
@@ -54,7 +54,7 @@ export class ListComponent extends BaseResourceList implements OnInit {
             this.bookService.getVolumeById(item.volumeId)
             .subscribe(
                 (res: Volume) => {
-                    this.volumes.push(res);
+                    //this.volumes.push(res);
                 },
                 (error: any) => {
                     this.alertService.showAlert(error);

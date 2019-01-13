@@ -25,7 +25,7 @@ export class ReviewCommentsComponent extends BaseResourceList implements OnInit 
   private commentText: string;
   private stompClient;
 
-  private currentUser:User;
+  private currentUser: User;
 
   constructor(private activatedRoute: ActivatedRoute,
     private commentService: CommentService,
@@ -35,16 +35,12 @@ export class ReviewCommentsComponent extends BaseResourceList implements OnInit 
     this.currentUser = authenticationService.currentUserValue;
   }
 
-  private getByReviewId(reviewId: number): Observable<any> {
-    return this.commentService.getCommentsByReviewId(reviewId);
-  }
-
   public ngOnInit(): void {
     // console.log(this.reviewId); // not null
     this.activatedRoute.paramMap.subscribe((p: ParamMap) => {
       let reviewId = this.reviewId;
       if (reviewId) {
-        this.getByReviewId(reviewId).subscribe(
+        this.commentService.getCommentsByReviewId(reviewId).subscribe(
           (res: Comment[]) => {
             // todo - move to reviews-api-response
             this.items = res;
@@ -67,7 +63,7 @@ export class ReviewCommentsComponent extends BaseResourceList implements OnInit 
   private initializeWebSocketConnection(reviewId): boolean {
 
     if (!(this.currentUser && this.currentUser.token)) {
-      return false;
+      return true;
     }
 
     // TODO: fix wss authentication
@@ -86,7 +82,7 @@ export class ReviewCommentsComponent extends BaseResourceList implements OnInit 
         // TODO: fix sub
         that.stompClient.subscribe("/comments/deleted/" + reviewId, (message) => {
           let deleted: Comment = JSON.parse(message.body) as Comment;
-          that.items = that.items.filter((item:Comment) => item.id !== deleted.id);
+          that.items = that.items.filter((item: Comment) => item.id !== deleted.id);
         });
 
 
@@ -115,7 +111,7 @@ export class ReviewCommentsComponent extends BaseResourceList implements OnInit 
     // clear input
     this.commentText = null;
   }
-  
+
   private removeComment(comment: Comment): void {
     if (!this.currentUser || this.currentUser.username != comment.user.username) {
       return;

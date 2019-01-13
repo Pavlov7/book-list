@@ -48,6 +48,9 @@ public class BookController {
             throw new ServerErrorException("Book in list is not valid (choose at least one list)");
         }
 
+        Volume v = bookService.getVolumeDetails(bookRequest.getVolumeId());
+        bookRequest.setBookTitle(v.getVolumeInfo().getTitle());
+
         BookInList oldBook = bookService.getByUserAndVolumeId(user, bookRequest.getVolumeId());
 
         if (oldBook != null) {

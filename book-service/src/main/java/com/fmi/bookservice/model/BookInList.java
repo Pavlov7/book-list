@@ -38,6 +38,9 @@ public class BookInList {
     @NotNull(message = "wishToRead?")
     private Boolean wishToRead;
 
+    //used by the UI to show info
+    private String bookTitle;
+
     public BookInList() {
         this.rating = 0;
         this.alreadyRead = false;
@@ -59,6 +62,11 @@ public class BookInList {
         if(other.alreadyRead) this.alreadyRead = true;
         if(other.isFavourite) this.isFavourite = true;
         if(other.wishToRead) this.wishToRead = true;
+
+        this.dateFinishedReading = other.dateFinishedReading;
+        this.dateStartedReading = other.dateStartedReading;
+        this.bookTitle = other.bookTitle;
+        this.rating = other.rating;
 //        System.out.println(String.format("Merged: %b %b %b", this.alreadyRead, this.isFavourite, this.wishToRead));
     }
 
@@ -167,5 +175,13 @@ public class BookInList {
 
     public void setDateFinishedReading(Date dateFinishedReading) {
         this.dateFinishedReading = dateFinishedReading;
+    }
+
+    public String getBookTitle() {
+        return bookTitle;
+    }
+
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
     }
 }

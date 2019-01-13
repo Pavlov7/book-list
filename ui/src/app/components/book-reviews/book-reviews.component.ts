@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ParamMap, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -7,6 +7,7 @@ import { Review } from '../../models/review.model';
 import { BaseResourceList } from '../shared/base.resource.list';
 import { AlertService } from '../../services/alert.service';
 import { ReviewApiRequest } from '../../models/review-api-request.model';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
     selector: 'book-reviews',
@@ -16,7 +17,7 @@ import { ReviewApiRequest } from '../../models/review-api-request.model';
 export class BookReviewsComponent extends BaseResourceList implements OnInit {
 
     @Input() volumeId: string;
-    @Input() provideRatingMean: (number) => void;
+    @Output() provideRatingMean: EventEmitter<number> = new EventEmitter();
 
     public reviewReq: ReviewApiRequest;
     public _rating: number[] = Array(10).fill(0).map((x,i)=>i+1);
@@ -24,7 +25,8 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
 
     constructor(private activatedRoute: ActivatedRoute,
         private reviewService: ReviewService,
-        private alertService: AlertService) {
+        private alertService: AlertService,
+        public authService: AuthenticationService) {
         super();
     }
 
@@ -59,13 +61,16 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
 
     private updateRatingMean(): void {
         if (this.provideRatingMean) {
-            this.provideRatingMean(this.calculateReviewsRatingMean(this.items));
+            this.provideRatingMean.emit(Number(this.calculateReviewsRatingMean().toFixed(2)));
         }
     }
-    private calculateReviewsRatingMean(reviews: Review[]):number {
+    private calculateReviewsRatingMean():number {
+        if (this.items.length === 0) {
+            return 0;
+        }
         let sum:number = 0;
-        reviews.forEach((v:Review) => sum += v.rating);
-        return sum/reviews.length;
+        this.items.forEach((v:Review) => sum += v.rating);
+        return sum/this.items.length;
     }
 
     private addReview():void {

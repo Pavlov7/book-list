@@ -9,85 +9,49 @@
       </ng-template>
     </div>
     <div class="row center">
-      <div class="clr-form-control clr-row">
-        <label for="Buttons" class="clr-control-label clr-col-12 clr-col-md-2"
-          >Controls</label
-        >
+      <div class="clr-form-control clr-row" *ngIf="this.authService.currentUserValue">
+        <label for="Buttons" class="clr-control-label clr-col-12 clr-col-md-2">Controls</label>
         <div class="clr-control-container clr-col-12 clr-col-md-10">
           <div class="label-list">
             <span>Book lists:</span>
 
-            <span
-              (click)="deleteFromList('favourites')"
-              class="label"
-              *ngIf="bookInList && bookInList.isFavourite"
-            >
-              Favourite <span class="badge action">x</span>
+            <span (click)="deleteFromList('favourites')" class="label" *ngIf="bookInList && bookInList.isFavourite">
+              Favourite
+              <span class="badge action">x</span>
             </span>
-            <span
-              (click)="deleteFromList('alreadyread')"
-              class="label label-purple"
-              *ngIf="bookInList && bookInList.alreadyRead"
-            >
-              Already Read <span class="badge action">x</span>
+            <span (click)="deleteFromList('alreadyread')" class="label label-purple" *ngIf="bookInList && bookInList.alreadyRead">
+              Already Read
+              <span class="badge action">x</span>
             </span>
-            <span
-              (click)="deleteFromList('wishlist')"
-              class="label label-blue"
-              *ngIf="bookInList && bookInList.wishToRead"
-            >
-              Wish to read <span class="badge action">x</span>
+            <span (click)="deleteFromList('wishlist')" class="label label-blue" *ngIf="bookInList && bookInList.wishToRead">
+              Wish to read
+              <span class="badge action">x</span>
             </span>
 
             <span class="label label-blue" *ngIf="!bookInList"> No lists </span>
-            <clr-dropdown
-              *ngIf="
+            <clr-dropdown *ngIf="
                 bookInList &&
                 (!bookInList.isFavourite ||
                   !bookInList.wishToRead ||
                   !bookInList.alreadyRead)
-              "
-            >
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-primary"
-                clrDropdownTrigger
-              >
+              ">
+              <button type="button" class="btn btn-sm btn-outline-primary" clrDropdownTrigger>
                 Add to list
                 <clr-icon shape="caret down"></clr-icon>
               </button>
               <clr-dropdown-menu clrPosition="bottom" *clrIfOpen>
                 <label class="dropdown-header">Select a list</label>
-                <button
-                  type="button"
-                  (click)="addToList('alreadyread')"
-                  clrDropdownItem
-                  *ngIf="!bookInList || !bookInList.alreadyRead"
-                >
+                <button type="button" (click)="addToList('alreadyread')" clrDropdownItem *ngIf="!bookInList || !bookInList.alreadyRead">
                   Already read
                 </button>
-                <button
-                  type="button"
-                  (click)="addToList('wishlist')"
-                  clrDropdownItem
-                  *ngIf="!bookInList || !bookInList.wishToRead"
-                >
+                <button type="button" (click)="addToList('wishlist')" clrDropdownItem *ngIf="!bookInList || !bookInList.wishToRead">
                   Wish to read
                 </button>
-                <button
-                  type="button"
-                  (click)="addToList('favourites')"
-                  clrDropdownItem
-                  *ngIf="!bookInList || !bookInList.isFavourite"
-                >
+                <button type="button" (click)="addToList('favourites')" clrDropdownItem *ngIf="!bookInList || !bookInList.isFavourite">
                   Favourite
                 </button>
               </clr-dropdown-menu>
             </clr-dropdown>
-            <span>|</span>
-            <span class="label label-light-blue">
-              Average rating <span class="badge">{{ ratingMean }}</span>
-            </span>
           </div>
         </div>
       </div>
@@ -95,73 +59,57 @@
       <hr />
       <form class="clr-form clr-form-compact" #bookDetails="ngForm">
         <div class="clr-form-control clr-row">
-          <label for="title" class="clr-control-label clr-col-12 clr-col-md-2"
-            >Title</label
-          >
+          <label for="title" class="clr-control-label clr-col-12 clr-col-md-2">Title</label>
           <div class="clr-control-container clr-col-12 clr-col-md-10">
             <span>{{ volume.volumeInfo?.title || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="authors" class="clr-control-label clr-col-12 clr-col-md-2"
-            >Author/s</label
-          >
+          <label for="authors" class="clr-control-label clr-col-12 clr-col-md-2">Author/s</label>
           <div class="clr-control-container clr-col-12 clr-col-md-10">
             <span>{{ volume.volumeInfo?.authors || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label
-            for="category"
-            class="clr-control-label clr-col-12 clr-col-md-2"
-            >Category</label
-          >
+          <label for="category" class="clr-control-label clr-col-12 clr-col-md-2">Category</label>
           <div class="clr-control-container clr-col-12 clr-col-md-10">
             <span>{{ volume.volumeInfo?.categories || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="lang" class="clr-control-label clr-col-12 clr-col-md-2"
-            >Language</label
-          >
+          <label for="lang" class="clr-control-label clr-col-12 clr-col-md-2">Language</label>
           <div class="clr-control-container clr-col-12 clr-col-md-10">
             <span>{{ volume.volumeInfo?.language || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label
-            for="maturity"
-            class="clr-control-label clr-col-12 clr-col-md-2"
-            >Maturity Rating</label
-          >
+          <label for="maturity" class="clr-control-label clr-col-12 clr-col-md-2">Maturity Rating</label>
           <div class="clr-control-container clr-col-12 clr-col-md-10">
             <span>{{ volume.volumeInfo?.maturityRating || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="pages" class="clr-control-label clr-col-12 clr-col-md-2"
-            >Page Count</label
-          >
+          <label for="pages" class="clr-control-label clr-col-12 clr-col-md-2">Page Count</label>
           <div class="clr-control-container clr-col-12 clr-col-md-10">
             <span>{{ volume.volumeInfo?.pageCount || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label
-            for="publisher"
-            class="clr-control-label clr-col-12 clr-col-md-2"
-            >Publisher</label
-          >
+          <label for="publisher" class="clr-control-label clr-col-12 clr-col-md-2">Publisher</label>
           <div class="clr-control-container clr-col-12 clr-col-md-10">
             <span>{{ volume.volumeInfo?.publisher || "No info" }}</span>
           </div>
         </div>
         <div class="clr-form-control clr-row">
-          <label for="pdate" class="clr-control-label clr-col-12 clr-col-md-2"
-            >Date published</label
-          >
+          <label for="pdate" class="clr-control-label clr-col-12 clr-col-md-2">Date published</label>
           <div class="clr-control-container clr-col-12 clr-col-md-10">
             <span>{{ volume.volumeInfo?.publishedDate || "No info" }}</span>
+          </div>
+        </div>
+        <div class="clr-form-control clr-row">
+          <label for="rating" class="clr-control-label clr-col-12 clr-col-md-2">Average rating</label>
+          <div class="clr-control-container clr-col-12 clr-col-md-10">
+            <span>{{ ratingMean }}</span>
           </div>
         </div>
       </form>
@@ -170,14 +118,15 @@
           Reviews for "{{ volume.volumeInfo?.title }}"
         </div>
         <div class="card-block">
-          <book-reviews
-            [provideRatingMean]="setRatingMean"
-            [volumeId]="volume.id"
-          ></book-reviews>
+          <book-reviews (provideRatingMean)="setRatingMean($event)" [volumeId]="volume.id"></book-reviews>
         </div>
       </div>
     </div>
   </ng-container>
 </ng-container>
-<ng-template #load> <span class="spinner"></span> </ng-template>
-<ng-template #notFoundTemplate> <span>Not found</span> </ng-template>
+<ng-template #load>
+  <span class="spinner"></span>
+</ng-template>
+<ng-template #notFoundTemplate>
+  <span>Not found</span>
+</ng-template>
