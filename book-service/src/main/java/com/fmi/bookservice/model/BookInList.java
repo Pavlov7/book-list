@@ -56,14 +56,15 @@ public class BookInList {
 
     public void merge(BookInList other) {
         // TODO: write some strategy for merging
-        this.alreadyRead = other.alreadyRead;
-        this.isFavourite = other.isFavourite;
-        this.wishToRead = other.wishToRead;
+        if(other.alreadyRead) this.alreadyRead = true;
+        if(other.isFavourite) this.isFavourite = true;
+        if(other.wishToRead) this.wishToRead = true;
+//        System.out.println(String.format("Merged: %b %b %b", this.alreadyRead, this.isFavourite, this.wishToRead));
     }
 
 
 
-    public boolean deleteFromList(String listName) {
+    public void deleteFromList(String listName) {
         switch (listName) {
             case Constants.WISHLIST_PATH:
                 this.setWishToRead(false);
@@ -71,7 +72,7 @@ public class BookInList {
                 this.setIsFavourite(false);
             case Constants.ALREADYREAD_PATH:
                 this.setAlreadyRead(false);
-            default: return true;
+            default: return;
         }
     }
 

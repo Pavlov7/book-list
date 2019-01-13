@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { constants, ListType } from '../constants';
 import { BookInList } from '../models/book-in-list.model';
+import { BookInListApiRequest } from '../models/book-in-list-api-request.model';
 
 @Injectable()
 export class BookService {
@@ -30,5 +31,8 @@ export class BookService {
 
   public deleteBookFromList(book: BookInList, listname: ListType): Observable<any> {
     return this.http.post(constants.BACKEND_URL + '/books/deleteFromList/' + listname, book);
+  }
+  public addBookToList(bookRequest: BookInListApiRequest): Observable<any> {
+    return this.http.post(constants.BACKEND_URL + '/books/add', bookRequest);
   }
 }

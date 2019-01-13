@@ -25,9 +25,9 @@
             </button>
             <clr-dropdown-menu clrPosition="bottom" *clrIfOpen>
               <label class="dropdown-header">Select a list</label>
-              <button type="button" clrDropdownItem>Already read</button>
-              <button type="button" clrDropdownItem>Wish to read</button>
-              <button type="button" clrDropdownItem>Favourite</button>
+              <button type="button" (click)="addToList('alreadyread')" clrDropdownItem>Already read</button>
+              <button type="button" (click)="addToList('wishlist')"clrDropdownItem>Wish to read</button>
+              <button type="button" (click)="addToList('favourites')" clrDropdownItem>Favourite</button>
             </clr-dropdown-menu>
           </clr-dropdown>
         </div>
