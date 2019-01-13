@@ -1,4 +1,4 @@
-import { Component, query } from '@angular/core';
+import { Component } from '@angular/core';
 import { BaseResourceList } from '../shared/base.resource.list';
 import { OnInit } from '@angular/core';
 import { ParamMap, ActivatedRoute, Router } from '@angular/router';
