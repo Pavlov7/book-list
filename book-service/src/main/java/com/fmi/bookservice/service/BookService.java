@@ -58,6 +58,10 @@ public class BookService {
         this.bookRepository.save(b);
     }
 
+    public void delete(BookInList b) {
+        this.bookRepository.delete(b);
+    }
+
     public List<BookInList> getAll() {
         return this.bookRepository.findAll();
     }

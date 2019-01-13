@@ -46,4 +46,20 @@ export class ListComponent extends BaseResourceList implements OnInit {
                     this.alertService.showAlert(error);
                 });
     }
+
+    public onEdit(book: BookInList) {
+
+    }
+
+
+    public onDelete(book: BookInList) {
+        this.bookService.deleteBookFromList(book, this.listType)
+            .subscribe(
+                (res: BookInList) => {
+                    this.items = this.items.filter((item:BookInList) => item.id != res.id);
+                }, (error: any) => {
+                    this.loading = false;
+                    this.alertService.showAlert(error);
+                });
+    }
 }

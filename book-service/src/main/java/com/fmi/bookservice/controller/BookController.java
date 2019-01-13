@@ -1,6 +1,7 @@
 package com.fmi.bookservice.controller;
 
 
+import com.fmi.bookservice.constants.Constants;
 import com.fmi.bookservice.exception.ResourceNotFoundException;
 import com.fmi.bookservice.exception.ServerErrorException;
 import com.fmi.bookservice.model.BookInList;
@@ -59,6 +60,39 @@ public class BookController {
             bookService.save(bookRequest);
             return ResponseEntity.ok(bookRequest);
         }
+    }
+
+    @Secured("ROLE_USER")
+    @RequestMapping(path = "/deleteFromList/{list}", method = RequestMethod.POST)
+    public ResponseEntity<?> removeBookFromList(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                                @PathVariable("list") String listName,
+                                                @Valid @RequestBody BookInList rbook) throws IOException {
+        if (!listName.matches(String.format("%s|%s|%s", Constants.WISHLIST_PATH, Constants.ALREADYREAD_PATH, Constants.FAVOURITES_PATH))) {
+            throw new ServerErrorException(String.format("%s is not valid list name", listName));
+        }
+
+        User user = new User(userPrincipal);
+
+        BookInList book = bookService.getByUserAndVolumeId(user, rbook.getVolumeId());
+
+        if (book == null) {
+            throw new ServerErrorException(String.format("Cannot find a book with %s volumeId for user %s", book.getVolumeId(), user.getUsername()));
+        }
+
+        if (!book.isInsideList(listName)) {
+            throw new ServerErrorException("Book is not inside list " + listName);
+        }
+
+        book.deleteFromList(listName);
+
+        if (!book.isValid()) {// no lists for this book
+            // delete it
+            bookService.delete(book);
+            return ResponseEntity.ok(book);
+        }
+
+        bookService.save(book);
+        return ResponseEntity.ok(book);
     }
 
     // probably not needed

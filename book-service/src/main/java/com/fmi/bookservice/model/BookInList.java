@@ -1,6 +1,7 @@
 package com.fmi.bookservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fmi.bookservice.constants.Constants;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -58,6 +59,32 @@ public class BookInList {
         this.alreadyRead = other.alreadyRead;
         this.isFavourite = other.isFavourite;
         this.wishToRead = other.wishToRead;
+    }
+
+
+
+    public boolean deleteFromList(String listName) {
+        switch (listName) {
+            case Constants.WISHLIST_PATH:
+                this.setWishToRead(false);
+            case Constants.FAVOURITES_PATH:
+                this.setIsFavourite(false);
+            case Constants.ALREADYREAD_PATH:
+                this.setAlreadyRead(false);
+            default: return true;
+        }
+    }
+
+    public boolean isInsideList(String listName) {
+        switch (listName) {
+            case Constants.WISHLIST_PATH:
+                return this.wishToRead;
+            case Constants.FAVOURITES_PATH:
+                return this.isFavourite;
+            case Constants.ALREADYREAD_PATH:
+                return this.alreadyRead;
+                default: return false;
+        }
     }
 
     @JsonIgnore

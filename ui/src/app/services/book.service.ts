@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { constants, ListType } from '../constants';
+import { BookInList } from '../models/book-in-list.model';
 
 @Injectable()
 export class BookService {
@@ -24,5 +25,10 @@ export class BookService {
 
   public getVolumeById(volumeId: string): Observable<any> {
     return this.http.get(constants.BACKEND_URL + '/books/volumes/' + volumeId);
+  }
+
+
+  public deleteBookFromList(book: BookInList, listname: ListType): Observable<any> {
+    return this.http.post(constants.BACKEND_URL + '/books/deleteFromList/' + listname, book);
   }
 }
