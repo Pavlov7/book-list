@@ -2,6 +2,7 @@ package com.fmi.bookservice.service;
 
 import com.fmi.bookservice.constants.Constants;
 import com.fmi.bookservice.model.BookInList;
+import com.fmi.bookservice.model.BookList;
 import com.fmi.bookservice.model.User;
 import com.fmi.bookservice.repository.BookRepository;
 import com.google.api.services.books.Books;
@@ -66,9 +67,9 @@ public class BookService {
         return this.bookRepository.findAll();
     }
 
-    public List<BookInList> findByUser(Long userId) {
-        return this.bookRepository.findByUserId(userId);
-    }
+//    public List<BookInList> findByUser(Long userId) {
+//        return this.bookRepository.findByUserId(userId);
+//    }
 
     public BookInList getByUserAndVolumeId(User user, String volumeId) {
         return this.bookRepository.getByUserAndVolumeId(user, volumeId);
@@ -76,15 +77,21 @@ public class BookService {
 
 
     public List<BookInList> getUserList(Long userId, String listName) {
+        BookList bookList;
         switch (listName) {
-            case Constants.FAVOURITES_PATH:
-                return this.bookRepository.findByUserIdAndIsFavouriteTrue(userId);
+            case Constants.CURRENTLY_READING:
+                bookList = BookList.CURRENTLY_READING;
+                break;
             case Constants.WISHLIST_PATH:
-                return this.bookRepository.findByUserIdAndWishToReadTrue(userId);
+                bookList = BookList.WISH_TO_READ;
+                break;
             case Constants.ALREADYREAD_PATH:
-                return  this.bookRepository.findByUserIdAndAlreadyReadTrue(userId);
+                bookList = BookList.ALREADY_READ;
+                break;
             default:
                 return Collections.emptyList();
         }
+
+        return this.bookRepository.findByUserIdAndBookList(userId, bookList);
     }
 }

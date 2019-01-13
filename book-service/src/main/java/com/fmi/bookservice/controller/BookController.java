@@ -44,9 +44,6 @@ public class BookController {
         if (bookRequest.getRating() == null) {
             bookRequest.setRating((byte) 0);
         }
-        if (!bookRequest.isValid()) {
-            throw new ServerErrorException("Book in list is not valid (choose at least one list)");
-        }
 
         Volume v = bookService.getVolumeDetails(bookRequest.getVolumeId());
         bookRequest.setBookTitle(v.getVolumeInfo().getTitle());
@@ -66,14 +63,9 @@ public class BookController {
     }
 
     @Secured("ROLE_USER")
-    @RequestMapping(path = "/deleteFromList/{list}", method = RequestMethod.POST)
+    @RequestMapping(path = "/delete", method = RequestMethod.POST)
     public ResponseEntity<?> removeBookFromList(@AuthenticationPrincipal UserPrincipal userPrincipal,
-                                                @PathVariable("list") String listName,
                                                 @Valid @RequestBody BookInList rbook) throws IOException {
-        if (!listName.matches(String.format("%s|%s|%s", Constants.WISHLIST_PATH, Constants.ALREADYREAD_PATH, Constants.FAVOURITES_PATH))) {
-            throw new ServerErrorException(String.format("%s is not valid list name", listName));
-        }
-
         User user = new User(userPrincipal);
 
         BookInList book = bookService.getByUserAndVolumeId(user, rbook.getVolumeId());
@@ -82,28 +74,17 @@ public class BookController {
             throw new ServerErrorException(String.format("Cannot find a book with %s volumeId for user %s", rbook.getVolumeId(), user.getUsername()));
         }
 
-        if (!book.isInsideList(listName)) {
-            throw new ServerErrorException("Book is not inside list " + listName);
-        }
-
-        book.deleteFromList(listName);
-
-        if (!book.isValid()) {// no lists for this book
-            // delete it
-            bookService.delete(book);
-            return ResponseEntity.ok(book);
-        }
-
-        bookService.save(book);
+        // delete it
+        bookService.delete(book);
         return ResponseEntity.ok(book);
     }
 
-    // probably not needed
-    @Secured("ROLE_USER")
-    @RequestMapping(path = "/my", method = RequestMethod.GET)
-    public List<BookInList> getMyBooks(@AuthenticationPrincipal UserPrincipal userPrincipal) throws IOException {
-        return bookService.findByUser(userPrincipal.getId());
-    }
+//    // probably not needed
+//    @Secured("ROLE_USER")
+//    @RequestMapping(path = "/my", method = RequestMethod.GET)
+//    public List<BookInList> getMyBooks(@AuthenticationPrincipal UserPrincipal userPrincipal) throws IOException {
+//        return bookService.findByUser(userPrincipal.getId());
+//    }
 
     @RequestMapping(path = "/volumes/{volumeId}", method = RequestMethod.GET)
     public Volume volumeDetails(@PathVariable("volumeId") String volumeId) throws IOException {
@@ -117,7 +98,7 @@ public class BookController {
     @Secured("ROLE_USER")
     @RequestMapping(path = "/getByVolumeId/{volumeId}", method = RequestMethod.GET)
     public BookInList getBookByVolumeId(@AuthenticationPrincipal UserPrincipal userPrincipal,
-                                                        @PathVariable("volumeId") String volumeId) throws IOException {
+                                        @PathVariable("volumeId") String volumeId) throws IOException {
         try {
             User user = new User(userPrincipal);
             return bookService.getByUserAndVolumeId(user, volumeId);

@@ -29,7 +29,7 @@ public class ListController {
     @Secured("ROLE_USER")
     @RequestMapping(path = "/{list}", method = RequestMethod.GET)
     public List<BookInList> getListContent(@AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable("list") String listName) throws IOException {
-        if (!listName.matches(String.format("%s|%s|%s", Constants.WISHLIST_PATH, Constants.ALREADYREAD_PATH, Constants.FAVOURITES_PATH))) {
+        if (!listName.matches(String.format("%s|%s|%s", Constants.WISHLIST_PATH, Constants.ALREADYREAD_PATH, Constants.CURRENTLY_READING))) {
             throw new ServerErrorException(String.format("%s is not valid list name", listName));
         }
 

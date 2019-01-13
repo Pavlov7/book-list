@@ -14,7 +14,6 @@ import { Volume } from '../../models/volume.model';
 export class ListComponent extends BaseResourceList implements OnInit {
 
     public listType: ListType;
-    //public volumes: Volume[] = [];
 
     constructor(private router: Router,
         private bookService: BookService,
@@ -25,8 +24,8 @@ export class ListComponent extends BaseResourceList implements OnInit {
             case 'read':
                 this.listType = ListType.ALREADY_READ;
                 break;
-            case 'favourites':
-                this.listType = ListType.FAVOURTIES;
+            case 'currentlyReading':
+                this.listType = ListType.CURRENTLY_READING;
                 break;
             case 'wishToRead':
                 this.listType = ListType.WISH_TO_READ;
@@ -52,19 +51,18 @@ export class ListComponent extends BaseResourceList implements OnInit {
     private loadVolumes(): void {
         this.items.forEach((item: BookInList) => {
             this.bookService.getVolumeById(item.volumeId)
-            .subscribe(
-                (res: Volume) => {
-                    //this.volumes.push(res);
-                },
-                (error: any) => {
-                    this.alertService.showAlert(error);
-                });
+                .subscribe(
+                    (res: Volume) => {
+                        //this.volumes.push(res);
+                    },
+                    (error: any) => {
+                        this.alertService.showAlert(error);
+                    });
         });
     }
 
 
     public details(volumeId: string): void {
-        // console.log(bookId);
         this.router.navigate(['/book/', volumeId]);
     }
 
@@ -72,12 +70,11 @@ export class ListComponent extends BaseResourceList implements OnInit {
         // TODO: edit mode
     }
 
-
     public onDelete(book: BookInList) {
-        this.bookService.deleteBookFromList(book, this.listType)
+        this.bookService.deleteBook(book)
             .subscribe(
                 (res: BookInList) => {
-                    this.items = this.items.filter((item:BookInList) => item.id != res.id);
+                    this.items = this.items.filter((item: BookInList) => item.id != res.id);
                 }, (error: any) => {
                     this.loading = false;
                     this.alertService.showAlert(error);

@@ -1,7 +1,6 @@
 package com.fmi.bookservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fmi.bookservice.constants.Constants;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -29,40 +28,32 @@ public class BookInList {
     private Date dateStartedReading;
     private Date dateFinishedReading;
 
-    @NotNull(message = "alreadyRead?")
-    private Boolean alreadyRead;
-
     @NotNull(message = "isFavourite?")
     private Boolean isFavourite;
 
-    @NotNull(message = "wishToRead?")
-    private Boolean wishToRead;
+    @NotNull(message = "choose list")
+    private BookList bookList;
 
     //used by the UI to show info
     private String bookTitle;
 
     public BookInList() {
         this.rating = 0;
-        this.alreadyRead = false;
         this.isFavourite = true;
-        this.wishToRead = false;
     }
 
     public BookInList(String volumeId, User user, Boolean alreadyRead, Boolean isFavourite, Boolean wishToRead) {
         this.user = user;
         this.volumeId = volumeId;
         this.rating = 0;
-        this.alreadyRead = alreadyRead;
         this.isFavourite = isFavourite;
-        this.wishToRead = wishToRead;
     }
 
     public void merge(BookInList other) {
         // TODO: write some strategy for merging
-        if(other.alreadyRead) this.alreadyRead = true;
         if(other.isFavourite) this.isFavourite = true;
-        if(other.wishToRead) this.wishToRead = true;
 
+        this.bookList = other.bookList;
         this.dateFinishedReading = other.dateFinishedReading;
         this.dateStartedReading = other.dateStartedReading;
         this.bookTitle = other.bookTitle;
@@ -70,63 +61,20 @@ public class BookInList {
 //        System.out.println(String.format("Merged: %b %b %b", this.alreadyRead, this.isFavourite, this.wishToRead));
     }
 
-
-
-    public void deleteFromList(String listName) {
-        switch (listName) {
-            case Constants.WISHLIST_PATH:
-                this.wishToRead = false;
-                break;
-            case Constants.FAVOURITES_PATH:
-                this.isFavourite = false;
-                break;
-            case Constants.ALREADYREAD_PATH:
-                this.alreadyRead = false;
-                break;
-            default: break;
-        }
-    }
-
-    public boolean isInsideList(String listName) {
-        switch (listName) {
-            case Constants.WISHLIST_PATH:
-                return this.wishToRead;
-            case Constants.FAVOURITES_PATH:
-                return this.isFavourite;
-            case Constants.ALREADYREAD_PATH:
-                return this.alreadyRead;
-                default: return false;
-        }
-    }
-
-    @JsonIgnore
-    public Boolean isValid() {
-        // at least in one list!
-        return alreadyRead || isFavourite || wishToRead;
-    }
-
-    public Boolean getAlreadyRead() {
-        return alreadyRead;
-    }
-
-    public void setAlreadyRead(Boolean alreadyRead) {
-        this.alreadyRead = alreadyRead;
-    }
-
     public Boolean getIsFavourite() {
         return isFavourite;
     }
 
+    public BookList getBookList() {
+        return bookList;
+    }
+
+    public void setBookList(BookList bookList) {
+        this.bookList = bookList;
+    }
+
     public void setIsFavourite(Boolean isFavourite) {
         this.isFavourite = isFavourite;
-    }
-
-    public Boolean getWishToRead() {
-        return wishToRead;
-    }
-
-    public void setWishToRead(Boolean wishToRead) {
-        this.wishToRead = wishToRead;
     }
 
     public Long getId() {

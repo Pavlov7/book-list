@@ -5,8 +5,7 @@ import { BookService } from '../../services/book.service';
 import { Observable } from 'rxjs';
 import { AlertService } from '../../services/alert.service';
 import { Volume } from '../../models/volume.model';
-import { ListType } from '../../constants';
-import { BookInListApiRequest } from '../../models/book-in-list-api-request.model';
+import { ListType, BookList } from '../../constants';
 import { BookInList } from '../../models/book-in-list.model';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -20,6 +19,7 @@ export class BookComponent implements OnInit {
     public ratingMean: number = 0;
     public bookInList: BookInList;
     public loading: boolean = true;
+    public BookList = BookList;
 
     constructor(private activatedRoute: ActivatedRoute,
         private bookService: BookService,
@@ -67,8 +67,8 @@ export class BookComponent implements OnInit {
             });
     }
 
-    public deleteFromList(listName: ListType) {
-        this.bookService.deleteBookFromList(this.bookInList, listName)
+    public deleteBook() {
+        this.bookService.deleteBook(this.bookInList)
             .subscribe(
                 (res: BookInList) => {
                     this.bookInList = res;
@@ -77,30 +77,30 @@ export class BookComponent implements OnInit {
                     this.alertService.showAlert(error);
                 });
     }
-    public addToList(listname: ListType) {
-        const bookRequest: BookInListApiRequest = new BookInListApiRequest();
-        bookRequest.volumeId = this.volume.id;
-        switch (listname) {
-            case ListType.ALREADY_READ:
-                bookRequest.alreadyRead = true;
-                break;
-            case ListType.WISH_TO_READ:
-                bookRequest.wishToRead = true;
-                break;
-            case ListType.FAVOURTIES:
-                bookRequest.isFavourite = true;
-                break;
-            default:
-                return;
-        }
-        this.bookService.addBookToList(bookRequest)
-            .subscribe(
-                (res: BookInList) => {
-                    // show success
-                    console.log(res);
-                    this.bookInList = res;
-                }, (error: any) => {
-                    this.alertService.showAlert(error);
-                });
-    }
+    // public addToList(listname: ListType) {
+    //     const bookRequest: BookInListApiRequest = new BookInListApiRequest();
+    //     bookRequest.volumeId = this.volume.id;
+    //     switch (listname) {
+    //         case ListType.ALREADY_READ:
+    //             bookRequest.alreadyRead = true;
+    //             break;
+    //         case ListType.WISH_TO_READ:
+    //             bookRequest.wishToRead = true;
+    //             break;
+    //         case ListType.FAVOURTIES:
+    //             bookRequest.isFavourite = true;
+    //             break;
+    //         default:
+    //             return;
+    //     }
+    //     this.bookService.addBookToList(bookRequest)
+    //         .subscribe(
+    //             (res: BookInList) => {
+    //                 // show success
+    //                 console.log(res);
+    //                 this.bookInList = res;
+    //             }, (error: any) => {
+    //                 this.alertService.showAlert(error);
+    //             });
+    // }
 }

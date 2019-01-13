@@ -14,7 +14,7 @@ const routes: Routes = [
   { path: 'book/:volumeId', component: BookComponent },
   { path: 'books/search/:q', component: BooksComponent },
   { path: 'list/read', component: ListComponent },
-  { path: 'list/favourites', component: ListComponent },
+  { path: 'list/currentlyReading', component: ListComponent },
   { path: 'list/wishToRead', component: ListComponent },
   { path: 'reviews', component: ReviewsComponent },
   { path: 'login', component: LoginComponent },

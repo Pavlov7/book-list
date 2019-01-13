@@ -1,3 +1,5 @@
+import { BookList } from '../constants';
+
 export class BookInList {
     public id: number;
     public volumeId: string;
@@ -5,8 +7,9 @@ export class BookInList {
     public rating: number;
     public dateStartedReading: Date;
     public dateFinishedReading: Date;
-    public alreadyRead: boolean;
-    public isFavourite: boolean;
-    public wishToRead: boolean;
+    //public alreadyRead: boolean;
+    //public isFavourite: boolean;
+    //public wishToRead: boolean;
     public bookTitle: string;
+    public bookList: BookList;
 }

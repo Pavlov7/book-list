@@ -13,23 +13,25 @@
         <label for="Buttons" class="clr-control-label clr-col-12 clr-col-md-2">Controls</label>
         <div class="clr-control-container clr-col-12 clr-col-md-10">
           <div class="label-list">
-            <span>Book lists:</span>
+            <span>Current List:</span>
 
-            <span (click)="deleteFromList('favourites')" class="label" *ngIf="bookInList && bookInList.isFavourite">
-              Favourite
-              <span class="badge action">x</span>
-            </span>
-            <span (click)="deleteFromList('alreadyread')" class="label label-purple" *ngIf="bookInList && bookInList.alreadyRead">
-              Already Read
-              <span class="badge action">x</span>
-            </span>
-            <span (click)="deleteFromList('wishlist')" class="label label-blue" *ngIf="bookInList && bookInList.wishToRead">
-              Wish to read
-              <span class="badge action">x</span>
-            </span>
+            <ng-container [ngSwitch]="bookInList?.bookList">
+              <span *ngSwitchCase="BookList.ALREADY_READ" (click)="deleteBook()" class="label label-purple">
+                Already Read
+                <span class="badge action">x</span>
+              </span>
+              <span *ngSwitchCase="BookList.CURRENTLY_READING" (click)="deleteBook()" class="label">
+                Currently reading
+                <span class="badge action">x</span>
+              </span>
+              <span *ngSwitchCase="BookList.WISH_TO_READ" (click)="deleteBook()" class="label label-blue">
+                Wish to read
+                <span class="badge action">x</span>
+              </span>
+              <span class="label label-blue" *ngSwitchDefault> Not in any list </span>
+            </ng-container>
 
-            <span class="label label-blue" *ngIf="!bookInList"> No lists </span>
-            <clr-dropdown *ngIf="
+            <!-- <clr-dropdown *ngIf="
                 bookInList &&
                 (!bookInList.isFavourite ||
                   !bookInList.wishToRead ||
@@ -51,7 +53,7 @@
                   Favourite
                 </button>
               </clr-dropdown-menu>
-            </clr-dropdown>
+            </clr-dropdown> -->
           </div>
         </div>
       </div>
