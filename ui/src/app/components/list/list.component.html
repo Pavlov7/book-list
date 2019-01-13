@@ -1,4 +1,4 @@
-<clr-datagrid>
+<clr-datagrid class="books-list">
   <clr-dg-column>ID</clr-dg-column>
   <clr-dg-column>Rating</clr-dg-column>
   <clr-dg-column>Started Reading</clr-dg-column>
@@ -8,7 +8,7 @@
       <button class="action-item" (click)="onEdit(book)">Edit</button>
       <button class="action-item" (click)="onDelete(book)">Delete</button>
     </clr-dg-action-overflow>
-    <clr-dg-cell>{{book.volumeId}}</clr-dg-cell>
+    <clr-dg-cell><a (click)="details(book.volumeId)">{{book.volumeId}}</a></clr-dg-cell>
     <clr-dg-cell>{{book.rating}}</clr-dg-cell>
     <clr-dg-cell>{{book.dateStartedReading | date}}</clr-dg-cell>
     <clr-dg-cell>{{book.dateFinishedReading | date}}</clr-dg-cell>
@@ -16,3 +16,31 @@
 
   <clr-dg-footer>{{items.length}} books</clr-dg-footer>
 </clr-datagrid>
+<!-- TODO: maybe move data below to datargid ? -->
+    <ng-container *ngFor="let book of volumes">
+      <div class="card">
+        <div class="card-header">
+          {{ book.volumeInfo?.title }}
+        </div>
+        <div class="card-block">
+          <div class="card-media-block">
+            <img [src]="book.volumeInfo?.imageLinks?.thumbnail" class="card-media-image card-image">
+            <div class="card-media-description">
+              <span class="card-media-title">
+
+              </span>
+              <span class="card-media-text">
+                Author/s: {{ book.volumeInfo?.authors?.join(', ') }}
+              </span>
+            </div>
+          </div>
+          <div class="card-text">
+            <!-- TODO figure out how to truncate the description and keep the card size constant -->
+            <!-- {{ book.volumeInfo?.description }} -->
+          </div>
+        </div>
+        <div class="card-footer">
+          <button (click)="details(book.id)" class="btn btn-sm btn-link">Details</button>
+        </div>
+      </div>
+    </ng-container>

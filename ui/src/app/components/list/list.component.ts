@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BookService } from '../../services/book.service';
 import { BaseResourceList } from '../shared/base.resource.list';
 import { AlertService } from '../../services/alert.service';
+import { Volume } from '../../models/volume.model';
 
 @Component({
     styleUrls: ['./list.component.scss'],
@@ -13,6 +14,7 @@ import { AlertService } from '../../services/alert.service';
 export class ListComponent extends BaseResourceList implements OnInit {
 
     public listType: ListType;
+    public volumes: Volume[] = [];
 
     constructor(private router: Router,
         private bookService: BookService,
@@ -39,12 +41,31 @@ export class ListComponent extends BaseResourceList implements OnInit {
             .subscribe(
                 (res: BookInList[]) => {
                     this.items = res;
-                    //this.totalCount = res.totalItems;
-                    //this.loading = false;
+                    this.loadVolumes();
+                    this.loading = false;              
                 }, (error: any) => {
                     this.loading = false;
                     this.alertService.showAlert(error);
                 });
+    }
+
+    private loadVolumes(): void {
+        this.items.forEach((item: BookInList) => {
+            this.bookService.getVolumeById(item.volumeId)
+            .subscribe(
+                (res: Volume) => {
+                    this.volumes.push(res);
+                },
+                (error: any) => {
+                    this.alertService.showAlert(error);
+                });
+        });
+    }
+
+
+    public details(volumeId: string): void {
+        // console.log(bookId);
+        this.router.navigate(['/book/', volumeId]);
     }
 
     public onEdit(book: BookInList) {
