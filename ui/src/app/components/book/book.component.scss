@@ -26,20 +26,20 @@ form input {
   text-align: center;
 }
 
-.book-lists {
+.label-list {
   display: inline-block;
   margin-left: 1em;
   > * {
     margin: 0 .5em;
   }
   .label {
-    .badge {
+    .badge.action {
       transition: opacity .3s ease;
       opacity: .1;
     }
     &:hover {
       cursor: pointer;
-      .badge {
+      .badge.action {
         opacity: 1;
       }
     }

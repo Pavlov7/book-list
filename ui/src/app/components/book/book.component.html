@@ -51,34 +51,39 @@
               </button>
             </clr-dropdown-menu>
           </clr-dropdown>
-          <div class="book-lists">
+          <div class="label-list">
             <span>Book lists:</span>
             <span
               (click)="deleteFromList('favourites')"
               class="label"
               *ngIf="bookInList && bookInList.isFavourite"
             >
-              Favourite <span class="badge">x</span>
+              Favourite <span class="badge action">x</span>
             </span>
             <span
               (click)="deleteFromList('alreadyread')"
               class="label label-purple"
               *ngIf="bookInList && bookInList.alreadyRead"
             >
-              Already Read <span class="badge">x</span>
+              Already Read <span class="badge action">x</span>
             </span>
             <span
               (click)="deleteFromList('wishlist')"
               class="label label-blue"
               *ngIf="bookInList && bookInList.wishToRead"
             >
-              Wish to read <span class="badge">x</span>
+              Wish to read <span class="badge action">x</span>
             </span>
 
             <span class="label label-blue" *ngIf="!bookInList"> No lists </span>
+            <span class="label label-blue">
+              Average rating <span class="badge">{{ ratingMean }}</span>
+            </span>
           </div>
         </div>
       </div>
+
+      <hr />
       <form class="clr-form clr-form-compact" #bookDetails="ngForm">
         <div class="clr-form-control clr-row">
           <label for="title" class="clr-control-label clr-col-12 clr-col-md-2"
@@ -156,7 +161,10 @@
           Reviews for "{{ volume.volumeInfo?.title }}"
         </div>
         <div class="card-block">
-          <book-reviews [volumeId]="volume.id"></book-reviews>
+          <book-reviews
+            [provideRatingMean]="setRatingMean"
+            [volumeId]="volume.id"
+          ></book-reviews>
         </div>
       </div>
     </div>

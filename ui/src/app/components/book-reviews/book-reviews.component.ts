@@ -16,6 +16,7 @@ import { ReviewApiRequest } from '../../models/review-api-request.model';
 export class BookReviewsComponent extends BaseResourceList implements OnInit {
 
     @Input() volumeId: string;
+    @Input() provideRatingMean: (number) => void;
 
     public reviewReq: ReviewApiRequest;
     public _rating: number[] = Array(10).fill(0).map((x,i)=>i+1);
@@ -43,8 +44,8 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
                             (res: Review[]) => {
                                 // todo - move to reviews-api-response
                                 this.items = res;
-                                console.log(res);
                                 // this.totalCount = res.totalItems;
+                                this.updateRatingMean();
                                 this.loading = false;
                             }, (error: any) => {
                                 this.loading = false;
@@ -56,10 +57,22 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
             });
     }
 
+    private updateRatingMean(): void {
+        if (this.provideRatingMean) {
+            this.provideRatingMean(this.calculateReviewsRatingMean(this.items));
+        }
+    }
+    private calculateReviewsRatingMean(reviews: Review[]):number {
+        let sum:number = 0;
+        reviews.forEach((v:Review) => sum += v.rating);
+        return sum/reviews.length;
+    }
+
     private addReview():void {
         this.reviewService.addReview(this.reviewReq).subscribe(
             (res: Review) => {
                 this.items.push(res);
+                this.updateRatingMean();
                 console.log(res);
                 this.modalOpened = false;
             }, (error: any) => {

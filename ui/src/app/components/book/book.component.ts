@@ -16,6 +16,7 @@ import { BookInList } from '../../models/book-in-list.model';
 export class BookComponent implements OnInit {
 
     public volume: Volume;
+    public ratingMean: number = 0;
     public bookInList: BookInList;
     public loading: boolean = true;
 
@@ -27,7 +28,13 @@ export class BookComponent implements OnInit {
         return this.bookService.getVolumeById(volumeId);
     }
 
+
+    public setRatingMean(mean: number):void {
+        this.ratingMean = mean;
+    }
+
     public ngOnInit(): void {
+        this.setRatingMean = this.setRatingMean.bind(this);
         this.activatedRoute.paramMap
             .subscribe((p: ParamMap) => {
                 let volumeId = p.get("volumeId");
@@ -57,7 +64,6 @@ export class BookComponent implements OnInit {
             });
     }
 
-    
     public deleteFromList(listName: ListType) {
         this.bookService.deleteBookFromList(this.bookInList, listName)
             .subscribe(
