@@ -76,7 +76,7 @@ public class BookController {
         BookInList book = bookService.getByUserAndVolumeId(user, rbook.getVolumeId());
 
         if (book == null) {
-            throw new ServerErrorException(String.format("Cannot find a book with %s volumeId for user %s", book.getVolumeId(), user.getUsername()));
+            throw new ServerErrorException(String.format("Cannot find a book with %s volumeId for user %s", rbook.getVolumeId(), user.getUsername()));
         }
 
         if (!book.isInsideList(listName)) {

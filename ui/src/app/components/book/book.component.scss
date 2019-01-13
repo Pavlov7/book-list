@@ -32,4 +32,16 @@ form input {
   > * {
     margin: 0 .5em;
   }
+  .label {
+    .badge {
+      transition: opacity .3s ease;
+      opacity: .1;
+    }
+    &:hover {
+      cursor: pointer;
+      .badge {
+        opacity: 1;
+      }
+    }
+  }
 }

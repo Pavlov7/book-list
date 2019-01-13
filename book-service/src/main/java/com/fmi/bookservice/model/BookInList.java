@@ -67,12 +67,15 @@ public class BookInList {
     public void deleteFromList(String listName) {
         switch (listName) {
             case Constants.WISHLIST_PATH:
-                this.setWishToRead(false);
+                this.wishToRead = false;
+                break;
             case Constants.FAVOURITES_PATH:
-                this.setIsFavourite(false);
+                this.isFavourite = false;
+                break;
             case Constants.ALREADYREAD_PATH:
-                this.setAlreadyRead(false);
-            default: return;
+                this.alreadyRead = false;
+                break;
+            default: break;
         }
     }
 

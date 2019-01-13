@@ -29,6 +29,7 @@
                 type="button"
                 (click)="addToList('alreadyread')"
                 clrDropdownItem
+                *ngIf="!bookInList || !bookInList.alreadyRead"
               >
                 Already read
               </button>
@@ -36,6 +37,7 @@
                 type="button"
                 (click)="addToList('wishlist')"
                 clrDropdownItem
+                *ngIf="!bookInList || !bookInList.wishToRead"
               >
                 Wish to read
               </button>
@@ -43,6 +45,7 @@
                 type="button"
                 (click)="addToList('favourites')"
                 clrDropdownItem
+                *ngIf="!bookInList || !bookInList.isFavourite"
               >
                 Favourite
               </button>
@@ -50,13 +53,29 @@
           </clr-dropdown>
           <div class="book-lists">
             <span>Book lists:</span>
-            <span class="label" *ngIf="bookInList.isFavourite">Favourite</span>
-            <span class="label label-purple" *ngIf="bookInList.alreadyRead"
-              >Already Read</span
+            <span
+              (click)="deleteFromList('favourites')"
+              class="label"
+              *ngIf="bookInList && bookInList.isFavourite"
             >
-            <span class="label label-blue" *ngIf="bookInList.wishToRead"
-              >Wish to read</span
+              Favourite <span class="badge">x</span>
+            </span>
+            <span
+              (click)="deleteFromList('alreadyread')"
+              class="label label-purple"
+              *ngIf="bookInList && bookInList.alreadyRead"
             >
+              Already Read <span class="badge">x</span>
+            </span>
+            <span
+              (click)="deleteFromList('wishlist')"
+              class="label label-blue"
+              *ngIf="bookInList && bookInList.wishToRead"
+            >
+              Wish to read <span class="badge">x</span>
+            </span>
+
+            <span class="label label-blue" *ngIf="!bookInList"> No lists </span>
           </div>
         </div>
       </div>

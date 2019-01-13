@@ -57,18 +57,17 @@ export class BookComponent implements OnInit {
             });
     }
 
-
-    public deleteFromList(listname: ListType) {
-        this.bookService.deleteBookFromList(book, this.listType)
+    
+    public deleteFromList(listName: ListType) {
+        this.bookService.deleteBookFromList(this.bookInList, listName)
             .subscribe(
                 (res: BookInList) => {
-                    this.items = this.items.filter((item:BookInList) => item.id != res.id);
+                    this.bookInList = res;
+                    console.log(res);
                 }, (error: any) => {
-                    this.loading = false;
                     this.alertService.showAlert(error);
                 });
     }
-
     public addToList(listname: ListType) {
         const bookRequest: BookInListApiRequest = new BookInListApiRequest();
         bookRequest.volumeId = this.volume.id;
@@ -89,9 +88,9 @@ export class BookComponent implements OnInit {
             .subscribe(
                 (res: BookInList) => {
                     // show success
+                    console.log(res);
                     this.bookInList = res;
                 }, (error: any) => {
-                    this.loading = false;
                     this.alertService.showAlert(error);
                 });
     }
