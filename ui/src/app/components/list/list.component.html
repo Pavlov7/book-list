@@ -13,8 +13,8 @@
       <a href="javascript:void(0)" [routerLink]="['/book/', book.volumeId]">{{book.bookTitle}}</a>
     </clr-dg-cell>
     <clr-dg-cell>{{book.rating}}</clr-dg-cell>
-    <clr-dg-cell>{{book.dateStartedReading | date}}</clr-dg-cell>
-    <clr-dg-cell>{{book.dateFinishedReading | date}}</clr-dg-cell>
+    <clr-dg-cell>{{book.dateStartedReading}}</clr-dg-cell>
+    <clr-dg-cell>{{book.dateFinishedReading}}</clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>{{items.length}} books</clr-dg-footer>

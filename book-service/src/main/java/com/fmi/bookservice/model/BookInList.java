@@ -1,5 +1,6 @@
 package com.fmi.bookservice.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -25,7 +26,9 @@ public class BookInList {
     private User user;
 
     private Byte rating;
+    @JsonFormat(pattern="dd/MM/yyyy")
     private Date dateStartedReading;
+    @JsonFormat(pattern="dd/MM/yyyy")
     private Date dateFinishedReading;
 
     @NotNull(message = "isFavourite?")

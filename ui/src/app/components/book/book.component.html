@@ -31,29 +31,9 @@
               <span class="label label-blue" *ngSwitchDefault> Not in any list </span>
             </ng-container>
 
-            <!-- <clr-dropdown *ngIf="
-                bookInList &&
-                (!bookInList.isFavourite ||
-                  !bookInList.wishToRead ||
-                  !bookInList.alreadyRead)
-              ">
-              <button type="button" class="btn btn-sm btn-outline-primary" clrDropdownTrigger>
-                Add to list
-                <clr-icon shape="caret down"></clr-icon>
-              </button>
-              <clr-dropdown-menu clrPosition="bottom" *clrIfOpen>
-                <label class="dropdown-header">Select a list</label>
-                <button type="button" (click)="addToList('alreadyread')" clrDropdownItem *ngIf="!bookInList || !bookInList.alreadyRead">
-                  Already read
-                </button>
-                <button type="button" (click)="addToList('wishlist')" clrDropdownItem *ngIf="!bookInList || !bookInList.wishToRead">
-                  Wish to read
-                </button>
-                <button type="button" (click)="addToList('favourites')" clrDropdownItem *ngIf="!bookInList || !bookInList.isFavourite">
-                  Favourite
-                </button>
-              </clr-dropdown-menu>
-            </clr-dropdown> -->
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="openModal()">
+              {{ bookInList?.bookList ? 'Change list' : 'Add to list' }}
+            </button>
           </div>
         </div>
       </div>
@@ -132,3 +112,40 @@
 <ng-template #notFoundTemplate>
   <span>Not found</span>
 </ng-template>
+
+<clr-modal [(clrModalOpen)]="modalOpened" [clrModalSize]="'md'" [clrModalClosable]="false">
+  <h3 class="modal-title">{{ bookInList?.bookList ? 'Change list' : 'Add to list' }}</h3>
+  <div class="modal-body">
+    <select (change)="onListChange($event.target.value)">
+      <option *ngFor="let l of lists" [ngValue]="l">{{l}}</option>
+    </select>
+    <form class="clr-form clr-form-compact" [formGroup]="addBookToListForm">
+      <div class="clr-form-control clr-row">
+        <label class="clr-control-label clr-col-12 clr-col-md-4">Is favourite?</label>
+        <input type="checkbox" clrCheckbox formControlName="isFavourite" />
+      </div>
+      <div class="clr-form-control clr-row">
+        <label class="clr-control-label clr-col-12 clr-col-md-4">Rating </label>
+        <select formControlName="rating">
+          <option *ngFor="let r of _rating" [ngValue]="r">{{r}}</option>
+        </select>
+      </div>
+      <div class="clr-form-control clr-row" *ngIf="!baseForm">
+        <label class="clr-control-label clr-col-12 clr-col-md-4">Date started reading</label>
+        <input type="date" clrDate formControlName="dateStartedReading">
+      </div>
+      <div class="clr-form-control clr-row" *ngIf="!baseForm">
+        <label class="clr-control-label clr-col-12 clr-col-md-4">Date finished reading</label>
+        <input type="date" clrDate formControlName="dateFinishedReading">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="addToList()">
+        {{ bookInList?.bookList ? 'Update' : 'Add' }}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="modalOpened = false">
+      Close
+    </button>
+  </div>
+</clr-modal>
