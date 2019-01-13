@@ -33,6 +33,17 @@ export class BookComponent implements OnInit {
         this.ratingMean = mean;
     }
 
+    public loadBook(): void {
+        this.bookService.getBookByVolumeId(this.volume.id)
+        .subscribe(
+            (res: BookInList) => {
+                this.bookInList = res;
+            },
+            (error: any) => {
+                this.alertService.showAlert(error);
+            });
+    }
+
     public ngOnInit(): void {
         this.setRatingMean = this.setRatingMean.bind(this);
         this.activatedRoute.paramMap
@@ -43,19 +54,11 @@ export class BookComponent implements OnInit {
                         .subscribe(
                             (res: Volume) => {
                                 this.volume = res;
+                                this.loadBook();
                                 this.loading = false;
                             },
                             (error: any) => {
                                 this.loading = false;
-                                this.alertService.showAlert(error);
-                            });
-
-                    this.bookService.getBookByVolumeId(volumeId)
-                        .subscribe(
-                            (res: BookInList) => {
-                                this.bookInList = res;
-                            },
-                            (error: any) => {
                                 this.alertService.showAlert(error);
                             });
                 } else {
