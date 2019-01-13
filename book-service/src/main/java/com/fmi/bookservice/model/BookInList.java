@@ -53,15 +53,12 @@ public class BookInList {
     }
 
     public void merge(BookInList other) {
-        // TODO: write some strategy for merging
-        if(other.isFavourite) this.isFavourite = true;
-
+        this.isFavourite = other.isFavourite;
         this.bookList = other.bookList;
         this.dateFinishedReading = other.dateFinishedReading;
         this.dateStartedReading = other.dateStartedReading;
         this.bookTitle = other.bookTitle;
         this.rating = other.rating;
-//        System.out.println(String.format("Merged: %b %b %b", this.alreadyRead, this.isFavourite, this.wishToRead));
     }
 
     public Boolean getIsFavourite() {

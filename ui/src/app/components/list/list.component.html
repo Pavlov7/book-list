@@ -5,12 +5,13 @@
   <clr-dg-column>Finished Reading</clr-dg-column>
   <clr-dg-row *clrDgItems="let book of items" [clrDgItem]="book">
     <clr-dg-action-overflow>
-      <button class="action-item" (click)="onEdit(book)">Edit</button>
+      <!-- <button class="action-item" (click)="onEdit(book)">Edit</button> -->
       <button class="action-item" (click)="onDelete(book)">Delete</button>
     </clr-dg-action-overflow>
     <clr-dg-cell>
-      <!-- TODO ADD START ICON FOR FAVOURITE ITEMS -->
-      <a href="javascript:void(0)" [routerLink]="['/book/', book.volumeId]">{{book.bookTitle}}</a>
+      <a href="javascript:void(0)" [routerLink]="['/book/', book.volumeId]">
+        <clr-icon *ngIf="book.isFavourite" shape="star"></clr-icon>
+        {{book.bookTitle}}</a>
     </clr-dg-cell>
     <clr-dg-cell>{{book.rating}}</clr-dg-cell>
     <clr-dg-cell>{{book.dateStartedReading}}</clr-dg-cell>

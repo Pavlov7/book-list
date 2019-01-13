@@ -44,9 +44,7 @@ export class BookReviewsComponent extends BaseResourceList implements OnInit {
                     this.getByVolumeId(volumeId)
                         .subscribe(
                             (res: Review[]) => {
-                                // todo - move to reviews-api-response
                                 this.items = res;
-                                // this.totalCount = res.totalItems;
                                 this.updateRatingMean();
                                 this.loading = false;
                             }, (error: any) => {

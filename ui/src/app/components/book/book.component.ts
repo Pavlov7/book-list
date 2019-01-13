@@ -157,13 +157,6 @@ export class BookComponent implements OnInit {
 
     public addToList(): void {
         Object.assign(this.bookInList, this.addBookToListForm.value);
-        if (this.bookInList.dateStartedReading) {
-            this.bookInList.dateStartedReading = new Date(this.bookInList.dateStartedReading);
-        }
-
-        if (this.bookInList.dateFinishedReading) {
-            this.bookInList.dateFinishedReading = new Date(this.bookInList.dateFinishedReading);
-        }
         switch (this.list) {
             case ListName.CURRENTLY_READING:
                 this.bookInList.bookList = BookList.CURRENTLY_READING;

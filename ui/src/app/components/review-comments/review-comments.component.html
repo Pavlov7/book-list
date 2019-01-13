@@ -16,6 +16,9 @@
         <button type="submit" class="btn btn-outline btn-sm">Comment</button>
       </form>
     </div>
+    <div class="comment-container" *ngIf="!currentUser">
+      Log in to see realtime comments
+    </div>
   </div>
 </ng-container>
 <ng-template #load>

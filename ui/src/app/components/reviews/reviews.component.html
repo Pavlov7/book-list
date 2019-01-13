@@ -1,6 +1,6 @@
 <ng-container *ngIf="!loading; else load">
   <div class="col-sm-12 col-md-12 col-lg-12">
-    <clr-dropdown>
+    <clr-dropdown *ngIf="authService.currentUserValue">
       <button type="button" class="dropdown-toggle btn btn-link btn-sm" [clrLoading]='loading' [disabled]='loading' clrDropdownTrigger>
         <span class="title">{{ myReviews ? 'My reviews' : 'All reviews' }}</span>
         <clr-icon shape="caret down"></clr-icon>
@@ -10,6 +10,7 @@
         <button type="button" (click)="setShowMyReviews(true)" [class.active]="myReviews" clrDropdownItem>My reviews</button>
       </clr-dropdown-menu>
     </clr-dropdown>
+    <h2 *ngIf="!authService.currentUserValue">All reviews</h2>
   </div>
   <div class="row grid">
     <ng-container *ngFor="let review of items">
@@ -28,7 +29,7 @@
               </div>
             </div>
             <div class="card-footer">
-              <button class="btn btn-sm btn-link">Details</button>
+              <button class="btn btn-sm btn-link" (click)="details(review.volumeId)">Details</button>
             </div>
           </div>
         </div>

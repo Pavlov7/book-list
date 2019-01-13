@@ -37,6 +37,7 @@ export class AppComponent {
 
   public logout(): void {
     this.authService.logout();
+    this.router.navigate(['/']);
     // might be better, will have to check if menu is reloaded
     location.reload(true);
     //this.router.navigate(['/']);

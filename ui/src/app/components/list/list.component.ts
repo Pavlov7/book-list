@@ -36,7 +36,7 @@ export class ListComponent extends BaseResourceList implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.bookService.getBooksFromList(this.listType, 1)
+        this.bookService.getBooksFromList(this.listType)
             .subscribe(
                 (res: BookInList[]) => {
                     this.items = res;
@@ -66,9 +66,9 @@ export class ListComponent extends BaseResourceList implements OnInit {
         this.router.navigate(['/book/', volumeId]);
     }
 
-    public onEdit(book: BookInList) {
-        // TODO: edit mode
-    }
+    // public onEdit(book: BookInList) {
+    //     // TODO: edit mode
+    // }
 
     public onDelete(book: BookInList) {
         this.bookService.deleteBook(book)

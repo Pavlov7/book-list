@@ -18,8 +18,6 @@
             </div>
           </div>
           <div class="card-text">
-            <!-- TODO figure out how to truncate the description and keep the card size constant -->
-            <!-- {{ book.volumeInfo?.description }} -->
           </div>
         </div>
         <div class="card-footer">
@@ -27,6 +25,9 @@
         </div>
       </div>
     </ng-container>
+  </div>
+  <div class="center">
+    <button class="btn btn-primary" (click)="nextPage()">More</button>
   </div>
 </ng-container>
 <ng-template #load>

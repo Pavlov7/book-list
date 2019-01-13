@@ -9,6 +9,9 @@
       </ng-template>
     </div>
     <div class="row center">
+      <span [innerHtml]="volume.volumeInfo?.description"></span>
+    </div>
+    <div class="row center">
       <div class="clr-form-control clr-row" *ngIf="this.authService.currentUserValue">
         <label for="Buttons" class="clr-control-label clr-col-12 clr-col-md-2">Controls</label>
         <div class="clr-control-container clr-col-12 clr-col-md-10">

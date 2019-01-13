@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, query } from '@angular/core';
 import { BaseResourceList } from '../shared/base.resource.list';
 import { OnInit } from '@angular/core';
 import { ParamMap, ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,9 @@ import { AlertService } from '../../services/alert.service';
 })
 export class BooksComponent extends BaseResourceList implements OnInit {
 
+    private index: number = 0;
+    private query: string = constants.DEFAULT_BOOKS_QUERY;
+
     constructor(private router: Router,
         private activatedRoute: ActivatedRoute,
         private bookService: BookService,
@@ -21,7 +24,6 @@ export class BooksComponent extends BaseResourceList implements OnInit {
     }
 
     private details(bookId: number): void {
-        // console.log(bookId);
         this.router.navigate(['/book/', bookId]);
     }
 
@@ -29,18 +31,28 @@ export class BooksComponent extends BaseResourceList implements OnInit {
         this.activatedRoute.paramMap
             .subscribe((p: ParamMap) => {
                 let query = p.get("q");
-
-                if (!query) query = constants.DEFAULT_BOOKS_QUERY;
-                this.bookService.search(query)
+                this.index = 0;
+                if (query) this.query = query;
+                this.bookService.search(this.query, undefined)
                     .subscribe(
                         (res: BooksApiResponse) => {
                             this.items = res.items;
-                            this.totalCount = res.totalItems;
                             this.loading = false;
                         },  (error: any) => {
                             this.loading = false;
                             this.alertService.showAlert(error);
                         });
             });
+    }
+
+    public nextPage(): void {
+        this.index += 10;
+        this.bookService.search(this.query, this.index)
+        .subscribe(
+            (res: BooksApiResponse) => {
+                this.items = this.items.concat(res.items);
+            },  (error: any) => {
+                this.alertService.showAlert(error);
+            });;
     }
 }
