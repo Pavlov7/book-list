@@ -1,26 +1,35 @@
 <ng-container *ngIf="!loading; else load">
-  <ng-container *ngIf="items.length !== 0; else notFoundTemplate">
-    <div class="col">
+  <div class="col">
+    <ng-container *ngIf="items.length !== 0; else notFoundTemplate">
       <ng-container *ngFor="let comment of items">
         <div class="comment-container">
-          <span class="comment-author">{{ comment.user?.username }}</span> : {{ comment.text }}
+          <span class="comment-author">{{ comment.user?.username }}</span> :
+          {{ comment.text }}
           <!-- TODO: if user is author -->
-          <clr-icon (click)="removeComment(comment.id)" class="rm-btn" shape="times"></clr-icon>
+          <clr-icon
+            (click)="removeComment(comment.id)"
+            class="rm-btn"
+            shape="times"
+          ></clr-icon>
         </div>
       </ng-container>
-      <div class="comment-container">
-        <form class="clr-form comment-form" (ngSubmit)="sendMessage()">
-          <input [(ngModel)]="commentText" [ngModelOptions]="{ standalone: true }" type="text" id="basic" placeholder="Enter comment"
-            class="clr-input" />
-          <button type="submit" class="btn btn-outline btn-sm">Comment</button>
-        </form>
-      </div>
+    </ng-container>
+    <div class="comment-container">
+      <form class="clr-form comment-form" (ngSubmit)="sendMessage()">
+        <input
+          [(ngModel)]="commentText"
+          [ngModelOptions]="{ standalone: true }"
+          type="text"
+          id="basic"
+          placeholder="Enter comment"
+          class="clr-input"
+        />
+        <button type="submit" class="btn btn-outline btn-sm">Comment</button>
+      </form>
     </div>
-  </ng-container>
+  </div>
 </ng-container>
-<ng-template #load>
-  <span class="spinner"></span>
-</ng-template>
+<ng-template #load> <span class="spinner"></span> </ng-template>
 <ng-template #notFoundTemplate>
   <span>Not found comments for this review</span>
 </ng-template>
